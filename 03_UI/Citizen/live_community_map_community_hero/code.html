@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Live Community Map | Community Hero</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "inverse-surface": "#263143",
+                "error": "#ba1a1a",
+                "surface-tint": "#0053db",
+                "tertiary": "#784b00",
+                "on-tertiary-fixed-variant": "#653e00",
+                "on-tertiary-container": "#ffeedd",
+                "on-surface": "#111c2d",
+                "tertiary-fixed": "#ffddb8",
+                "on-error": "#ffffff",
+                "error-container": "#ffdad6",
+                "primary-fixed-dim": "#b4c5ff",
+                "surface-container-low": "#f0f3ff",
+                "tertiary-fixed-dim": "#ffb95f",
+                "on-primary-fixed": "#00174b",
+                "on-primary": "#ffffff",
+                "surface-container-lowest": "#ffffff",
+                "secondary-fixed": "#6ffbbe",
+                "on-tertiary-fixed": "#2a1700",
+                "outline": "#737686",
+                "inverse-on-surface": "#ecf1ff",
+                "on-secondary": "#ffffff",
+                "surface-variant": "#d8e3fb",
+                "on-error-container": "#93000a",
+                "on-background": "#111c2d",
+                "background": "#f9f9ff",
+                "surface-container-high": "#dee8ff",
+                "surface": "#f9f9ff",
+                "secondary-container": "#6cf8bb",
+                "on-surface-variant": "#434655",
+                "surface-dim": "#cfdaf2",
+                "surface-container": "#e7eeff",
+                "inverse-primary": "#b4c5ff",
+                "primary-container": "#2563eb",
+                "on-primary-fixed-variant": "#003ea8",
+                "secondary-fixed-dim": "#4edea3",
+                "on-secondary-fixed": "#002113",
+                "secondary": "#006c49",
+                "primary": "#004ac6",
+                "tertiary-container": "#996100",
+                "on-secondary-fixed-variant": "#005236",
+                "on-secondary-container": "#00714d",
+                "outline-variant": "#c3c6d7",
+                "primary-fixed": "#dbe1ff",
+                "surface-container-highest": "#d8e3fb",
+                "on-primary-container": "#eeefff",
+                "on-tertiary": "#ffffff",
+                "surface-bright": "#f9f9ff"
+            },
+            "borderRadius": {
+                "DEFAULT": "1rem",
+                "lg": "2rem",
+                "xl": "3rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "margin-mobile": "16px",
+                "unit": "4px",
+                "container-max": "1280px",
+                "margin-desktop": "48px",
+                "gutter": "24px"
+            },
+            "fontFamily": {
+                "label-md": ["Inter"],
+                "body-lg": ["Inter"],
+                "headline-lg": ["Inter"],
+                "display-lg": ["Inter"],
+                "headline-lg-mobile": ["Inter"],
+                "title-lg": ["Inter"],
+                "body-md": ["Inter"]
+            },
+            "fontSize": {
+                "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1px", "fontWeight": "500"}],
+                "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "display-lg": ["57px", {"lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "headline-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+                "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+        .custom-shadow { box-shadow: 0px 4px 20px rgba(30, 41, 59, 0.05); }
+        .glass-panel { backdrop-filter: blur(8px); background: rgba(255, 255, 255, 0.85); }
+        .marker-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .7; transform: scale(1.1); } }
+        .ai-gradient { background: linear-gradient(135deg, #4285F4 0%, #9b72cb 50%, #d96570 100%); }
+    </style>
+</head>
+<body class="bg-background text-on-surface overflow-hidden h-screen w-screen flex flex-col md:flex-row">
+<!-- SideNavBar (Shared Component - Web Only) -->
+<aside class="hidden md:flex flex-col h-screen p-6 gap-4 bg-surface border-r border-outline-variant w-64 shrink-0 z-50">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">accessibility</span>
+</div>
+<div>
+<h1 class="font-headline-lg text-headline-lg text-primary leading-none">Community Hero</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Citizen Portal</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 flex-grow">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container font-bold rounded-full transition-colors active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-body-md text-body-md">Community Map</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">flag</span>
+<span class="font-body-md text-body-md">Citizen Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-body-md text-body-md">AI Insights</span>
+</a>
+</nav>
+<button class="mt-auto w-full py-3 px-4 bg-primary text-on-primary rounded-full font-bold flex items-center justify-center gap-2 shadow-sm hover:brightness-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined">add</span>
+            Report Incident
+        </button>
+</aside>
+<main class="relative flex-grow h-screen overflow-hidden">
+<!-- Interactive Background Map -->
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center" data-alt="A highly detailed 2D map view of a clean, modern city neighborhood with realistic street layouts, park areas, and water features. The map uses a minimalist, soft color palette of light grays, muted blues for water, and soft greens for parks, reflecting the Civic Excellence System. Various street names are subtly labeled. The aesthetic is clean and high-trust, similar to a premium government infrastructure interface." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDGPey-Vhfaw_rrJaK1HWiPiyHNyCq2vGIrGqckaMWOGgCA_vjXCBAGvMQaECD9go-0j1QrEZyxgRazbq4_8PltA0zK4qnbbGfhzY1aJ4SfzIBxpkHz7w2sL17QeIKvwkiV9UDfFCpMCx74-xWrFqXNiqVqrIpjs8aDUb2vJnLtD6jIU5kRJwQBVp_2KTIhmOuhFRmMizPIbP3c51umPfupHv4NT4kFhrCAFmOV9H17dnLhaBwa23CHEAnVZQqwzAvsUOfFIG940aF6')">
+<!-- Overlay markers simulated by absolute positioning -->
+<!-- Critical Marker (Red) -->
+<button class="absolute top-[40%] left-[35%] group" onclick="toggleInfoCard()">
+<div class="marker-pulse w-8 h-8 rounded-full bg-error flex items-center justify-center shadow-lg border-2 border-white">
+<span class="material-symbols-outlined text-[18px] text-white" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+</div>
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-error text-white text-[10px] px-2 py-0.5 rounded-full font-bold whitespace-nowrap shadow-sm opacity-0 group-hover:opacity-100 transition-opacity">CRITICAL</div>
+</button>
+<!-- High Marker (Orange) -->
+<button class="absolute top-[55%] left-[60%] group">
+<div class="w-7 h-7 rounded-full bg-tertiary-container flex items-center justify-center shadow-lg border-2 border-white">
+<span class="material-symbols-outlined text-[16px] text-white" style="font-variation-settings: 'FILL' 1;">electric_bolt</span>
+</div>
+</button>
+<!-- Medium Marker (Yellow) -->
+<button class="absolute top-[25%] left-[50%] group">
+<div class="w-7 h-7 rounded-full bg-tertiary-fixed-dim flex items-center justify-center shadow-lg border-2 border-white">
+<span class="material-symbols-outlined text-[16px] text-on-tertiary-fixed" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+</button>
+<!-- Resolved Marker (Green) -->
+<button class="absolute top-[70%] left-[45%] group">
+<div class="w-6 h-6 rounded-full bg-secondary flex items-center justify-center shadow-lg border-2 border-white">
+<span class="material-symbols-outlined text-[14px] text-white">check</span>
+</div>
+</button>
+</div>
+</div>
+<!-- UI Overlays -->
+<div class="absolute inset-0 pointer-events-none p-4 md:p-8 flex flex-col justify-between z-10">
+<!-- Top Controls -->
+<div class="w-full flex flex-col gap-4 pointer-events-auto">
+<div class="w-full max-w-lg mx-auto flex items-center bg-surface glass-panel rounded-full custom-shadow px-5 py-2">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="flex-grow bg-transparent border-none focus:ring-0 text-body-lg font-body-lg text-on-surface ml-2" placeholder="Search address or incident..." type="text"/>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-2 bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a friendly young man with glasses, representing a helpful citizen, lit with soft natural daylight against a neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQ7OQNuarFaFaWxWCiPcHcenWcWQVseODnPWB0bpDGzAtv9J12y-wG22lZ15E7dDZYkzoWb7bqv4HpM1tmV4it55TVtkJm5rlzQZ24pL6G6KQr_HfLLe0xzgUO0vfXFPKLkVkxeDqJuuwPyTB2eVv1v8EEYgpYd8vTgKiXfTSHS9kfPmqRntss2VLGRWOKblbmT1NbIEPsj1q5QqBuAF2_OfpaA4dHC7U0mt1OxKgLKJjSIitSQlMqWD6uWI0gb14KU_8F87W9huAi"/>
+</div>
+</div>
+<!-- Filter Chips Scrollable Row -->
+<div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar px-2 justify-center">
+<button class="px-4 py-2 bg-primary text-on-primary rounded-full font-label-md text-label-md shadow-sm whitespace-nowrap active:scale-95 transition-transform">All Issues</button>
+<button class="px-4 py-2 bg-white text-on-surface-variant border border-outline-variant rounded-full font-label-md text-label-md shadow-sm whitespace-nowrap active:scale-95 transition-transform hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[18px] mr-1">water_drop</span> Water
+                    </button>
+<button class="px-4 py-2 bg-white text-on-surface-variant border border-outline-variant rounded-full font-label-md text-label-md shadow-sm whitespace-nowrap active:scale-95 transition-transform hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[18px] mr-1">edit_road</span> Roads
+                    </button>
+<button class="px-4 py-2 bg-white text-on-surface-variant border border-outline-variant rounded-full font-label-md text-label-md shadow-sm whitespace-nowrap active:scale-95 transition-transform hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[18px] mr-1">delete</span> Waste
+                    </button>
+<button class="px-4 py-2 bg-white text-on-surface-variant border border-outline-variant rounded-full font-label-md text-label-md shadow-sm whitespace-nowrap active:scale-95 transition-transform hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[18px] mr-1">electric_bolt</span> Electricity
+                    </button>
+<button class="px-4 py-2 bg-white text-on-surface-variant border border-outline-variant rounded-full font-label-md text-label-md shadow-sm whitespace-nowrap active:scale-95 transition-transform hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[18px] mr-1">shield</span> Safety
+                    </button>
+</div>
+</div>
+<!-- Bottom Left: Information Card (Initially Hidden, Toggles on Marker Click) -->
+<div class="transition-all duration-500 transform translate-y-[120%] opacity-0 pointer-events-auto max-w-sm w-full" id="incidentCard">
+<div class="bg-white rounded-lg p-6 custom-shadow border border-outline-variant">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-1">Broken Water Main on 4th Ave</h3>
+<div class="flex items-center gap-2">
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full text-[12px] font-bold">In Progress</span>
+<span class="text-on-surface-variant text-[12px]">Reported by 8 citizens</span>
+</div>
+</div>
+<button class="text-outline hover:text-on-surface transition-colors" onclick="toggleInfoCard()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<div>
+<p class="text-[10px] uppercase text-outline font-bold leading-none">Est. Resolution</p>
+<p class="text-body-md font-body-md text-on-surface">Today, 6:00 PM</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">corporate_fare</span>
+<div>
+<p class="text-[10px] uppercase text-outline font-bold leading-none">Assigned Dept.</p>
+<p class="text-body-md font-body-md text-on-surface">City Water Works</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-2">
+<button class="w-full py-3 bg-primary text-on-primary rounded-full font-bold active:scale-[0.98] transition-transform">View Details</button>
+<button class="w-full py-3 border border-primary text-primary rounded-full font-bold active:scale-[0.98] transition-transform hover:bg-surface-container-low">Support Existing Report</button>
+</div>
+</div>
+</div>
+<!-- Bottom Right: Floating Buttons -->
+<div class="absolute bottom-24 md:bottom-8 right-4 md:right-8 flex flex-col items-end gap-4 pointer-events-auto">
+<!-- Location FAB -->
+<button class="w-12 h-12 bg-white rounded-full custom-shadow flex items-center justify-center text-primary active:scale-90 transition-transform">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+<!-- AI Copilot -->
+<button class="w-14 h-14 ai-gradient rounded-full shadow-lg flex items-center justify-center text-white active:scale-90 transition-transform relative group">
+<span class="material-symbols-outlined text-[28px]">smart_toy</span>
+<span class="absolute right-16 bg-on-surface text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Ask AI Copilot</span>
+</button>
+<!-- Main FAB -->
+<button class="flex items-center gap-3 h-14 px-6 bg-primary text-on-primary rounded-full shadow-lg active:scale-95 transition-all hover:shadow-xl group">
+<span class="material-symbols-outlined text-[24px]">add</span>
+<span class="font-bold text-body-lg">Report New Issue</span>
+</button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Shared Component - Mobile Only) -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface-container shadow-[0px_-4px_20px_rgba(30,41,59,0.05)] rounded-t-lg md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-5 py-1 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-md text-label-md">Live Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">campaign</span>
+<span class="font-label-md text-label-md">Report</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+<script>
+        function toggleInfoCard() {
+            const card = document.getElementById('incidentCard');
+            if (card.classList.contains('translate-y-[120%]')) {
+                card.classList.remove('translate-y-[120%]', 'opacity-0');
+                card.classList.add('translate-y-0', 'opacity-100');
+            } else {
+                card.classList.add('translate-y-[120%]', 'opacity-0');
+                card.classList.remove('translate-y-0', 'opacity-100');
+            }
+        }
+
+        // Initialize with card hidden
+        document.addEventListener('DOMContentLoaded', () => {
+            // Optional: simulate a click after a delay for visual impact
+            setTimeout(() => {
+                // toggleInfoCard();
+            }, 1000);
+        });
+    </script>
+</body></html>

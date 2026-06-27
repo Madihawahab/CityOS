@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Report Details - Community Hero</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#006c49",
+                    "on-surface-variant": "#434655",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-surface": "#111c2d",
+                    "tertiary-fixed": "#ffddb8",
+                    "primary-container": "#2563eb",
+                    "primary": "#004ac6",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "inverse-surface": "#263143",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#d8e3fb",
+                    "error-container": "#ffdad6",
+                    "surface-bright": "#f9f9ff",
+                    "on-secondary-container": "#00714d",
+                    "on-tertiary-fixed": "#2a1700",
+                    "tertiary": "#784b00",
+                    "surface": "#f9f9ff",
+                    "surface-container-low": "#f0f3ff",
+                    "outline": "#737686",
+                    "primary-fixed": "#dbe1ff",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#cfdaf2",
+                    "secondary-fixed-dim": "#4edea3",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "on-secondary-fixed-variant": "#005236",
+                    "inverse-on-surface": "#ecf1ff",
+                    "surface-container-high": "#dee8ff",
+                    "inverse-primary": "#b4c5ff",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#6cf8bb",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#0053db",
+                    "background": "#f9f9ff",
+                    "on-secondary-fixed": "#002113",
+                    "on-primary-container": "#eeefff",
+                    "secondary-fixed": "#6ffbbe",
+                    "surface-container-highest": "#d8e3fb",
+                    "outline-variant": "#c3c6d7",
+                    "on-tertiary-container": "#ffeedd",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#e7eeff",
+                    "on-primary-fixed": "#00174b",
+                    "on-background": "#111c2d",
+                    "tertiary-container": "#996100"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "container-max": "1280px",
+                    "margin-desktop": "48px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "title-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg": ["57px", {"lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9ff; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-active .step-line { background-color: #2563eb; }
+        .step-active .step-circle { background-color: #2563eb; color: white; }
+        .step-completed .step-line { background-color: #2563eb; }
+        .step-completed .step-circle { background-color: #e7eeff; color: #004ac6; }
+        .step-pending .step-line { background-color: #e2e8f0; }
+        .step-pending .step-circle { background-color: #f1f5f9; color: #737686; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Top Navigation Bar (Mobile & Desktop) -->
+<header class="bg-surface-container-lowest sticky top-0 z-40 shadow-sm">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-unit w-full max-w-container-max mx-auto h-16">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-variant/50 transition-colors rounded-full active:scale-95">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg text-primary">Report Details</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-surface-variant/50 transition-colors rounded-full active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant">share</span>
+</button>
+<button class="p-2 hover:bg-surface-variant/50 transition-colors rounded-full active:scale-95 md:hidden">
+<span class="material-symbols-outlined text-on-surface-variant">more_vert</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 mb-24">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Summary & Map -->
+<div class="lg:col-span-7 space-y-6">
+<!-- Main Issue Card -->
+<section class="bg-surface-container-lowest rounded-lg shadow-[0px_4px_20px_rgba(30,41,59,0.05)] overflow-hidden">
+<div class="relative h-64 md:h-80 w-full">
+<img class="w-full h-full object-cover" data-alt="A high-fidelity photograph of a damaged public street light on a modern suburban street at dusk. The lamp housing is visibly cracked and leaning slightly. The surrounding environment features clean sidewalks, soft ambient twilight, and a warm, community-focused light mode aesthetic. The photography style is clear, professional, and slightly cinematic with a focus on urban infrastructure." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1GhOW0Az-CPu9QFjqZuubxmbyj6KBQabqvt-wr30kz31Ym5qhfPMWUzmPVd414YRslMnuZBegeUBu93U98oOymL80URYA1cEl1XOPvW10z8nHiFxrUFCgYpwrKQcdxZlNdZyfJfr-2oDIApFcVvWW4pK8BVXmWxDbodWj3DT9K96JqZqh5UWcNajKzt3ta2y9e6Tg2NPROidvd0LLBn8bOZKWO6rGtpPOM2szWoDJt2JF2amUq0BGqN2Z_1O3aC8TARGrJPYl0PdK"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md text-label-md">Lighting</span>
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-md text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">sync</span>
+                                In Progress
+                            </span>
+</div>
+</div>
+<div class="p-6 md:p-8 space-y-6">
+<div class="flex flex-col md:flex-row md:justify-between gap-4">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Broken Street Light at Oak &amp; 5th</h2>
+<p class="text-on-surface-variant font-body-lg text-body-lg">The main street lamp has been flickering and finally went out last Tuesday. Creates a safety concern for pedestrians at night.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex items-center gap-3 p-4 rounded-lg bg-surface-container-low">
+<span class="material-symbols-outlined text-primary">account_balance</span>
+<div>
+<p class="text-on-surface-variant text-[12px] uppercase tracking-wider font-bold">Department</p>
+<p class="font-body-md text-body-md">Department of Public Works</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-4 rounded-lg bg-surface-container-low">
+<span class="material-symbols-outlined text-primary">event_available</span>
+<div>
+<p class="text-on-surface-variant text-[12px] uppercase tracking-wider font-bold">Estimated Resolution</p>
+<p class="font-body-md text-body-md">Oct 26, 2023</p>
+</div>
+</div>
+</div>
+<!-- Integrated Map -->
+<div class="rounded-lg overflow-hidden h-48 border border-outline-variant relative group">
+<div class="absolute inset-0 bg-cover bg-center" data-location="Oak and 5th Street intersection, Urban Neighborhood" style="background-image: url('https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg')"></div>
+<div class="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+<span class="material-symbols-outlined text-error text-4xl" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<button class="absolute bottom-3 right-3 bg-white text-on-surface px-3 py-1.5 rounded-full shadow-md font-label-md text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+                                Full Map
+                            </button>
+</div>
+</div>
+</section>
+<!-- Privacy & Security -->
+<div class="flex items-center gap-3 p-4 bg-surface-container-high rounded-lg border border-primary/10">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<p class="font-body-md text-body-md text-on-surface-variant">
+<span class="font-bold text-primary">Protected Anonymous.</span> Your identity is securely protected.
+                    </p>
+</div>
+</div>
+<!-- Right Column: Community & Timeline -->
+<div class="lg:col-span-5 space-y-6">
+<!-- Community Verification -->
+<section class="bg-primary-fixed text-on-primary-fixed-variant p-6 rounded-lg shadow-sm border border-primary/5">
+<h3 class="font-title-lg text-title-lg mb-2">Repair Verification</h3>
+<p class="font-body-md text-body-md mb-6 opacity-90">Authorities have completed the repair. Is this issue resolved?</p>
+<div class="grid grid-cols-2 gap-3">
+<button class="bg-primary text-white py-3 rounded-lg font-bold hover:bg-primary-container transition-all active:scale-95 shadow-sm">
+                            Yes, it's fixed
+                        </button>
+<button class="border border-primary text-primary py-3 rounded-lg font-bold hover:bg-primary/5 transition-all active:scale-95">
+                            Still Exists
+                        </button>
+</div>
+</section>
+<!-- Nearby Reports / Support -->
+<section class="bg-surface-container-lowest p-6 rounded-lg shadow-[0px_4px_20px_rgba(30,41,59,0.05)]">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold">Community Support</h3>
+<span class="text-primary font-bold text-body-md">18 Supporters</span>
+</div>
+<div class="flex -space-x-3 items-center">
+<img class="w-10 h-10 rounded-full border-2 border-white object-cover" data-alt="Portrait of a diverse young professional woman in a bright outdoor setting, smiling warmly, soft-focus background, light mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCf9FRrkW94PfWtZAbPNPxW5GhdYSsY2oSC35ELyJgsIKtEx5ddXu43QSj_2PemIefQ6RO84Z3bmbT32fDwiqB1bhouJ6-BcpflGN2LOyQa5yHJd33VUDVOuSZL7hyINaoaFhIxRPm96zn_OssL4uQb_o3qVyHa0nVKS9TgpsZi_KtpdDs84ntEsrdr1EmV-a_Rs48-0Ji6k0m0e0agt2B06MeGwsA6fH349J4hBdKnhZbZif9Zz-RNiEaekhOeB8GKvoVcMJdUibIS"/>
+<img class="w-10 h-10 rounded-full border-2 border-white object-cover" data-alt="Close up portrait of a cheerful elderly man with gray hair, bright natural lighting, modern corporate portrait style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC95nVzO64yP0POnjeKkRBAQj2wNwq7fJgAFTbp_jDti48Bdj63EWqYbPfXo-BK0nail-x2wVMX1GukeLEYwYdn26TV2mredu4g_JsSPzE9W_IDtlLC-NPkPt8GHaJM02ZAOvvefMSprwHf5arMLU5dW49u6Mugdy2BdWFV_giAtTnUQU3G_ByFaDCAdV-HkQqSpRHv7J2ygfOvIZMxYTa9PzH07OQS1lYgIJA-hgXxLgfBNdgYavEklDRMLfnzH7mp5MZ77T9XRsxo"/>
+<img class="w-10 h-10 rounded-full border-2 border-white object-cover" data-alt="Portrait of a young man with glasses smiling, bright daylight, clean professional appearance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZjgvBM6VDNQsINxE_hUmagJt7EsptKfdxZqKnpEfYTGvKKPVosAox1iEZNm1qvYSytTleDI9D7KutqFj8migeRLo6qLGKHNahYvdLBOJf251Lh7-SoW5BJeep3Zj_H9ARwjuvEHae0N9h-i0-56dxyMbsTSXdKkg1vhwlbHdglx8lgMRACpEI7j3j6Hh2V5vHhbGEvtnkZBDsbKUqmSB9AbXAJLl-wlrA2DlEXvglyS9z9NHmedWzdLYLzss6TLjH-r5UyFPDkgwd"/>
+<img class="w-10 h-10 rounded-full border-2 border-white object-cover" data-alt="Portrait of a middle-aged woman with a friendly expression, soft studio lighting, high key bright colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJje4Gsk0M8U9gagrapTOYaJRfMp8F5TjoD4GYvZQvChN6FY_Er2RUIvG2H661TYW73vt6Mbj7Mv62D14kCwXOKfZ2Buq05Pn-7W7MGUqpiy0wPkZrsvl6PBeDUBdZZUq-M71WbLZqpb7Ho7Dc1x1i9U0QONZzCEbYhQukSe03HDmKiXCgHftdDIwY01byFLtZMWZ2VvroXcXYMWXY5yyBL0DC7iTW104UZtlJV1vzftdPPA7xbkKEzE5FRmRWL2hzn52rGzuwwGci"/>
+<div class="w-10 h-10 rounded-full border-2 border-white bg-primary-container text-white flex items-center justify-center font-label-md text-label-md">+14</div>
+</div>
+<p class="mt-4 text-on-surface-variant text-body-md italic">"Essential for the safety of our kids walking home from soccer practice."</p>
+</section>
+<!-- Progress Tracker -->
+<section class="bg-surface-container-lowest p-6 rounded-lg shadow-[0px_4px_20px_rgba(30,41,59,0.05)]">
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold mb-6">Progress Timeline</h3>
+<div class="space-y-0">
+<!-- Step 1: Completed -->
+<div class="flex gap-4 step-completed">
+<div class="flex flex-col items-center">
+<div class="step-circle w-8 h-8 rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<div class="step-line w-0.5 h-12"></div>
+</div>
+<div class="pb-8">
+<p class="font-bold text-on-surface">Report Submitted</p>
+<p class="text-on-surface-variant text-[12px]">Oct 12, 10:45 AM</p>
+</div>
+</div>
+<!-- Step 2: Completed -->
+<div class="flex gap-4 step-completed">
+<div class="flex flex-col items-center">
+<div class="step-circle w-8 h-8 rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<div class="step-line w-0.5 h-12"></div>
+</div>
+<div class="pb-8">
+<p class="font-bold text-on-surface">AI Verified</p>
+<p class="text-on-surface-variant text-[12px]">Oct 12, 10:47 AM</p>
+</div>
+</div>
+<!-- Step 3: Completed -->
+<div class="flex gap-4 step-completed">
+<div class="flex flex-col items-center">
+<div class="step-circle w-8 h-8 rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<div class="step-line w-0.5 h-12"></div>
+</div>
+<div class="pb-8">
+<p class="font-bold text-on-surface">Department Assigned</p>
+<p class="text-on-surface-variant text-[12px]">Oct 13, 02:30 PM</p>
+</div>
+</div>
+<!-- Step 4: Active -->
+<div class="flex gap-4 step-active">
+<div class="flex flex-col items-center">
+<div class="step-circle w-8 h-8 rounded-full flex items-center justify-center shadow-md ring-4 ring-primary-container/20">
+<span class="material-symbols-outlined text-[20px]">engineering</span>
+</div>
+<div class="step-line w-0.5 h-12"></div>
+</div>
+<div class="pb-8">
+<p class="font-bold text-primary">Work Started</p>
+<p class="text-on-surface-variant text-[12px]">Oct 15, 08:00 AM</p>
+</div>
+</div>
+<!-- Step 5: Pending -->
+<div class="flex gap-4 step-pending">
+<div class="flex flex-col items-center">
+<div class="step-circle w-8 h-8 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">task_alt</span>
+</div>
+</div>
+<div class="pb-2">
+<p class="font-bold text-on-surface-variant/50">Resolved</p>
+<p class="text-on-surface-variant text-[12px]">Estimated: Oct 26</p>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Help Footer -->
+<div class="bg-surface-container p-6 rounded-lg flex flex-col items-center text-center gap-4 border border-outline-variant/30">
+<div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Need Help?</h4>
+<p class="text-on-surface-variant text-body-md">Get instant answers about this report or local policies.</p>
+</div>
+<button class="bg-white text-primary border border-primary/20 w-full py-2.5 rounded-lg font-bold hover:bg-primary hover:text-white transition-all shadow-sm active:scale-95 flex items-center justify-center gap-2">
+                        Chat with Community Hero AI
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile only, based on JSON) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface shadow-[0px_-4px_20px_rgba(30,41,59,0.05)] flex justify-around items-center px-unit pb-safe h-16 rounded-t-lg">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-md text-label-md">Live Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1; font-size: 32px;">add_circle</span>
+<span class="font-label-md text-label-md">Report</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">My Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.add('scale-95');
+                setTimeout(() => this.classList.remove('scale-95'), 100);
+            });
+        });
+    </script>
+</body></html>

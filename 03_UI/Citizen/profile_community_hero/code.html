@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profile - Community Hero</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#002113",
+                    "surface-container-low": "#f0f3ff",
+                    "background": "#f9f9ff",
+                    "primary": "#004ac6",
+                    "on-tertiary-fixed": "#2a1700",
+                    "secondary-container": "#6cf8bb",
+                    "on-primary-fixed": "#00174b",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-secondary-container": "#00714d",
+                    "on-tertiary-container": "#ffeedd",
+                    "surface-dim": "#cfdaf2",
+                    "primary-fixed": "#dbe1ff",
+                    "surface-variant": "#d8e3fb",
+                    "on-surface": "#111c2d",
+                    "on-surface-variant": "#434655",
+                    "on-error": "#ffffff",
+                    "tertiary": "#784b00",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "tertiary-container": "#996100",
+                    "surface-container-lowest": "#ffffff",
+                    "outline-variant": "#c3c6d7",
+                    "surface-container-highest": "#d8e3fb",
+                    "outline": "#737686",
+                    "on-primary-container": "#eeefff",
+                    "secondary-fixed-dim": "#4edea3",
+                    "inverse-primary": "#b4c5ff",
+                    "error": "#ba1a1a",
+                    "surface": "#f9f9ff",
+                    "tertiary-fixed": "#ffddb8",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#005236",
+                    "surface-tint": "#0053db",
+                    "on-background": "#111c2d",
+                    "surface-container": "#e7eeff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "surface-bright": "#f9f9ff",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#6ffbbe",
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#dee8ff",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#2563eb",
+                    "inverse-surface": "#263143",
+                    "secondary": "#006c49",
+                    "inverse-on-surface": "#ecf1ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "container-max": "1280px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "488px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "display-lg": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9ff; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-radio {
+            border-color: #004ac6;
+            background-color: rgba(0, 74, 198, 0.04);
+        }
+    </style>
+</head>
+<body class="text-on-surface pb-24 md:pb-0">
+<!-- TopNavBar -->
+<header class="bg-surface-container-lowest shadow-[0px_4px_20px_rgba(30,41,59,0.05)] w-full h-16 sticky top-0 z-50">
+<div class="flex justify-between items-center px-6 md:px-12 max-w-container-max mx-auto h-full">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-primary font-bold tracking-tight text-xl">Community Hero</span>
+</div>
+<nav class="hidden md:flex gap-8 items-center h-full">
+<a class="text-on-surface-variant font-normal hover:bg-surface-container-low transition-colors duration-200 px-3 py-2 rounded-lg font-label-md text-label-md" href="#">Dashboard</a>
+<a class="text-on-surface-variant font-normal hover:bg-surface-container-low transition-colors duration-200 px-3 py-2 rounded-lg font-label-md text-label-md" href="#">Polls</a>
+<a class="text-on-surface-variant font-normal hover:bg-surface-container-low transition-colors duration-200 px-3 py-2 rounded-lg font-label-md text-label-md" href="#">Resources</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant cursor-pointer active:scale-95">notifications</button>
+<button class="material-symbols-outlined text-primary border-b-2 border-primary font-medium cursor-pointer active:scale-95">settings</button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a friendly man in his early 30s with short hair and a warm smile, wearing a casual navy blue shirt. The photo has a soft-focus background of a clean, modern city park during golden hour, reflecting a community-focused atmosphere with high-key, bright lighting and a crisp, modern feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw4cf4hCzv9cczkltpvhtnD-llnFaTyqCBxuTZ15MPCEScquez9P8x5xerAW-HsG2AWicoWPaHzS-tLLX7q3KIZbHHsC5pbfmL5EQlB6uScSWmqzSKn5WekIt1oPU2ktQ3a8uNau08rLYThReKch8NzKQAvPG8ziZGGiZNJfvzpEMvRnwwWCmkCmwPGTxfhxeXaB9FfPHfOn0wztLNXR87bxr8XzKCPAsgwZ689v9EthXRxzRjtXpOqGQDojhmX27K9be41h0P94yh"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-4xl mx-auto px-4 md:px-8 py-8 space-y-8">
+<!-- Profile Card -->
+<section class="bg-white rounded-lg shadow-[0px_4px_20px_rgba(30,41,59,0.05)] p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10">
+<div class="relative group">
+<div class="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-surface-container shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A portrait of a male user named John Doe, showing a friendly face with kind eyes and short brown hair. He is set against a clean, minimal white background with soft, natural morning light. The overall aesthetic is professional yet approachable, fitting into a modern high-trust civic platform with a palette of whites and soft grays." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA04Jto9LOxYtxwcySXH_v18kpsxNGCGZSKB5FgHBc8WXuu0yDVgSczByzMzGRlxBe8JL3RiIDFBKAt7EACf4jR9vDk5ZN97XqOUvvJxWWYe2a9uR2cMABIfHMhVTMHUztBCOUZtSmvN7X1yCSU0p16Sv3Tme5cLbcpQ9OFCUjlL65uqQdo-d2pxguXSZMmUwSg8jkzQ4nJ5XPvAgww0VaEu1diqB_4e3HqWl68PSk_jP3CxvE-R8kq-Tq5uoZ1xrbO8IuNPv1sdc3p"/>
+</div>
+<button class="absolute bottom-2 right-2 bg-primary text-white p-2 rounded-full shadow-lg cursor-pointer transition-transform active:scale-90">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<div class="flex-grow text-center md:text-left space-y-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">John Doe</h1>
+<p class="text-on-surface-variant font-body-md text-body-md flex items-center justify-center md:justify-start gap-2 mt-1">
+<span class="material-symbols-outlined text-lg">mail</span>
+                        john.doe@example.com
+                    </p>
+<p class="text-on-surface-variant font-body-md text-body-md flex items-center justify-center md:justify-start gap-2 mt-1">
+<span class="material-symbols-outlined text-lg">phone</span>
+                        +1 234 567 890
+                    </p>
+</div>
+<button class="bg-primary text-white font-label-md text-label-md px-6 py-3 rounded-lg hover:opacity-90 transition-all shadow-sm active:scale-95 inline-flex items-center gap-2">
+                    Edit Profile
+                </button>
+</div>
+</section>
+<!-- Community Statistics -->
+<section>
+<h2 class="font-title-lg text-title-lg text-on-surface mb-4 px-2">Your Civic Impact</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-white rounded-lg p-6 shadow-[0px_4px_20px_rgba(30,41,59,0.05)] border-l-4 border-primary">
+<span class="material-symbols-outlined text-primary mb-2">report_problem</span>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Issues Reported</p>
+<p class="font-display-lg text-3xl font-bold text-on-surface mt-1">12</p>
+</div>
+<div class="bg-white rounded-lg p-6 shadow-[0px_4px_20px_rgba(30,41,59,0.05)] border-l-4 border-secondary">
+<span class="material-symbols-outlined text-secondary mb-2">thumb_up</span>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Issues Supported</p>
+<p class="font-display-lg text-3xl font-bold text-on-surface mt-1">42</p>
+</div>
+<div class="bg-white rounded-lg p-6 shadow-[0px_4px_20px_rgba(30,41,59,0.05)] border-l-4 border-tertiary">
+<span class="material-symbols-outlined text-tertiary mb-2">task_alt</span>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Issues Resolved</p>
+<p class="font-display-lg text-3xl font-bold text-on-surface mt-1">9</p>
+</div>
+</div>
+</section>
+<!-- Privacy Settings -->
+<section class="bg-white rounded-lg shadow-[0px_4px_20px_rgba(30,41,59,0.05)] p-6 md:p-8">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">shield_person</span>
+<h2 class="font-title-lg text-title-lg text-on-surface">Privacy Settings</h2>
+</div>
+<div class="space-y-4">
+<label class="block font-label-md text-on-surface-variant mb-2">Default Reporting Mode</label>
+<div class="grid grid-cols-1 gap-3">
+<div class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors" onclick="selectRadio(this)">
+<input class="w-4 h-4 text-primary focus:ring-primary" id="public" name="reporting" type="radio"/>
+<label class="ml-4 flex-grow cursor-pointer" for="public">
+<span class="block font-label-md font-bold">Public</span>
+<span class="text-xs text-on-surface-variant">Visible to all community members.</span>
+</label>
+</div>
+<div class="flex items-center p-4 border rounded-lg cursor-pointer active-radio border-primary bg-primary/5 transition-colors" onclick="selectRadio(this)">
+<input checked="" class="w-4 h-4 text-primary focus:ring-primary" id="anonymous" name="reporting" type="radio"/>
+<label class="ml-4 flex-grow cursor-pointer" for="anonymous">
+<span class="block font-label-md font-bold">Protected Anonymous ⭐ Recommended</span>
+<span class="text-xs text-on-surface-variant">Identity hidden from the public, verified by staff.</span>
+</label>
+</div>
+<div class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors" onclick="selectRadio(this)">
+<input class="w-4 h-4 text-primary focus:ring-primary" id="community" name="reporting" type="radio"/>
+<label class="ml-4 flex-grow cursor-pointer" for="community">
+<span class="block font-label-md font-bold">Community Report</span>
+<span class="text-xs text-on-surface-variant">Direct report to local council representatives.</span>
+</label>
+</div>
+</div>
+<p class="mt-4 text-on-surface-variant font-body-md text-body-md italic bg-surface-container p-4 rounded-lg flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-xl">info</span>
+                    Protected Anonymous keeps your identity hidden while Community Hero securely verifies your report.
+                </p>
+</div>
+</section>
+<!-- Settings List -->
+<section class="bg-white rounded-lg shadow-[0px_4px_20px_rgba(30,41,59,0.05)] overflow-hidden">
+<div class="p-6 border-b border-surface-container">
+<h2 class="font-title-lg text-title-lg text-on-surface">Preferences &amp; Support</h2>
+</div>
+<div class="divide-y divide-surface-container">
+<button class="w-full flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">notifications</span>
+<span class="font-body-lg text-body-lg">Notifications</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">language</span>
+<span class="font-body-lg text-body-lg">Language</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-on-surface-variant bg-surface-container px-2 py-1 rounded">English</span>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">accessibility</span>
+<span class="font-body-lg text-body-lg">Accessibility</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+<div class="w-full flex items-center justify-between p-4 group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant">dark_mode</span>
+<span class="font-body-lg text-body-lg">Dark Mode</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<button class="w-full flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant">help</span>
+<span class="font-body-lg text-body-lg">Help</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant">info</span>
+<span class="font-body-lg text-body-lg">About Community Hero</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-error/5 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-error">logout</span>
+<span class="font-body-lg text-body-lg text-error">Logout</span>
+</div>
+</button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest flex justify-around items-center px-4 py-3 pb-safe shadow-[0px_-4px_20px_rgba(30,41,59,0.05)] rounded-t-lg">
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high rounded-xl transition-all">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-[10px]">Activity</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl p-2 transition-all">
+<span class="material-symbols-outlined">shield_person</span>
+<span class="font-label-md text-[10px]">Privacy</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high rounded-xl transition-all">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="font-label-md text-[10px]">Stats</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high rounded-xl transition-all">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-label-md text-[10px]">Copilot</span>
+</div>
+</nav>
+<!-- Floating AI Copilot -->
+<div class="fixed bottom-24 md:bottom-8 right-6 z-50">
+<button class="w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all group relative overflow-hidden" id="copilot-btn">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/0 via-white/20 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-2xl relative z-10" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="absolute -top-1 -right-1 flex h-4 w-4">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-4 w-4 bg-secondary"></span>
+</span>
+</button>
+<div class="absolute bottom-full right-0 mb-4 bg-inverse-surface text-inverse-on-surface px-4 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 transition-opacity pointer-events-none shadow-xl border border-white/10" id="copilot-tooltip">
+            How can I help with your civic settings?
+        </div>
+</div>
+<script>
+        function selectRadio(element) {
+            // Remove active classes from all siblings
+            const parent = element.parentElement;
+            parent.querySelectorAll('.flex').forEach(item => {
+                item.classList.remove('active-radio', 'border-primary', 'bg-primary/5');
+                item.querySelector('input').checked = false;
+            });
+            
+            // Add active classes to selected
+            element.classList.add('active-radio', 'border-primary', 'bg-primary/5');
+            const radio = element.querySelector('input');
+            radio.checked = true;
+        }
+
+        const copilotBtn = document.getElementById('copilot-btn');
+        const copilotTooltip = document.getElementById('copilot-tooltip');
+        
+        copilotBtn.addEventListener('mouseenter', () => {
+            copilotTooltip.classList.remove('opacity-0');
+        });
+        
+        copilotBtn.addEventListener('mouseleave', () => {
+            copilotTooltip.classList.add('opacity-0');
+        });
+
+        // Simple dark mode toggle logic for simulation
+        const darkModeToggle = document.querySelector('input[type="checkbox"]');
+        darkModeToggle.addEventListener('change', () => {
+            if(darkModeToggle.checked) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+    </script>
+</body></html>

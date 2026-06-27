@@ -1,0 +1,440 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Report Issue | Community Hero</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#6ffbbe",
+                    "on-secondary": "#ffffff",
+                    "tertiary": "#784b00",
+                    "surface-dim": "#cfdaf2",
+                    "primary-fixed": "#dbe1ff",
+                    "on-tertiary-fixed": "#2a1700",
+                    "surface-variant": "#d8e3fb",
+                    "surface-container": "#e7eeff",
+                    "surface-tint": "#0053db",
+                    "on-secondary-fixed": "#002113",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "primary-container": "#2563eb",
+                    "on-tertiary-container": "#ffeedd",
+                    "inverse-on-surface": "#ecf1ff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-error-container": "#93000a",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed-variant": "#005236",
+                    "surface-container-high": "#dee8ff",
+                    "outline": "#737686",
+                    "on-secondary-container": "#00714d",
+                    "secondary-fixed-dim": "#4edea3",
+                    "secondary-container": "#6cf8bb",
+                    "error": "#ba1a1a",
+                    "surface-bright": "#f9f9ff",
+                    "primary": "#004ac6",
+                    "surface-container-lowest": "#ffffff",
+                    "outline-variant": "#c3c6d7",
+                    "surface-container-low": "#f0f3ff",
+                    "on-background": "#111c2d",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "on-surface-variant": "#434655",
+                    "secondary": "#006c49",
+                    "error-container": "#ffdad6",
+                    "background": "#f9f9ff",
+                    "inverse-surface": "#263143",
+                    "tertiary-fixed": "#ffddb8",
+                    "inverse-primary": "#b4c5ff",
+                    "surface": "#f9f9ff",
+                    "surface-container-highest": "#d8e3fb",
+                    "on-surface": "#111c2d",
+                    "on-primary-fixed": "#00174b",
+                    "on-primary-container": "#eeefff",
+                    "tertiary-container": "#996100",
+                    "on-tertiary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "unit": "4px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "margin-desktop": "48px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "display-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1px", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["57px", {"lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        background-color: #F8FAFC;
+        font-family: 'Inter', sans-serif;
+        color: #111C2D;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(226, 232, 240, 0.5);
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .ai-glow {
+        box-shadow: 0 0 20px rgba(37, 99, 235, 0.1);
+        border: 1px solid rgba(37, 99, 235, 0.2);
+      }
+      .step-active {
+        background-color: #2563EB;
+        color: white;
+      }
+    </style>
+</head>
+<body class="min-h-screen">
+<!-- Side Navigation (Authority: SideNavBar JSON) -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-surface dark:bg-surface-dim flex flex-col py-8 px-4 gap-4 z-40 hidden md:flex">
+<div class="px-4 mb-8">
+<h1 class="font-headline-lg text-headline-lg text-primary">Community Hero</h1>
+<p class="text-label-md font-label-md text-on-surface-variant">Governance Portal</p>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all font-body-md" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+      </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all font-body-md" href="#">
+<span class="material-symbols-outlined">map</span> Live Map
+      </a>
+<!-- Active State Logic Applied to My Reports/Report Issue -->
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span> Report Issue
+      </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all font-body-md" href="#">
+<span class="material-symbols-outlined">description</span> My Reports
+      </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all font-body-md" href="#">
+<span class="material-symbols-outlined">account_circle</span> Profile
+      </a>
+</nav>
+<div class="mt-auto px-4">
+<button class="w-full bg-primary text-white py-3 rounded-lg font-bold transition-transform active:scale-95 shadow-lg">
+        Report New Issue
+      </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 min-h-screen pb-20">
+<!-- TopAppBar (Authority: TopNavBar JSON) -->
+<header class="fixed top-0 md:left-64 right-0 z-30 bg-surface-container-lowest h-20 flex justify-between items-center px-gutter shadow-[0px_4px_20px_rgba(30,41,59,0.05)]">
+<div class="flex flex-col">
+<h2 class="font-title-lg text-title-lg text-primary font-bold">Report an Issue</h2>
+<p class="text-body-md text-on-surface-variant">Upload a photo or describe the issue. AI will handle the rest.</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
+</button>
+</div>
+</header>
+<div class="pt-28 px-gutter max-w-4xl mx-auto space-y-8">
+<!-- Step 1: Upload (Bento Grid Inspired) -->
+<section class="space-y-4 transition-all duration-700 opacity-100 translate-y-0">
+<div class="flex items-center gap-2 mb-4">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">1</div>
+<h3 class="text-title-lg font-bold">Capture the Evidence</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<!-- Main Upload Dropzone -->
+<div class="md:col-span-4 bg-white rounded-lg p-12 border-2 border-dashed border-outline-variant flex flex-col items-center justify-center gap-4 hover:border-primary transition-colors cursor-pointer group shadow-[0px_4px_20px_rgba(30,41,59,0.05)]">
+<div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-4xl">cloud_upload</span>
+</div>
+<div class="text-center">
+<p class="font-bold text-body-lg">Drag and drop images or videos</p>
+<p class="text-on-surface-variant text-body-md">Files up to 50MB are supported</p>
+</div>
+</div>
+<!-- Quick Action Buttons -->
+<button class="flex flex-col items-center gap-3 p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all active:scale-95 border border-surface-container">
+<span class="material-symbols-outlined text-primary text-3xl">photo_camera</span>
+<span class="font-medium text-body-md">Upload Photo</span>
+</button>
+<button class="flex flex-col items-center gap-3 p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all active:scale-95 border border-surface-container">
+<span class="material-symbols-outlined text-primary text-3xl">videocam</span>
+<span class="font-medium text-body-md">Upload Video</span>
+</button>
+<button class="flex flex-col items-center gap-3 p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all active:scale-95 border border-surface-container">
+<span class="material-symbols-outlined text-primary text-3xl">mic</span>
+<span class="font-medium text-body-md">Record Voice</span>
+</button>
+<button class="flex flex-col items-center gap-3 p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all active:scale-95 border border-surface-container">
+<span class="material-symbols-outlined text-primary text-3xl">edit_note</span>
+<span class="font-medium text-body-md">Type Description</span>
+</button>
+</div>
+</section>
+<!-- Step 2: Location -->
+<section class="space-y-4 transition-all duration-700 opacity-100 translate-y-0">
+<div class="flex items-center gap-2 mb-4">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">2</div>
+<h3 class="text-title-lg font-bold">Location Details</h3>
+</div>
+<div class="bg-white rounded-lg p-6 shadow-[0px_4px_20px_rgba(30,41,59,0.05)] overflow-hidden">
+<div class="flex justify-between items-start mb-6">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<div>
+<p class="font-bold text-body-lg">Current Address</p>
+<p class="text-on-surface-variant text-body-md">221B Baker Street, London, NW1 6XE</p>
+</div>
+</div>
+<button class="text-primary font-bold text-body-md hover:underline">Change</button>
+</div>
+<div class="h-48 w-full rounded-lg relative bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover grayscale-[20%] opacity-80" data-alt="A clean, minimalist vector-style map of a city street intersection with a blue location pin. The map uses a soft pastel color palette with light grays and whites, following a high-fidelity modern UI design. Minimalist building outlines and green patches for parks are visible, creating a friendly and approachable feel." data-location="London" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXMAunkmBLtsFUEit8i2hbk47glrpDiYkKHnbDJKbut9XMS2YIU4YVLneK1m5UppDVxbSyi3nbClQTOUbRcR-W29OZNOG6eMdBTGX7P2zXuwhj2ZYQA8XYkbidemk3U71nu03gkIUh693CJ1MFed6ca7_ONHaRJ0f4J6r2dJUJTm6hMqdtcSWE0k85Ns7C-ptZYbV_KqARbWpaqxKwbsjU6pu7VeHXMy20-yPe4p3WXPhfEMj4CMdvhL--Cw8YuzY9y0oKFtTtRxJH">
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center animate-pulse">
+<div class="w-4 h-4 bg-primary rounded-full border-2 border-white"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Step 3: AI Results (Gemini Analysis) -->
+<section class="space-y-4 animate-in fade-in duration-700 slide-in-from-bottom-4 transition-all opacity-100 translate-y-0">
+<div class="flex items-center gap-2 mb-4">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">3</div>
+<h3 class="text-title-lg font-bold">Gemini Analysis</h3>
+</div>
+<div class="ai-glow bg-white rounded-lg p-8 shadow-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-label-md font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> AI Verified
+            </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-4">
+<div>
+<label class="text-label-md text-on-surface-variant uppercase tracking-wider">Detected Issue</label>
+<p class="text-title-lg font-bold text-primary">Water Leakage</p>
+</div>
+<div>
+<label class="text-label-md text-on-surface-variant uppercase tracking-wider">Severity</label>
+<p class="text-body-lg font-medium flex items-center gap-2">
+<span class="w-3 h-3 bg-error rounded-full"></span> High
+                </p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface">groups</span>
+</div>
+<div>
+<p class="text-body-md font-bold">Nearby Reports</p>
+<p class="text-on-surface-variant text-body-md">8 neighbors reported this</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface">engineering</span>
+</div>
+<div>
+<p class="text-body-md font-bold">Assigned Department</p>
+<p class="text-on-surface-variant text-body-md">City Water Works Division</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface">schedule</span>
+</div>
+<div>
+<p class="text-body-md font-bold">Estimated Resolution</p>
+<p class="text-on-surface-variant text-body-md">Approximately 2 Days</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Step 4: Community Synergy -->
+<section class="bg-secondary-container/20 rounded-lg p-6 border border-secondary/20 space-y-4 transition-all duration-700 opacity-100 translate-y-0">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white">
+<span class="material-symbols-outlined">celebration</span>
+</div>
+<div>
+<h4 class="font-bold text-body-lg">Great news!</h4>
+<p class="text-on-surface-variant text-body-md">8 nearby residents have already reported this issue. Your report helps increase its priority.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2 bg-white border border-secondary text-secondary rounded-lg font-bold text-body-md hover:bg-secondary-container transition-colors">
+            View Existing Report
+          </button>
+<button class="px-6 py-2 bg-secondary text-white rounded-lg font-bold text-body-md hover:opacity-90 transition-opacity">
+            Continue Anyway
+          </button>
+</div>
+</section>
+<!-- Step 5: Submit -->
+<section class="space-y-4">
+  <div class="flex items-center gap-2 mb-4">
+    <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">5</div>
+    <h3 class="text-title-lg font-bold">Privacy</h3>
+  </div>
+  <div class="bg-white rounded-lg p-6 shadow-[0px_4px_20px_rgba(30,41,59,0.05)] space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <label class="relative flex items-center gap-4 p-4 border border-surface-container rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors group">
+        <input type="radio" name="privacy_option" value="identity" checked="" class="w-5 h-5 text-primary border-outline-variant focus:ring-primary">
+        <div class="flex flex-col">
+          <span class="font-bold text-body-lg">Report with my identity</span>
+          <span class="text-on-surface-variant text-body-md">Include my profile details</span>
+        </div>
+      </label>
+      <label class="relative flex items-center gap-4 p-4 border border-surface-container rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors group">
+        <input type="radio" name="privacy_option" value="anonymous" class="w-5 h-5 text-primary border-outline-variant focus:ring-primary">
+        <div class="flex flex-col">
+          <span class="font-bold text-body-lg">Report anonymously</span>
+          <span class="text-on-surface-variant text-body-md">Hide my identity</span>
+        </div>
+      </label>
+    </div>
+    <div class="flex items-start gap-2 p-4 bg-surface-container-low rounded-lg">
+      <span class="material-symbols-outlined text-primary text-sm mt-0.5">info</span>
+      <p class="text-body-md text-on-surface-variant">
+        Your identity will remain hidden from the public and authorities. Community Hero securely verifies every report to prevent misuse.
+      </p>
+    </div>
+  </div>
+</section><section class="text-center pt-8 pb-12 transition-all duration-700 opacity-100 translate-y-0">
+<button class="w-full max-w-md bg-primary text-white py-5 rounded-lg text-title-lg font-bold shadow-xl hover:shadow-2xl transition-all active:scale-[0.98]">
+          Submit Report
+        </button>
+<div class="mt-4 flex items-center justify-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">verified_user</span>
+<p class="text-body-md">AI will verify and begin tracking this immediately</p>
+</div>
+</section>
+<!-- Footer Illustration -->
+<footer class="border-t border-surface-container-high pt-12 pb-20 text-center space-y-8">
+<div class="flex justify-center items-center gap-4 md:gap-12 opacity-80">
+<div class="flex flex-col items-center gap-2">
+<div class="w-14 h-14 bg-surface-container flex items-center justify-center rounded-xl shadow-sm">
+<span class="material-symbols-outlined text-primary text-2xl">person</span>
+</div>
+<span class="text-label-md font-medium">Citizen</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant">trending_flat</span>
+<div class="flex flex-col items-center gap-2">
+<div class="w-14 h-14 bg-primary-container/10 flex items-center justify-center rounded-xl shadow-sm">
+<span class="material-symbols-outlined text-primary text-2xl">smart_toy</span>
+</div>
+<span class="text-label-md font-medium">AI Intelligence</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant">trending_flat</span>
+<div class="flex flex-col items-center gap-2">
+<div class="w-14 h-14 bg-surface-container flex items-center justify-center rounded-xl shadow-sm">
+<span class="material-symbols-outlined text-secondary text-2xl">account_balance</span>
+</div>
+<span class="text-label-md font-medium">Government</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant">trending_flat</span>
+<div class="flex flex-col items-center gap-2">
+<div class="w-14 h-14 bg-secondary-container/30 flex items-center justify-center rounded-xl shadow-sm">
+<span class="material-symbols-outlined text-secondary text-2xl">task_alt</span>
+</div>
+<span class="text-label-md font-medium">Resolved</span>
+</div>
+</div>
+<p class="text-title-lg font-medium text-on-surface-variant">
+          You report once. <span class="text-primary font-bold">Community Hero</span> takes care of the rest.
+        </p>
+</footer>
+</div>
+</main>
+<!-- Mobile Bottom Nav (Authority: Shared Components Logic) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-surface-container flex justify-around items-center z-50">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px]">Dashboard</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">map</span>
+<span class="text-[10px]">Live Map</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+<span class="text-[10px] font-bold">Report</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">description</span>
+<span class="text-[10px]">My Reports</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-[10px]">Profile</span>
+</button>
+</nav>
+<script>
+    // Micro-interactions for buttons
+    document.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Haptic feedback simulation
+        if (window.navigator.vibrate) {
+          window.navigator.vibrate(10);
+        }
+      });
+    });
+
+    // Mock progress reveal logic
+    window.addEventListener('load', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100', 'translate-y-0');
+            entry.target.classList.remove('opacity-0', 'translate-y-4');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('section').forEach(section => {
+        section.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-4');
+        observer.observe(section);
+      });
+    });
+  </script>
+
+
+</body></html>
