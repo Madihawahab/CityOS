@@ -6,6 +6,9 @@ import { AppErrorBoundary } from "@/components/errors/AppErrorBoundary";
 import { useOfflineStatus } from "@/hooks/useOfflineStatus";
 import { useAuth } from "@/hooks/useAuth";
 
+import { useEffect } from "react";
+import { useAppStore } from "@/store/appStore";
+
 interface ProvidersProps {
   children: ReactNode;
 }
@@ -34,5 +37,33 @@ function AppBootstrap({ children }: { children: ReactNode }) {
   // These hooks are side-effect only — they sync state with stores
   useAuth();
   useOfflineStatus();
+  return <ThemeBootstrap>{children}</ThemeBootstrap>;
+}
+
+function ThemeBootstrap({ children }: { children: ReactNode }) {
+  const theme = useAppStore((s) => s.theme);
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    const applyTheme = (t: "light" | "dark" | "system") => {
+      root.classList.remove("light", "dark");
+      if (t === "system") {
+        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        root.classList.add(systemTheme);
+      } else {
+        root.classList.add(t);
+      }
+    };
+
+    applyTheme(theme);
+
+    if (theme === "system") {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      const handler = () => applyTheme("system");
+      mediaQuery.addEventListener("change", handler);
+      return () => mediaQuery.removeEventListener("change", handler);
+    }
+  }, [theme]);
+
   return <>{children}</>;
 }

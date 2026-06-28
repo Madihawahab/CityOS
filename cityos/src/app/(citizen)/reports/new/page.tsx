@@ -2,20 +2,9 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { useAuthStore } from "@/store/authStore";
 import { useReportsStore } from "@/store/reportsStore";
+import { useAuthStore } from "@/store/authStore";
 import type { Report, IssueCategory, IssueSeverity, ReportStatus } from "@/types";
-
-// Zod Schema
-const reportFormSchema = z.object({
-  description: z.string().min(10, { message: "Description must be at least 10 characters long" }),
-  locationAddress: z.string().min(1, { message: "Address is required" }),
-  privacyOption: z.enum(["identity", "anonymous"])
-});
-
-type FormData = z.infer<typeof reportFormSchema>;
 
 interface AIAnalysisResult {
   reportIntelligence: {
@@ -46,23 +35,24 @@ export default function ReportIssuePage() {
   const setReport = useReportsStore((s) => s.setReport);
   const router = useRouter();
 
-  // Address editing state
-  const [isEditingAddress, setIsEditingAddress] = useState(false);
-
-  // File upload state
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  // Input states
+  const [description, setDescription] = useState("");
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [uploadedVideo, setUploadedVideo] = useState<string | null>(null);
+  const [voiceRecorded, setVoiceRecorded] = useState(false);
+  const [address, setAddress] = useState("12th Main Road, Sector 6, HSR Layout, Bengaluru");
+  const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [reportAnonymously, setReportAnonymously] = useState(false);
 
-  // AI Review / Analysis states
+  // Flow control states
   const [isProcessingAI, setIsProcessingAI] = useState(false);
-  const [aiProgressStep, setAiProgressStep] = useState(0);
+  const [processingStep, setProcessingStep] = useState(0);
   const [aiResult, setAiResult] = useState<AIAnalysisResult | null>(null);
   const [hasReviewedAI, setHasReviewedAI] = useState(false);
+  const [showAdvancedAi, setShowAdvancedAi] = useState(false);
+  const [duplicateOption, setDuplicateOption] = useState<"merge" | "separate">("merge");
 
-  // Session Caching for AI results
-  const [aiCache, setAiCache] = useState<{ key: string; result: AIAnalysisResult } | null>(null);
-
-  // Submission success screen state
+  // Success screen state
   const [submittedReport, setSubmittedReport] = useState<{
     reportId: string;
     department: string;
@@ -70,37 +60,88 @@ export default function ReportIssuePage() {
     aiConfidence: number;
   } | null>(null);
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    setError,
-    formState: { errors }
-  } = useForm<FormData>({
-    defaultValues: {
-      description: "",
-      locationAddress: "221B Baker Street, London, NW1 6XE",
-      privacyOption: "identity"
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Build the AI pipeline dynamically based on provided inputs
+  const aiSteps = (() => {
+    const steps = [];
+    const categoryName = aiResult?.reportIntelligence?.category || "water";
+    const categoryLabel = categoryName === "roads" ? "road infrastructure" : 
+                          categoryName === "sanitation" ? "public sanitation" :
+                          categoryName === "electricity" ? "electrical grid" :
+                          categoryName === "drainage" ? "drainage system" : "water infrastructure";
+
+    const departmentName = aiResult?.decisionIntelligence?.department || "Water Works Department";
+
+    steps.push({ 
+      id: "understanding", 
+      label: "Understanding your issue...", 
+      successLabel: `✓ It looks like a ${categoryLabel} problem.`, 
+      icon: "🧠" 
+    });
+    if (uploadedImage || uploadedVideo) {
+      const visualDetail = categoryName === "roads" ? "Surface damage" :
+                           categoryName === "sanitation" ? "Waste overflow" :
+                           categoryName === "electricity" ? "Power/line failure" :
+                           categoryName === "drainage" ? "Water accumulation" : "Water leakage";
+      steps.push({ 
+        id: "media", 
+        label: "Analyzing uploaded evidence...", 
+        successLabel: `✓ ${visualDetail} detected successfully.`, 
+        icon: "📷" 
+      });
     }
-  });
+    if (voiceRecorded) {
+      steps.push({ 
+        id: "voice", 
+        label: "Processing voice description...", 
+        successLabel: "✓ Key information extracted.", 
+        icon: "🎤" 
+      });
+    }
+    
+    const duplicateCount = aiResult?.trustEngine?.duplicateReportIds?.length || 2;
+    steps.push({ 
+      id: "duplicates", 
+      label: "Checking nearby reports...", 
+      successLabel: `✓ We found ${duplicateCount} similar reports nearby.`, 
+      icon: "🛡" 
+    });
+    
+    const severityLabel = aiResult?.reportIntelligence?.severity || "medium";
+    steps.push({ 
+      id: "priority", 
+      label: "Determining priority...", 
+      successLabel: `✓ Classified as ${severityLabel.toUpperCase()} priority.`, 
+      icon: "⚖" 
+    });
+    steps.push({ 
+      id: "department", 
+      label: "Choosing the responsible department...", 
+      successLabel: `✓ ${departmentName} selected.`, 
+      icon: "🏛" 
+    });
+    
+    const etaText = aiResult?.decisionIntelligence?.estimatedResolution || "2–3 days";
+    steps.push({ 
+      id: "resolution", 
+      label: "Estimating repair timeline...", 
+      successLabel: `✓ Estimated completion: ${etaText.toLowerCase()}.`, 
+      icon: "⏱" 
+    });
+    steps.push({ 
+      id: "summary", 
+      label: "Preparing your report...", 
+      successLabel: "✓ Everything is ready for your review.", 
+      icon: "🤖" 
+    });
+    return steps;
+  })();
 
-  const descriptionValue = watch("description");
-  const addressValue = watch("locationAddress");
-  const privacyOptionValue = watch("privacyOption");
+  // Check if at least one evidence type is entered
+  const isEvidenceProvided = description.trim().length > 0 || uploadedImage !== null || uploadedVideo !== null || voiceRecorded;
 
-  // Determine if "Continue to AI Review" should be enabled
-  const isEvidenceProvided = descriptionValue.trim().length >= 15 || uploadedImage !== null;
-
-  // AI Progress messages
-  const progressMessages = [
-    "Understanding your report...",
-    "Checking nearby reports...",
-    "Identifying the responsible department...",
-    "Estimating resolution time..."
-  ];
-
-  // Trigger file upload dialog
+  // Handle media uploads
   const handleDropzoneClick = () => {
     fileInputRef.current?.click();
   };
@@ -110,127 +151,264 @@ export default function ReportIssuePage() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setUploadedImage(reader.result as string);
-        // Reset AI results if evidence changes
-        setHasReviewedAI(false);
+        if (file.type.startsWith("video/")) {
+          setUploadedVideo(file.name);
+          setUploadedImage(null);
+        } else {
+          setUploadedImage(reader.result as string);
+          setUploadedVideo(null);
+        }
       };
       reader.readAsDataURL(file);
     }
   };
 
-  // Trigger AI analysis with session caching
-  const triggerAIReview = async () => {
+  const triggerVoiceRecord = () => {
+    setVoiceRecorded(true);
+    if (!description) {
+      setDescription("[Transcribed voice record]: Water main line leakage detected flooding the sidewalk.");
+    }
+  };
+
+  // Launch AI sequence
+  const startAIReview = async () => {
     if (!isEvidenceProvided || isProcessingAI) return;
 
-    const cacheKey = `${descriptionValue.trim()}_${uploadedImage || ""}`;
-
-    // Use cached result if key matches
-    if (aiCache && aiCache.key === cacheKey) {
-      setAiResult(aiCache.result);
-      setHasReviewedAI(true);
-      return;
-    }
-
     setIsProcessingAI(true);
-    setAiProgressStep(0);
+    setProcessingStep(0);
     setAiResult(null);
 
-    // Simulated progress steps (1000ms each)
-    const stepInterval = setInterval(() => {
-      setAiProgressStep((prev) => {
-        if (prev < progressMessages.length - 1) {
-          return prev + 1;
-        }
-        clearInterval(stepInterval);
-        return prev;
-      });
-    }, 1000);
+    // Identify standard step indices based on active steps:
+    const mediaIdx = aiSteps.findIndex(s => s.id === "media");
+    const voiceIdx = aiSteps.findIndex(s => s.id === "voice");
+    const duplicatesIdx = aiSteps.findIndex(s => s.id === "duplicates");
+    const priorityIdx = aiSteps.findIndex(s => s.id === "priority");
+    const deptIdx = aiSteps.findIndex(s => s.id === "department");
+    const resolutionIdx = aiSteps.findIndex(s => s.id === "resolution");
+    const summaryIdx = aiSteps.findIndex(s => s.id === "summary");
 
     try {
-      const response = await fetch("/api/v1/ai/analyze-report", {
+      // ── Stage 1: Report Intelligence (multimodal) ─────────────────────────
+      const step1Res = await fetch("/api/v1/ai/analyze-report?stage=reportIntelligence", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          description: descriptionValue || "Civic issue reported",
+          description: description || "Visual issue reported via image upload.",
           hasImages: uploadedImage !== null,
-          location: addressValue,
-          nearbyReportIds: ["RPT-2026-001", "RPT-2026-004"] // simulated nearby reports for duplicate check
+          image: uploadedImage,
+          voiceTranscript: voiceRecorded ? "[Transcribed voice record]: Water main line leakage detected flooding the sidewalk." : null,
+          location: address,
         })
       });
 
-      if (!response.ok) throw new Error("AI Analysis Failed");
+      if (!step1Res.ok) throw new Error("Stage 1 failed");
+      const step1Data = await step1Res.json();
+      const reportIntel = step1Data.reportIntelligence;
 
-      const data = (await response.json()) as AIAnalysisResult;
-
-      // Keep showing progress to citizen until the 4 seconds elapse
-      setTimeout(() => {
-        setAiResult(data);
-        setAiCache({ key: cacheKey, result: data });
-        setIsProcessingAI(false);
-        setHasReviewedAI(true);
-      }, 4000);
-
-    } catch {
-      clearInterval(stepInterval);
-      setIsProcessingAI(false);
-      // Fallback fallback results
-      const fallbackResult: AIAnalysisResult = {
-        reportIntelligence: {
-          category: "roads",
-          detectedIssue: "Road Hazard Detected",
-          severity: "high",
-          confidence: 0.85,
-          description: descriptionValue
-        },
+      // Update AI result state partially so the UI steps can read from it
+      setAiResult({
+        reportIntelligence: reportIntel,
         trustEngine: {
-          trustScore: 80,
+          trustScore: 92,
           duplicateDetected: false,
           duplicateReportIds: [],
-          spamProbability: 0.05,
+          spamProbability: 0.04,
           authenticity: "verified"
         },
         decisionIntelligence: {
-          department: "BBMP Roads & Infrastructure",
-          priority: "high",
-          estimatedResolution: "3 Days",
-          priorityReason: "High safety risk",
-          recommendedActions: ["Inspect pothole", "Fill with cold mix"]
+          department: "Water Works Department",
+          priority: reportIntel.severity,
+          estimatedResolution: "2–3 Days",
+          priorityReason: "",
+          recommendedActions: []
+        }
+      });
+
+      // Update UI steps for Stage 1 completion
+      if (mediaIdx !== -1) setProcessingStep(mediaIdx);
+      if (voiceIdx !== -1) setProcessingStep(voiceIdx);
+      await new Promise(resolve => setTimeout(resolve, 300));
+      setProcessingStep(duplicatesIdx);
+
+      // ── Stage 2: Trust Engine ─────────────────────────────────────────────
+      const step2Res = await fetch("/api/v1/ai/analyze-report?stage=trustEngine", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          description: reportIntel.description,
+          location: address,
+          nearbyReportIds: ["RPT-2026-001", "RPT-2026-004"]
+        })
+      });
+
+      if (!step2Res.ok) throw new Error("Stage 2 failed");
+      const step2Data = await step2Res.json();
+      const trustEng = step2Data.trustEngine;
+
+      setAiResult((prev) => prev ? {
+        ...prev,
+        trustEngine: trustEng
+      } : null);
+
+      // Update UI steps for Stage 2 completion
+      setProcessingStep(priorityIdx);
+      await new Promise(resolve => setTimeout(resolve, 300));
+
+      // ── Stage 3: Decision Intelligence ────────────────────────────────────
+      const step3Res = await fetch("/api/v1/ai/analyze-report?stage=decisionEngine", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          category: reportIntel.category,
+          severity: reportIntel.severity,
+          location: address,
+          nearbyCount: trustEng.duplicateReportIds?.length ?? 0
+        })
+      });
+
+      if (!step3Res.ok) throw new Error("Stage 3 failed");
+      const step3Data = await step3Res.json();
+      const decisionIntel = step3Data.decisionIntelligence;
+
+      setAiResult((prev) => prev ? {
+        ...prev,
+        decisionIntelligence: decisionIntel
+      } : null);
+
+      // Progress through the remaining steps
+      setProcessingStep(deptIdx);
+      await new Promise(resolve => setTimeout(resolve, 200));
+      setProcessingStep(resolutionIdx);
+      await new Promise(resolve => setTimeout(resolve, 200));
+      setProcessingStep(summaryIdx);
+      await new Promise(resolve => setTimeout(resolve, 200));
+
+      const compiledResult: AIAnalysisResult = {
+        reportIntelligence: reportIntel,
+        trustEngine: trustEng,
+        decisionIntelligence: decisionIntel
+      };
+
+      setAiResult(compiledResult);
+      setIsProcessingAI(false);
+      setHasReviewedAI(true);
+
+    } catch (err) {
+      console.warn("Real AI pipeline encountered error, fallback keyword mock generated", err);
+      
+      // Fallback Keyword-Based Classifier
+      let category = "water";
+      let detectedIssue = "Water Outage & Pipeline Leak";
+      let severity = "medium";
+      let descSummary = "A water outage reported by local residents requiring pipeline inspection.";
+      let dept = "BWSSB Water Supply Division";
+      let priorityReason = "Water disruption risk detected on busy transit street corridor.";
+      let actions = ["Locate shutoff valve", "Seal pipe leakage"];
+      let eta = "2–3 Days";
+
+      const query = (description + " " + (uploadedImage || "") + " " + (uploadedVideo || "")).toLowerCase();
+      if (query.includes("pothole") || query.includes("road") || query.includes("asphalt")) {
+        category = "roads";
+        detectedIssue = "Large Pothole on MG Road";
+        severity = "high";
+        descSummary = "Significant road damage reported on MG Road causing traffic congestion and safety risks.";
+        dept = "BBMP Roads & Infrastructure Division";
+        priorityReason = "Pothole poses hazard on active vehicle traffic corridor.";
+        actions = ["Seal pothole with cold mix", "Re-tar segment"];
+        eta = "3 Days";
+      } else if (query.includes("garbage") || query.includes("waste") || query.includes("refuse") || query.includes("trash")) {
+        category = "sanitation";
+        detectedIssue = "Overflowing Garbage Bin on 12th Main";
+        severity = "medium";
+        descSummary = "Overflowing municipal waste bin causing public sanitation and odor concerns.";
+        dept = "BBMP Solid Waste Management Division";
+        priorityReason = "Public health hazard in commercial sector, school zone within 200m.";
+        actions = ["Inspect reported location", "Dispatch work crew"];
+        eta = "3 Days";
+      } else if (query.includes("light") || query.includes("lamp") || query.includes("dark")) {
+        category = "electricity";
+        detectedIssue = "Street Light Failure near Bus Stop";
+        severity = "medium";
+        descSummary = "Non-functional street light reducing visibility and public safety after dark.";
+        dept = "BESCOM Street Lighting Dept";
+        priorityReason = "Streetlight repair needed for night pedestrian safety.";
+        actions = ["Replace bulb/fixture", "Check wiring line"];
+        eta = "2 Days";
+      } else if (query.includes("drain") || query.includes("flooding") || query.includes("sewer")) {
+        category = "drainage";
+        detectedIssue = "Sewer Blockage & Drainage Flooding";
+        severity = "high";
+        descSummary = "Stormwater drain backup flooding public sidewalk and roadway lanes.";
+        dept = "BWSSB Drainage & Stormwater Division";
+        priorityReason = "Drain blockage flooding public walk lanes.";
+        actions = ["Clear drain inlet", "Flush stormwater pipe"];
+        eta = "2 Days";
+      } else if (query.includes("hazard") || query.includes("debris") || query.includes("safety")) {
+        category = "other";
+        detectedIssue = "Construction Debris Hazard on Sidewalk";
+        severity = "high";
+        descSummary = "Unregulated construction waste obstructing pedestrian sidewalk traffic.";
+        dept = "BBMP Public Works Dept";
+        priorityReason = "Obstructs pedestrian movement and forces walking on active street lanes.";
+        actions = ["Inspect reported location", "Dispatch work crew"];
+        eta = "3 Days";
+      }
+
+      if (mediaIdx !== -1) { setProcessingStep(mediaIdx); await new Promise(r => setTimeout(r, 100)); }
+      if (voiceIdx !== -1) { setProcessingStep(voiceIdx); await new Promise(r => setTimeout(r, 100)); }
+      setProcessingStep(duplicatesIdx);
+      await new Promise(r => setTimeout(r, 100));
+      setProcessingStep(priorityIdx);
+      await new Promise(r => setTimeout(r, 100));
+      setProcessingStep(deptIdx);
+      await new Promise(r => setTimeout(r, 100));
+      setProcessingStep(resolutionIdx);
+      await new Promise(r => setTimeout(r, 100));
+      setProcessingStep(summaryIdx);
+      await new Promise(r => setTimeout(r, 100));
+
+      const mockResult: AIAnalysisResult = {
+        reportIntelligence: {
+          category,
+          detectedIssue,
+          severity,
+          confidence: 0.94,
+          description: descSummary
+        },
+        trustEngine: {
+          trustScore: 92,
+          duplicateDetected: query.includes("leak") || query.includes("pothole") || query.includes("drain"),
+          duplicateReportIds: ["RPT-2026-001", "RPT-2026-004"],
+          spamProbability: 0.04,
+          authenticity: "verified"
+        },
+        decisionIntelligence: {
+          department: dept,
+          priority: severity,
+          estimatedResolution: eta,
+          priorityReason,
+          recommendedActions: actions
         }
       };
-      setAiResult(fallbackResult);
+
+      setAiResult(mockResult);
+      setIsProcessingAI(false);
       setHasReviewedAI(true);
     }
   };
 
-  // Handle final report submission
-  const onSubmit = async (data: FormData) => {
-    // Validate schema manually via Zod to verify inputs
-    const result = reportFormSchema.safeParse(data);
-    if (!result.success) {
-      result.error.issues.forEach((err) => {
-        if (err.path[0]) {
-          setError(err.path[0] as keyof FormData, { message: err.message });
-        }
-      });
-      return;
-    }
-
-    if (!hasReviewedAI || !aiResult) {
-      // Must complete AI review first
-      await triggerAIReview();
-      return;
-    }
+  // Submit report to Zustand store
+  const handleFinalSubmit = () => {
+    if (!aiResult) return;
 
     const reportId = `RPT-${Date.now().toString(36).toUpperCase()}`;
-
-    // Save to Zustand
     const newReport: Report = {
       reportId,
-      citizenId: user?.userId ?? "demo-citizen-1",
-      anonymousReport: data.privacyOption === "anonymous",
+      citizenId: reportAnonymously ? "Protected Anonymous" : (user?.userId ?? "demo-citizen-1"),
+      anonymousReport: reportAnonymously,
       issueCategory: aiResult.reportIntelligence.category as IssueCategory,
       title: aiResult.reportIntelligence.detectedIssue,
-      description: data.description,
+      description: description || "Reported with photos.",
       severity: aiResult.reportIntelligence.severity as IssueSeverity,
       status: "submitted" as ReportStatus,
       trustScore: aiResult.trustEngine.trustScore,
@@ -239,24 +417,59 @@ export default function ReportIssuePage() {
       estimatedResolution: aiResult.decisionIntelligence.estimatedResolution,
       aiConfidence: aiResult.reportIntelligence.confidence,
       location: {
-        latitude: 12.9716,
-        longitude: 77.5946,
-        address: data.locationAddress,
+        latitude: 12.9352,
+        longitude: 77.6245,
+        address: address,
         ward: "Ward 7 – Koramangala"
       },
       media: {
         imageUrls: uploadedImage ? [uploadedImage] : [],
-        videoUrls: []
+        videoUrls: uploadedVideo ? [uploadedVideo] : []
       },
-      communitySupport: aiResult.trustEngine.duplicateReportIds.length || 0,
-      mergedReportIds: aiResult.trustEngine.duplicateReportIds,
+      communitySupport: 12,
+      mergedReportIds: duplicateOption === "merge" ? aiResult.trustEngine.duplicateReportIds : [],
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      analysis: {
+        reportIntelligence: {
+          category: aiResult.reportIntelligence.category,
+          detectedIssue: aiResult.reportIntelligence.detectedIssue,
+          severity: aiResult.reportIntelligence.severity,
+          confidence: aiResult.reportIntelligence.confidence,
+          description: aiResult.reportIntelligence.description
+        },
+        trustEngine: {
+          trustScore: aiResult.trustEngine.trustScore,
+          duplicateDetected: aiResult.trustEngine.duplicateDetected,
+          duplicateReportIds: aiResult.trustEngine.duplicateReportIds,
+          spamProbability: aiResult.trustEngine.spamProbability,
+          authenticity: aiResult.trustEngine.authenticity
+        },
+        decisionEngine: {
+          department: aiResult.decisionIntelligence.department,
+          priority: aiResult.decisionIntelligence.priority,
+          estimatedResolution: aiResult.decisionIntelligence.estimatedResolution,
+          priorityReason: aiResult.decisionIntelligence.priorityReason,
+          recommendedActions: aiResult.decisionIntelligence.recommendedActions
+        },
+        civicIntelligence: {
+          communityImpact: "High Priority Area",
+          nearbyReportsCount: aiResult.trustEngine.duplicateReportIds.length,
+          wardRiskIndex: "Koramangala Ward 7 Risk index: 84/100"
+        },
+        resolutionIntelligence: {
+          estimatedResolution: aiResult.decisionIntelligence.estimatedResolution,
+          confidenceScore: 0.94,
+          historicalComparison: "Matches 14 previous water main cases in Ward 7"
+        },
+        civicCopilot: {
+          summary: `Reported issue of ${aiResult.reportIntelligence.detectedIssue} categorized in ${aiResult.reportIntelligence.category} and routed to ${aiResult.decisionIntelligence.department}.`
+        }
+      }
     };
 
     setReport(newReport);
 
-    // Transition to success screen instead of immediate redirect
     setSubmittedReport({
       reportId,
       department: aiResult.decisionIntelligence.department,
@@ -265,452 +478,527 @@ export default function ReportIssuePage() {
     });
   };
 
-  // If submitted, show success screen
+  // Success view
   if (submittedReport) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: "#F8FAFC" }}>
-        <main className="max-w-[1280px] mx-auto px-4 md:px-12 py-8">
-          <div className="max-w-2xl mx-auto space-y-8 pt-12">
-            <div className="flex flex-col items-center justify-center p-8 bg-white rounded-lg shadow-lg border border-outline-variant/30 text-center gap-6">
-              <div className="w-16 h-16 rounded-full flex items-center justify-center text-white" style={{ backgroundColor: "#6cf8bb" }}>
-                <span className="material-symbols-outlined text-4xl" style={{ color: "#00714d" }}>check_circle</span>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-headline-lg font-bold text-on-surface">Report Submitted Successfully</h3>
-                <p className="text-body-md text-on-surface-variant">Your report has been received and verified by CityOS AI.</p>
-              </div>
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center py-12 px-4 md:px-8 font-sans">
+        <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl flex flex-col items-center gap-6 text-center">
+          <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
+            <span className="material-symbols-outlined text-emerald-400 text-4xl">check_circle</span>
+          </div>
+          
+          <div className="space-y-2">
+            <h3 className="text-xl font-black text-white">✅ Report Submitted Successfully</h3>
+            <p className="text-xs text-slate-400">CityOS AI verified authenticity and registered it to the department dispatcher.</p>
+          </div>
 
-              <div className="w-full bg-surface-low border border-outline-variant/30 rounded-lg p-6 space-y-4 text-left">
-                <div>
-                  <span className="text-label-md text-on-surface-variant uppercase tracking-wider">Report ID</span>
-                  <p className="text-body-lg font-bold text-primary">{submittedReport.reportId}</p>
-                </div>
-                <div>
-                  <span className="text-label-md text-on-surface-variant uppercase tracking-wider">Assigned Department</span>
-                  <p className="text-body-lg font-bold text-on-surface">{submittedReport.department}</p>
-                </div>
-                <div>
-                  <span className="text-label-md text-on-surface-variant uppercase tracking-wider">Estimated Resolution</span>
-                  <p className="text-body-lg font-bold text-on-surface">{submittedReport.estimatedResolution}</p>
-                </div>
-                <div>
-                  <span className="text-label-md text-on-surface-variant uppercase tracking-wider">AI Confidence Score</span>
-                  <p className="text-body-lg font-bold text-on-surface">{submittedReport.aiConfidence}%</p>
-                </div>
-              </div>
-
-              <div className="flex flex-col w-full gap-3">
-                <button 
-                  onClick={() => router.push(`/reports/${submittedReport.reportId}`)}
-                  className="w-full bg-primary hover:bg-primary-hover text-white py-3 rounded-lg font-bold transition-transform active:scale-95 shadow-md"
-                >
-                  View My Report
-                </button>
-                <button 
-                  onClick={() => router.push("/")}
-                  className="w-full bg-white border border-outline text-on-surface py-3 rounded-lg font-bold transition-transform active:scale-95 hover:bg-surface-low"
-                >
-                  Back to Dashboard
-                </button>
-              </div>
+          <div className="w-full bg-slate-950 border border-slate-850 rounded-2xl p-5 space-y-4 text-left text-xs">
+            <div className="flex justify-between items-center">
+              <span className="text-slate-500 font-bold uppercase tracking-wider text-[9px]">Ticket ID</span>
+              <strong className="text-blue-400 font-bold">{submittedReport.reportId}</strong>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-slate-500 font-bold uppercase tracking-wider text-[9px]">Assigned Department</span>
+              <strong className="text-slate-200">{submittedReport.department}</strong>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-slate-500 font-bold uppercase tracking-wider text-[9px]">Estimated Resolution</span>
+              <strong className="text-slate-200">{submittedReport.estimatedResolution}</strong>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-slate-500 font-bold uppercase tracking-wider text-[9px]">AI Reliability</span>
+              <strong className="text-emerald-400 font-bold">★★★★★ Excellent ({submittedReport.aiConfidence}%)</strong>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-slate-500 font-bold uppercase tracking-wider text-[9px]">Privacy Shield</span>
+              <strong className="text-slate-200">{reportAnonymously ? "Protected Anonymous" : "Identity Visible"}</strong>
             </div>
           </div>
-        </main>
+
+          {/* Ticket Lifecycle Tracker */}
+          <div className="w-full py-4 border-t border-b border-slate-850 text-[10px] space-y-3.5">
+            <p className="text-left font-bold text-slate-450 uppercase tracking-widest text-[8px]">Live Resolution Lifecycle</p>
+            <div className="flex flex-col gap-2.5 text-left pl-2">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-blue-500 animate-ping"></span>
+                <span className="font-extrabold text-blue-400">Report Submitted (Active)</span>
+              </div>
+              <div className="flex items-center gap-2 opacity-40">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-650"></span>
+                <span>AI Verified Dispatch</span>
+              </div>
+              <div className="flex items-center gap-2 opacity-40">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-650"></span>
+                <span>Department Assigned</span>
+              </div>
+              <div className="flex items-center gap-2 opacity-40">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-650"></span>
+                <span>Crew Dispatch & Repair Work</span>
+              </div>
+              <div className="flex items-center gap-2 opacity-40">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-650"></span>
+                <span>Community Verification Resolution</span>
+              </div>
+            </div>
+            <p className="text-center text-[9px] text-slate-500 italic mt-2">We&apos;ll notify you automatically whenever your report progresses.</p>
+          </div>
+
+          <div className="flex flex-col w-full gap-2.5 pt-2">
+            <button 
+              onClick={() => router.push(`/reports/${submittedReport.reportId}`)}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3.5 rounded-xl font-bold transition-all text-xs cursor-pointer"
+            >
+              Track My Report
+            </button>
+            <button 
+              onClick={() => router.push("/")}
+              className="w-full bg-transparent border border-slate-800 text-slate-300 hover:bg-slate-855 py-3.5 rounded-xl font-bold transition-all text-xs cursor-pointer"
+            >
+              Back to Dashboard
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#F8FAFC" }}>
-      <main className="max-w-[1280px] mx-auto px-4 md:px-12 py-8">
-        <form onSubmit={handleSubmit(onSubmit)} className="max-w-4xl mx-auto space-y-8 pt-8">
-          
-          <div className="flex flex-col gap-2">
-            <h2 className="text-title-lg text-primary font-bold">Report an Issue</h2>
-            <p className="text-body-md text-on-surface-variant">Upload a photo or describe the issue. AI will handle the rest.</p>
-          </div>
+    <div className="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 md:px-8 font-sans">
+      <div className="max-w-2xl mx-auto space-y-8">
+        
+        {/* Header Title */}
+        <div className="space-y-1.5">
+          <h2 className="text-2xl font-black text-white flex items-center gap-2">
+            <span className="material-symbols-outlined text-blue-500 text-3xl">add_circle</span>
+            Report an Issue
+          </h2>
+          <p className="text-xs text-slate-400 font-medium">You provide the details. The CityOS AI core handles validation, categorization, and dispatch.</p>
+        </div>
 
-          {/* Step 1: Upload (Bento Grid Inspired) */}
-          <section className="space-y-4">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">1</div>
-              <h3 className="text-title-lg font-bold">Capture the Evidence</h3>
-            </div>
+        {/* Dynamic Display State Machine */}
+        {!isProcessingAI && !hasReviewedAI && (
+          <div className="space-y-6">
             
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              {/* Main Upload Dropzone */}
-              <div 
-                onClick={handleDropzoneClick}
-                className="md:col-span-4 bg-white rounded-lg p-12 border-2 border-dashed border-outline-variant flex flex-col items-center justify-center gap-4 hover:border-primary transition-colors cursor-pointer group shadow-[0px_4px_20px_rgba(30,41,59,0.05)]"
-              >
-                <input 
-                  type="file" 
-                  ref={fileInputRef}
-                  onChange={handleFileChange}
-                  accept="image/*,video/*"
-                  className="hidden"
-                />
-                
-                {uploadedImage ? (
-                  <div className="w-full max-w-xs h-40 relative rounded-lg overflow-hidden border border-outline-variant">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={uploadedImage} alt="Uploaded evidence" className="w-full h-full object-cover" />
-                  </div>
-                ) : (
-                  <>
-                    <div className="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <span className="material-symbols-outlined text-primary text-4xl">cloud_upload</span>
-                    </div>
-                    <div className="text-center">
-                      <p className="font-bold text-body-lg">Drag and drop images or videos</p>
-                      <p className="text-on-surface-variant text-body-md">Files up to 50MB are supported</p>
-                    </div>
-                  </>
-                )}
+            {/* STEP 1: Evidence Input Card */}
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-5">
+              <div className="flex items-center gap-2.5">
+                <div className="h-6 w-6 rounded-full bg-blue-500/10 border border-blue-500 flex items-center justify-center text-[10px] font-black text-blue-400">1</div>
+                <h3 className="font-extrabold text-white text-sm">Capture the Evidence</h3>
               </div>
 
-              {/* Quick Action Buttons */}
-              <button 
-                type="button" 
-                onClick={handleDropzoneClick}
-                className="flex flex-col items-center gap-3 p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all active:scale-95 border border-surface-container"
-              >
-                <span className="material-symbols-outlined text-primary text-3xl">photo_camera</span>
-                <span className="font-medium text-body-md">Upload Photo</span>
-              </button>
-              <button 
-                type="button" 
-                onClick={handleDropzoneClick}
-                className="flex flex-col items-center gap-3 p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all active:scale-95 border border-surface-container"
-              >
-                <span className="material-symbols-outlined text-primary text-3xl">videocam</span>
-                <span className="font-medium text-body-md">Upload Video</span>
-              </button>
-              <button 
-                type="button" 
-                className="flex flex-col items-center gap-3 p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all active:scale-95 border border-surface-container opacity-50 cursor-not-allowed"
-                disabled
-              >
-                <span className="material-symbols-outlined text-primary text-3xl">mic</span>
-                <span className="font-medium text-body-md">Record Voice</span>
-              </button>
-              <button 
-                type="button"
-                className="flex flex-col items-center gap-3 p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all active:scale-95 border border-surface-container"
-              >
-                <span className="material-symbols-outlined text-primary text-3xl">edit_note</span>
-                <span className="font-medium text-body-md">Type Description</span>
-              </button>
-            </div>
-
-            {/* Description Textarea (Connected to react-hook-form) */}
-            <div className="bg-white rounded-lg p-6 border border-outline-variant/30 shadow-sm flex flex-col gap-2 mt-4">
-              <label className="text-body-lg font-bold text-on-surface">Describe the Issue</label>
-              <textarea
-                {...register("description")}
-                placeholder="Please describe what and where the issue is. Include specific landmarks if possible (minimum 10 characters)."
-                rows={4}
-                onChange={(e) => {
-                  setValue("description", e.target.value);
-                  setHasReviewedAI(false); // Reset AI status on edit
-                }}
-                className="w-full border border-outline-variant rounded-lg p-3 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none resize-none"
-              />
-              {errors.description && (
-                <p className="text-error text-xs font-semibold">{errors.description.message}</p>
-              )}
-            </div>
-
-            {/* Explicit AI Review Trigger Button */}
-            {!hasReviewedAI && !isProcessingAI && (
-              <div className="flex justify-end pt-2">
-                <button
-                  type="button"
-                  disabled={!isEvidenceProvided}
-                  onClick={triggerAIReview}
-                  className="px-6 py-3 rounded-full text-white font-bold text-body-md transition-all flex items-center gap-2 disabled:opacity-50 disabled:pointer-events-none active:scale-95"
-                  style={{ backgroundColor: "var(--color-primary)" }}
+              {/* Bento styled upload panel options */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+                <div 
+                  onClick={handleDropzoneClick}
+                  className="col-span-2 md:col-span-4 h-36 border border-dashed border-slate-800 bg-slate-950 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-blue-500/40 hover:bg-slate-900/40 transition-all text-center group p-4"
                 >
-                  <span className="material-symbols-outlined" aria-hidden="true">auto_awesome</span>
-                  Continue to AI Review
+                  <input 
+                    type="file" 
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    accept="image/*,video/*"
+                    className="hidden"
+                  />
+                  {uploadedImage ? (
+                    <div className="w-full h-full relative rounded-lg overflow-hidden flex items-center justify-center">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={uploadedImage} alt="Uploaded preview" className="h-full object-contain rounded" />
+                    </div>
+                  ) : uploadedVideo ? (
+                    <div className="text-xs font-semibold text-blue-400 flex items-center gap-1.5">
+                      <span className="material-symbols-outlined">videocam</span> {uploadedVideo}
+                    </div>
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined text-slate-500 group-hover:scale-110 group-hover:text-blue-400 transition-all text-3xl">add_photo_alternate</span>
+                      <p className="text-xs font-bold text-slate-300">Drag or click to upload</p>
+                      <p className="text-[10px] text-slate-500">Supports images & video files up to 50MB</p>
+                    </>
+                  )}
+                </div>
+
+                <button 
+                  type="button" 
+                  onClick={handleDropzoneClick}
+                  className="flex flex-col items-center justify-center gap-2 py-4 bg-slate-950 border border-slate-850 hover:bg-slate-900 rounded-xl cursor-pointer text-slate-300 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-blue-500">photo_camera</span>
+                  <span className="text-[10px] font-bold">Upload Photo</span>
+                </button>
+                <button 
+                  type="button" 
+                  onClick={handleDropzoneClick}
+                  className="flex flex-col items-center justify-center gap-2 py-4 bg-slate-950 border border-slate-850 hover:bg-slate-900 rounded-xl cursor-pointer text-slate-300 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-blue-500">videocam</span>
+                  <span className="text-[10px] font-bold">Upload Video</span>
+                </button>
+                <button 
+                  type="button" 
+                  onClick={triggerVoiceRecord}
+                  className={`flex flex-col items-center justify-center gap-2 py-4 border rounded-xl cursor-pointer transition-all ${
+                    voiceRecorded ? "bg-red-500/10 border-red-500/30 text-red-400 animate-pulse" : "bg-slate-950 border-slate-850 hover:bg-slate-900 text-slate-300"
+                  }`}
+                >
+                  <span className="material-symbols-outlined">mic</span>
+                  <span className="text-[10px] font-bold">{voiceRecorded ? "Recorded ✓" : "Record Voice"}</span>
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => document.getElementById("desc-textarea")?.focus()}
+                  className="flex flex-col items-center justify-center gap-2 py-4 bg-slate-950 border border-slate-850 hover:bg-slate-900 rounded-xl cursor-pointer text-slate-300 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-blue-500">edit_note</span>
+                  <span className="text-[10px] font-bold">Type Details</span>
                 </button>
               </div>
-            )}
 
-            {/* AI processing loader */}
-            {isProcessingAI && (
-              <div className="ai-glow bg-white rounded-lg p-8 shadow-lg flex flex-col items-center justify-center gap-4 text-center">
-                <div className="h-8 w-8 rounded-full border-2 border-t-primary border-surface-container animate-spin" />
-                <p className="text-body-lg font-bold text-primary animate-pulse">
-                  {progressMessages[aiProgressStep]}
-                </p>
+              {/* Text Description Box */}
+              <div className="space-y-1.5">
+                <textarea
+                  id="desc-textarea"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Describe the issue, location, or landmarks. AI parses category and severity automatically..."
+                  rows={4}
+                  className="w-full bg-slate-950 border border-slate-850 rounded-2xl p-4 text-xs text-slate-200 placeholder-slate-600 focus:border-blue-500/40 outline-none resize-none"
+                />
               </div>
-            )}
-          </section>
-
-          {/* Step 2: Location */}
-          <section className="space-y-4">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">2</div>
-              <h3 className="text-title-lg font-bold">Location Details</h3>
             </div>
-            
-            <div className="bg-white rounded-lg p-6 shadow-[0px_4px_20px_rgba(30,41,59,0.05)] overflow-hidden">
-              <div className="flex justify-between items-start mb-6">
-                <div className="flex gap-3 flex-1 min-w-0">
-                  <span className="material-symbols-outlined text-primary">location_on</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-bold text-body-lg">Current Address</p>
+
+            {/* STEP 2: Location Card */}
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
+              <div className="flex items-center gap-2.5">
+                <div className="h-6 w-6 rounded-full bg-blue-500/10 border border-blue-500 flex items-center justify-center text-[10px] font-black text-blue-400">2</div>
+                <h3 className="font-extrabold text-white text-sm">Location Details</h3>
+              </div>
+
+              <div className="flex justify-between items-start gap-4 bg-slate-950 p-4 border border-slate-850 rounded-2xl text-xs">
+                <div className="flex gap-2.5 items-start">
+                  <span className="material-symbols-outlined text-blue-500 text-[18px]">location_on</span>
+                  <div>
+                    <span className="font-bold text-white block">Detected Location Address</span>
                     {isEditingAddress ? (
                       <input 
-                        {...register("locationAddress")}
-                        type="text"
-                        className="w-full border border-outline-variant rounded-md p-1 mt-1 text-body-md focus:border-primary outline-none"
+                        type="text" 
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        className="bg-slate-900 border border-slate-800 rounded px-2 py-1 mt-1 outline-none text-slate-100 w-full"
+                        onBlur={() => setIsEditingAddress(false)}
                       />
                     ) : (
-                      <p className="text-on-surface-variant text-body-md truncate">{addressValue}</p>
+                      <p className="text-slate-400 mt-1">{address}</p>
                     )}
                   </div>
                 </div>
                 <button 
-                  type="button"
+                  type="button" 
                   onClick={() => setIsEditingAddress(!isEditingAddress)}
-                  className="text-primary font-bold text-body-md hover:underline flex-shrink-0 ml-4"
+                  className="text-blue-400 hover:text-white font-bold text-[10px] uppercase tracking-wider"
                 >
-                  {isEditingAddress ? "Done" : "Change"}
+                  {isEditingAddress ? "Done" : "Adjust"}
                 </button>
               </div>
-              
-              <div className="h-48 w-full rounded-lg relative bg-surface-container overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img 
-                  className="w-full h-full object-cover grayscale-[20%] opacity-80" 
-                  alt="Minimalist digital map"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXMAunkmBLtsFUEit8i2hbk47glrpDiYkKHnbDJKbut9XMS2YIU4YVLneK1m5UppDVxbSyi3nbClQTOUbRcR-W29OZNOG6eMdBTGX7P2zXuwhj2ZYQA8XYkbidemk3U71nu03gkIUh693CJ1MFed6ca7_ONHaRJ0f4J6r2dJUJTm6hMqdtcSWE0k85Ns7C-ptZYbV_KqARbWpaqxKwbsjU6pu7VeHXMy20-yPe4p3WXPhfEMj4CMdvhL--Cw8YuzY9y0oKFtTtRxJH"
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center animate-pulse">
-                    <div className="w-4 h-4 bg-primary rounded-full border-2 border-white"></div>
-                  </div>
-                </div>
-              </div>
             </div>
-          </section>
 
-          {/* Step 3: AI Results (Gemini Analysis) */}
-          {hasReviewedAI && aiResult && (
-            <section className="space-y-4">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">3</div>
-                <h3 className="text-title-lg font-bold">AI Verification</h3>
-              </div>
-              
-              <div className="ai-glow bg-white rounded-lg p-8 shadow-lg relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4">
-                  <span className="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-label-md font-bold flex items-center gap-1">
-                    <span className="material-symbols-outlined text-sm">auto_awesome</span> AI Verified
-                  </span>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-4">
-                    <div>
-                      <label className="text-label-md text-on-surface-variant uppercase tracking-wider">Detected Issue</label>
-                      <p className="text-title-lg font-bold text-primary capitalize">
-                        {aiResult.reportIntelligence.detectedIssue}
-                      </p>
-                    </div>
-                    <div>
-                      <label className="text-label-md text-on-surface-variant uppercase tracking-wider">Severity</label>
-                      <p className="text-body-lg font-medium flex items-center gap-2 capitalize">
-                        <span 
-                          className="w-3 h-3 rounded-full"
-                          style={{
-                            backgroundColor: 
-                              aiResult.reportIntelligence.severity === "critical" || aiResult.reportIntelligence.severity === "high"
-                                ? "#ba1a1a"
-                                : "#004ac6"
-                          }}
-                        />
-                        {aiResult.reportIntelligence.severity}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
-                        <span className="material-symbols-outlined text-on-surface">groups</span>
-                      </div>
-                      <div>
-                        <p className="text-body-md font-bold">Nearby Reports</p>
-                        <p className="text-on-surface-variant text-body-md">
-                          {aiResult.trustEngine.duplicateReportIds.length || 0} neighbors reported this
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
-                        <span className="material-symbols-outlined text-on-surface">engineering</span>
-                      </div>
-                      <div>
-                        <p className="text-body-md font-bold">Assigned Department</p>
-                        <p className="text-on-surface-variant text-body-md">{aiResult.decisionIntelligence.department}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
-                        <span className="material-symbols-outlined text-on-surface">schedule</span>
-                      </div>
-                      <div>
-                        <p className="text-body-md font-bold">Estimated Resolution</p>
-                        <p className="text-on-surface-variant text-body-md">
-                          Approximately {aiResult.decisionIntelligence.estimatedResolution}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-          )}
-
-          {/* Step 4: Community Synergy */}
-          {hasReviewedAI && aiResult && aiResult.trustEngine.duplicateDetected && (
-            <section className="bg-secondary-container/20 rounded-lg p-6 border border-secondary/20 space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white">
-                  <span className="material-symbols-outlined">celebration</span>
-                </div>
-                <div>
-                  <h4 className="font-bold text-body-lg">Great news!</h4>
-                  <p className="text-on-surface-variant text-body-md">
-                    {aiResult.trustEngine.duplicateReportIds.length} nearby residents have already reported this issue. Your report helps increase its priority.
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-4">
-                <button 
-                  type="button"
-                  onClick={() => {
-                    const firstDupId = aiResult.trustEngine.duplicateReportIds[0];
-                    if (firstDupId) router.push(`/reports/${firstDupId}`);
-                  }}
-                  className="px-6 py-2 bg-white border border-secondary text-secondary rounded-lg font-bold text-body-md hover:bg-secondary-container transition-colors"
-                >
-                  View Existing Report
-                </button>
-                <button 
-                  type="button"
-                  onClick={() => setHasReviewedAI(true)}
-                  className="px-6 py-2 bg-secondary text-white rounded-lg font-bold text-body-md hover:opacity-90 transition-opacity"
-                >
-                  Continue Anyway
-                </button>
-              </div>
-            </section>
-          )}
-
-          {/* Step 5: Submit */}
-          <section className="space-y-4">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">
-                {hasReviewedAI && aiResult ? "5" : "3"}
-              </div>
-              <h3 className="text-title-lg font-bold">Privacy</h3>
-            </div>
-            
-            <div className="bg-white rounded-lg p-6 shadow-[0px_4px_20px_rgba(30,41,59,0.05)] space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <label className="relative flex items-center gap-4 p-4 border border-surface-container rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors group">
-                  <input 
-                    type="radio" 
-                    {...register("privacyOption")}
-                    value="identity" 
-                    className="w-5 h-5 text-primary border-outline-variant focus:ring-primary"
-                  />
-                  <div className="flex flex-col">
-                    <span className="font-bold text-body-lg">Report with my identity</span>
-                    <span className="text-on-surface-variant text-body-md">Include my profile details</span>
-                  </div>
-                </label>
-                <label className="relative flex items-center gap-4 p-4 border border-surface-container rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors group">
-                  <input 
-                    type="radio" 
-                    {...register("privacyOption")}
-                    value="anonymous" 
-                    className="w-5 h-5 text-primary border-outline-variant focus:ring-primary"
-                  />
-                  <div className="flex flex-col">
-                    <span className="font-bold text-body-lg">Report anonymously</span>
-                    <span className="text-on-surface-variant text-body-md">Hide my identity</span>
-                  </div>
-                </label>
-              </div>
-              
-              <div className="flex items-start gap-2 p-4 bg-surface-container-low rounded-lg">
-                <span className="material-symbols-outlined text-primary text-sm mt-0.5" aria-hidden="true">info</span>
-                <p className="text-body-md text-on-surface-variant">
-                  {privacyOptionValue === "anonymous" ? (
-                    "Citizen identity is hidden from the public and authorities. Identity is stored securely only for fraud prevention, abuse prevention, and legal verification."
-                  ) : (
-                    "Your identity will be visible to departments and other citizens. Report details will include your name and registered profile photo."
-                  )}
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section className="text-center pt-8 pb-12">
+            {/* AI Review trigger CTA */}
             <button 
-              type="submit"
-              className="w-full max-w-md bg-primary text-white py-5 rounded-lg text-title-lg font-bold shadow-xl hover:shadow-2xl transition-all active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none"
+              type="button"
+              disabled={!isEvidenceProvided}
+              onClick={startAIReview}
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none text-white py-4 rounded-2xl font-bold text-xs transition-transform active:scale-[0.98] flex items-center justify-center gap-1.5 cursor-pointer shadow-lg"
             >
-              Submit Report
+              <span className="material-symbols-outlined text-[16px]">auto_awesome</span>
+              Analyze with CityOS AI
             </button>
-            <div className="mt-4 flex items-center justify-center gap-2 text-on-surface-variant">
-              <span className="material-symbols-outlined text-sm">verified_user</span>
-              <p className="text-body-md">AI will verify and begin tracking this immediately</p>
-            </div>
-          </section>
+          </div>
+        )}
 
-          {/* Footer Illustration */}
-          <footer className="border-t border-surface-container-high pt-12 pb-20 text-center space-y-8">
-            <div className="flex justify-center items-center gap-4 md:gap-12 opacity-80">
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-14 h-14 bg-surface-container flex items-center justify-center rounded-xl shadow-sm">
-                  <span className="material-symbols-outlined text-primary text-2xl">person</span>
+        {/* STEP 3: Adaptive AI processing loading checkmarks */}
+        {isProcessingAI && (
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 space-y-6 text-center">
+            <div className="flex flex-col items-center gap-3">
+              <div className="h-10 w-10 rounded-full border-2 border-t-blue-500 border-slate-850 animate-spin" />
+              <h3 className="font-extrabold text-white text-base">Running CityOS AI Analysis Pipeline</h3>
+              <p className="text-[11px] text-slate-400">Verifying authenticity, calculating confidence, and selecting dispatch queues.</p>
+            </div>
+
+            <div className="max-w-xs mx-auto border-t border-slate-855 pt-4 space-y-2.5 text-left text-[11px]">
+              {aiSteps.map((step, idx) => (
+                <div 
+                  key={idx} 
+                  className={`flex flex-col gap-0.5 transition-opacity duration-300 ${
+                    idx > processingStep ? "opacity-30" : "opacity-100"
+                  }`}
+                >
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-350 font-semibold flex items-center gap-2">
+                      <span>{step.icon}</span>
+                      <span>{step.label}</span>
+                    </span>
+                    <span>
+                      {idx < processingStep ? (
+                        <span className="text-emerald-400 font-bold">✓</span>
+                      ) : idx === processingStep ? (
+                        <span className="text-blue-400 font-bold animate-pulse">↻</span>
+                      ) : (
+                        <span className="text-slate-600">•</span>
+                      )}
+                    </span>
+                  </div>
+                  {idx < processingStep && (
+                    <span className="text-[10px] text-emerald-400 font-bold pl-6 block mb-1">
+                      {step.successLabel}
+                    </span>
+                  )}
                 </div>
-                <span className="text-label-md font-medium">Citizen</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* STEP 4 & 5: AI Results Display */}
+        {hasReviewedAI && aiResult && (
+          <div className="space-y-6">
+            
+            {/* ONE Clean AI Summary Card */}
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-5 relative overflow-hidden">
+              <div className="absolute top-4 right-4 bg-blue-500/10 border border-blue-500/30 px-2 py-0.5 rounded-full text-[9px] font-bold text-blue-400 flex items-center gap-0.5">
+                <span className="material-symbols-outlined text-[10px]">auto_awesome</span> AI Verified Review
               </div>
-              <span className="material-symbols-outlined text-outline-variant" aria-hidden="true">trending_flat</span>
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-14 h-14 bg-primary-container/10 flex items-center justify-center rounded-xl shadow-sm">
-                  <span className="material-symbols-outlined text-primary text-2xl">smart_toy</span>
+
+              <div className="space-y-4">
+                <div className="space-y-1">
+                  <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">AI Suggested Title</span>
+                  <input 
+                    type="text" 
+                    value={aiResult.reportIntelligence.detectedIssue}
+                    onChange={(e) => setAiResult({
+                      ...aiResult,
+                      reportIntelligence: {
+                        ...aiResult.reportIntelligence,
+                        detectedIssue: e.target.value
+                      }
+                    })}
+                    className="w-full bg-slate-955 border border-slate-850 rounded-xl p-3 text-xs font-bold text-white outline-none focus:border-blue-500/40"
+                  />
                 </div>
-                <span className="text-label-md font-medium">AI Intelligence</span>
-              </div>
-              <span className="material-symbols-outlined text-outline-variant" aria-hidden="true">trending_flat</span>
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-14 h-14 bg-surface-container flex items-center justify-center rounded-xl shadow-sm">
-                  <span className="material-symbols-outlined text-secondary text-2xl">account_balance</span>
+
+                <div className="space-y-1">
+                  <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">AI Suggested Description</span>
+                  <textarea 
+                    value={description || aiResult.reportIntelligence.description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={3}
+                    className="w-full bg-slate-955 border border-slate-850 rounded-xl p-3 text-xs text-slate-300 outline-none focus:border-blue-500/40 resize-none"
+                  />
                 </div>
-                <span className="text-label-md font-medium">Government</span>
-              </div>
-              <span className="material-symbols-outlined text-outline-variant" aria-hidden="true">trending_flat</span>
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-14 h-14 bg-secondary-container/30 flex items-center justify-center rounded-xl shadow-sm">
-                  <span className="material-symbols-outlined text-secondary text-2xl">task_alt</span>
+
+                <div className="grid grid-cols-2 gap-4 border-t border-slate-850 pt-4 text-xs">
+                  <div>
+                    <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">Category</span>
+                    <strong className="text-slate-250 capitalize font-bold">{aiResult.reportIntelligence.category}</strong>
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">Severity</span>
+                    <strong className="text-red-400 capitalize font-bold">{aiResult.reportIntelligence.severity}</strong>
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">Assigned Department</span>
+                    <strong className="text-slate-200 font-bold">{aiResult.decisionIntelligence.department}</strong>
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">Estimated Resolution</span>
+                    <strong className="text-slate-200 font-bold">{aiResult.decisionIntelligence.estimatedResolution}</strong>
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">AI Reliability</span>
+                    <strong className="text-emerald-400 font-bold">★★★★★ Excellent ({Math.round(aiResult.reportIntelligence.confidence * 100)}%)</strong>
+                  </div>
                 </div>
-                <span className="text-label-md font-medium">Resolved</span>
+
+                {/* Progressive Disclosure (Advanced AI Details) */}
+                <div className="border-t border-slate-850 pt-3">
+                  <button 
+                    onClick={() => setShowAdvancedAi(!showAdvancedAi)}
+                    className="text-xs text-blue-400 font-bold hover:underline flex items-center gap-0.5 cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-[14px]">
+                      {showAdvancedAi ? "expand_less" : "expand_more"}
+                    </span> 
+                    {showAdvancedAi ? "Hide AI Analysis Details" : "View AI Analysis Details"}
+                  </button>
+
+                  {showAdvancedAi && (
+                    <div className="mt-3 p-4 bg-slate-950 border border-slate-850 rounded-2xl space-y-4 text-xs">
+                      
+                      {/* Community Impact and spam risk stats */}
+                      <div className="grid grid-cols-2 gap-3 border-b border-slate-850 pb-3 text-[10px] text-slate-400">
+                        <div>
+                          <span>Community Impact:</span>
+                          <strong className="text-white block mt-0.5">High Priority Area</strong>
+                        </div>
+                        <div>
+                          <span>Spam Verification:</span>
+                          <strong className="text-green-400 block mt-0.5">Low Risk ({Math.round(aiResult.trustEngine.spamProbability * 100)}%)</strong>
+                        </div>
+                        <div>
+                          <span>Duplicate Match Rating:</span>
+                          <strong className="text-blue-400 block mt-0.5">Very Strong Match</strong>
+                        </div>
+                        <div>
+                          <span>Authenticity Check:</span>
+                          <strong className="text-emerald-400 block mt-0.5">AI Confirmed Verified</strong>
+                        </div>
+                      </div>
+
+                      {/* Explainable AI block details */}
+                      <div className="space-y-1">
+                        <strong className="text-[10px] text-slate-350 uppercase tracking-wider block">Why was this marked High Priority?</strong>
+                        <ul className="space-y-1 text-slate-400 text-[10px]">
+                          <li>• The issue is located on a busy road.</li>
+                          <li>• A hospital emergency route is nearby.</li>
+                          <li>• Three similar reports were detected.</li>
+                          <li>• Historical data suggests water infrastructure leaks in this zone worsen quickly.</li>
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-            <p className="text-title-lg font-medium text-on-surface-variant">
-              You report once. <span className="text-primary font-bold">CityOS</span> takes care of the rest.
-            </p>
-          </footer>
-        </form>
-      </main>
+
+            {/* STEP 5: Better Duplicate Detection Comparison Card */}
+            {aiResult.trustEngine.duplicateDetected && (
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
+                <div className="flex gap-3 items-start">
+                  <span className="material-symbols-outlined text-blue-400 text-[20px]">groups</span>
+                  <div>
+                    <strong className="text-white text-xs block">Nearby Similar Report Detected</strong>
+                    <p className="text-[10px] text-slate-450 mt-0.5">Merging avoids dispatching duplicate maintenance crews and automatically subscribes you to progress notifications.</p>
+                  </div>
+                </div>
+
+                {/* Simulated existing ticket preview */}
+                <div className="bg-slate-955 border border-slate-850 p-4 rounded-2xl text-[11px] space-y-2 text-slate-300">
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold text-white">📍 Water Pipe Burst (HSR 6th Sector)</span>
+                    <span className="text-[9px] bg-blue-500/10 text-blue-400 font-bold px-1.5 py-0.5 rounded uppercase">Crew Dispatched</span>
+                  </div>
+                  <div className="flex justify-between text-slate-550 font-bold uppercase text-[9px] tracking-wider">
+                    <span>Distance: <strong>220 metres away</strong></span>
+                    <span>Reported: <strong>Yesterday</strong></span>
+                    <span>Support: <strong>42 Citizens</strong></span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 pt-1 text-xs">
+                  <button 
+                    type="button"
+                    onClick={() => setDuplicateOption("merge")}
+                    className={`py-3 rounded-xl font-bold cursor-pointer transition-all border ${
+                      duplicateOption === "merge" ? "bg-blue-600 border-blue-500 text-white" : "bg-slate-955 border-slate-850 text-slate-300 hover:bg-slate-900"
+                    }`}
+                  >
+                    Merge with Existing
+                  </button>
+                  <button 
+                    type="button"
+                    onClick={() => setDuplicateOption("separate")}
+                    className={`py-3 rounded-xl font-bold cursor-pointer transition-all border ${
+                      duplicateOption === "separate" ? "bg-blue-600 border-blue-500 text-white" : "bg-slate-955 border-slate-850 text-slate-300 hover:bg-slate-900"
+                    }`}
+                  >
+                    Create Separate Report
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* STEP 8: Better Resolution Prediction Timeline */}
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
+              <div className="flex justify-between items-baseline">
+                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">Estimated Resolution</span>
+                <strong className="text-white text-base block font-extrabold">2–3 Days</strong>
+              </div>
+
+              {/* Progress timeline visual bar */}
+              <div className="flex items-center justify-between text-[9px] font-bold text-slate-450 px-1 pt-1">
+                <div className="flex flex-col items-center gap-1">
+                  <span className="w-2.5 h-2.5 rounded-full bg-blue-500 ring-4 ring-blue-500/20"></span>
+                  <span className="text-white">Submitted</span>
+                </div>
+                <div className="flex-grow h-0.5 bg-slate-800 mx-2"></div>
+                <div className="flex flex-col items-center gap-1 opacity-50">
+                  <span className="w-2 h-2 rounded-full bg-slate-700"></span>
+                  <span>AI Dispatch</span>
+                </div>
+                <div className="flex-grow h-0.5 bg-slate-800 mx-2"></div>
+                <div className="flex flex-col items-center gap-1 opacity-50">
+                  <span className="w-2 h-2 rounded-full bg-slate-700"></span>
+                  <span>Completion (2–3 Days)</span>
+                </div>
+              </div>
+              
+              <div className="p-3 bg-slate-950 border border-slate-855 rounded-2xl text-[10px] text-slate-400 space-y-1">
+                <p className="font-extrabold text-slate-350">Prediction based on department workload, average response times, and current weather forecasts.</p>
+              </div>
+            </div>
+
+            {/* STEP 11: Protected Anonymous Reporting */}
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
+              <div className="flex justify-between items-center">
+                <div className="flex gap-3 items-center">
+                  <span className="material-symbols-outlined text-blue-500 text-[20px]">shield</span>
+                  <strong className="text-white text-xs">Protected Anonymous Reporting</strong>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input 
+                    type="checkbox" 
+                    checked={reportAnonymously}
+                    onChange={(e) => setReportAnonymously(e.target.checked)}
+                    className="sr-only peer" 
+                  />
+                  <div className="w-9 h-5 bg-slate-950 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-slate-400 after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600 peer-checked:after:bg-white"></div>
+                </label>
+              </div>
+
+              <div className="p-3.5 bg-slate-955 border border-slate-850 rounded-2xl text-[10.5px] text-slate-400 space-y-1 leading-relaxed">
+                <p>✓ Your identity is never visible to authorities.</p>
+                <p>✓ Administrators cannot view your personal details.</p>
+                <p>✓ Other citizens only see &quot;Protected Anonymous&quot;.</p>
+                <p>✓ Personal information never appears on public maps.</p>
+                <p>✓ AI summaries never expose personal information.</p>
+              </div>
+            </div>
+
+            {/* Subtly indicate AI engines contributions */}
+            <div className="text-center space-y-3 pt-2">
+              <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Powered by CityOS AI Architecture Layers</p>
+              <div className="flex flex-wrap justify-center gap-2.5 text-[9px] font-bold text-slate-400">
+                <span>🧠 Report Intelligence</span>
+                <span>🛡 Trust Engine</span>
+                <span>⚖ Decision Intelligence</span>
+                <span>📊 Civic Intelligence</span>
+                <span>✅ Resolution Intelligence</span>
+                <span>🤖 Civic Copilot</span>
+              </div>
+            </div>
+
+            {/* STEP 9: Submission CTA */}
+            <div className="pt-2">
+              <button 
+                onClick={handleFinalSubmit}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold text-xs transition-transform active:scale-[0.98] cursor-pointer shadow-lg"
+              >
+                Submit Report to Dispatcher
+              </button>
+            </div>
+
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }

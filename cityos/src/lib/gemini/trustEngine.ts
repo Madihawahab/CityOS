@@ -35,7 +35,14 @@ export async function evaluateTrust(
 ): Promise<TrustEngineResult> {
   if (demo.isActive || !features.ENABLE_GEMINI) {
     await sleep(demo.aiSimDurationMs / 3);
-    return demo.aiResponses.trustEngine;
+    const hasDups = description.toLowerCase().includes("leak") || description.toLowerCase().includes("pothole") || description.toLowerCase().includes("drain");
+    return {
+      trustScore: 92,
+      duplicateDetected: hasDups,
+      duplicateReportIds: hasDups ? ["RPT-2026-001", "RPT-2026-004"] : [],
+      spamProbability: 0.04,
+      authenticity: "verified"
+    };
   }
 
   const raw = await executeGeminiPrompt(

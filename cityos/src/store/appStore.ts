@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 type Theme = "light" | "dark" | "system";
 
@@ -15,15 +16,23 @@ interface AppState {
   setOffline: (offline: boolean) => void;
 }
 
-export const useAppStore = create<AppState>()((set) => ({
-  theme: "light",
-  isSidebarOpen: false,
-  isCopilotOpen: false,
-  isOffline: false,
+export const useAppStore = create<AppState>()(
+  persist(
+    (set) => ({
+      theme: "dark",
+      isSidebarOpen: false,
+      isCopilotOpen: false,
+      isOffline: false,
 
-  setTheme: (theme) => set({ theme }),
-  toggleSidebar: () => set((s) => ({ isSidebarOpen: !s.isSidebarOpen })),
-  openCopilot: () => set({ isCopilotOpen: true }),
-  closeCopilot: () => set({ isCopilotOpen: false }),
-  setOffline: (isOffline) => set({ isOffline }),
-}));
+      setTheme: (theme) => set({ theme }),
+      toggleSidebar: () => set((s) => ({ isSidebarOpen: !s.isSidebarOpen })),
+      openCopilot: () => set({ isCopilotOpen: true }),
+      closeCopilot: () => set({ isCopilotOpen: false }),
+      setOffline: (isOffline) => set({ isOffline }),
+    }),
+    {
+      name: "cityos-app-settings",
+      partialize: (state) => ({ theme: state.theme }),
+    }
+  )
+);

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function CitizenLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-[#F8FAFC] dark:bg-[#0A0F1C] text-slate-900 dark:text-slate-100 transition-colors duration-200">
       <ReportsStoreInitializer />
       <DemoModeBanner />
       <CitizenTopNav />

@@ -203,6 +203,38 @@ export default function ReportDetailsPage({ params }: ReportDetailsProps) {
                       </p>
                     </div>
                   </div>
+
+                  {/* AI Analysis parameters showcase */}
+                  <div className="flex items-center gap-3 p-4 rounded-lg bg-surface-container-low md:col-span-2 flex-col items-start gap-2">
+                    <p className="text-on-surface-variant text-[12px] uppercase tracking-wider font-bold border-b border-slate-205/20 w-full pb-1 flex justify-between">
+                      <span>🧠 CityOS AI Diagnostics</span>
+                      <span className="text-primary font-bold">Verified</span>
+                    </p>
+                    <div className="grid grid-cols-2 gap-2 text-xs w-full">
+                      <div>
+                        <span className="text-slate-500 block text-[9px] uppercase tracking-wider">AI Reliability</span>
+                        <strong className="text-slate-800 font-bold">★★★★★ Excellent</strong>
+                      </div>
+                      <div>
+                        <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Trust Score</span>
+                        <strong className="text-slate-800 font-bold">{report.trustScore || 92}% Confidence</strong>
+                      </div>
+                      <div>
+                        <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Duplicate Count</span>
+                        <strong className="text-slate-800 font-bold">{report.mergedReportIds?.length ?? 0} Reports Merged</strong>
+                      </div>
+                      <div>
+                        <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Community Impact</span>
+                        <strong className="text-slate-800 font-bold">High Priority Area</strong>
+                      </div>
+                    </div>
+                    {report.analysis?.decisionEngine?.priorityReason && (
+                      <div className="pt-2 text-[10px] text-slate-500 border-t border-slate-200 w-full leading-normal">
+                        <strong className="text-slate-650 block mb-0.5">Priority Classification Rationale:</strong>
+                        {report.analysis.decisionEngine.priorityReason}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Integrated Leaflet Map Location Preview */}

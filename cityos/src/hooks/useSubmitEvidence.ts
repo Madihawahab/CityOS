@@ -98,6 +98,14 @@ export function useSubmitEvidence(reportId: string) {
             ],
           },
           updatedAt: new Date(),
+          analysis: report.analysis ? {
+            ...report.analysis,
+            resolutionIntelligence: {
+              estimatedResolution: "Resolved",
+              confidenceScore: result.confidence,
+              historicalComparison: result.closureRecommendation
+            }
+          } : undefined
         };
         setReport(finalReport);
 

@@ -3,7 +3,7 @@
 // This file is never imported by browser components.
 // The GEMINI_API_KEY env var is never NEXT_PUBLIC_ prefixed.
 
-import { GoogleGenerativeAI, type GenerativeModel } from "@google/generative-ai";
+import { GoogleGenerativeAI, type GenerativeModel, type Part } from "@google/generative-ai";
 import { logger } from "@/lib/logger/logger";
 import { errorLogger } from "@/lib/logger/errorLogger";
 
@@ -40,12 +40,9 @@ export function getGeminiModel(modelName = "gemini-1.5-flash"): GenerativeModel 
   return model;
 }
 
-/**
- * Execute a Gemini prompt with timing and error logging.
- */
 export async function executeGeminiPrompt(
   engineName: string,
-  prompt: string,
+  contents: string | Array<string | Part>,
   modelName = "gemini-1.5-flash"
 ): Promise<string | null> {
   const geminiModel = getGeminiModel(modelName);
@@ -53,7 +50,7 @@ export async function executeGeminiPrompt(
 
   const startTime = Date.now();
   try {
-    const result = await geminiModel.generateContent(prompt);
+    const result = await geminiModel.generateContent(contents as string | Array<string | Part>);
     const text = result.response.text();
     const durationMs = Date.now() - startTime;
 

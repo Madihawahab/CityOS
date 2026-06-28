@@ -23,62 +23,84 @@ export function getTimelineSteps(
   const cDate = formatDate(createdAt);
   const uDate = updatedAt ? formatDate(updatedAt) : undefined;
 
-  // Default steps structure
   const steps: TimelineStep[] = [
-    { title: "Report Submitted", time: cDate, status: "pending", icon: "check" },
-    { title: "AI Verified", time: undefined, status: "pending", icon: "check" },
+    { title: "Report Submitted", time: cDate, status: "completed", icon: "check" },
+    { title: "AI Verified", time: uDate || cDate, status: "pending", icon: "check" },
     { title: "Department Assigned", time: undefined, status: "pending", icon: "check" },
-    { title: "Work Started", time: undefined, status: "pending", icon: "engineering" },
+    { title: "Crew Dispatched", time: undefined, status: "pending", icon: "local_shipping" },
+    { title: "Repair Work", time: undefined, status: "pending", icon: "engineering" },
+    { title: "Evidence Uploaded", time: undefined, status: "pending", icon: "cloud_upload" },
+    { title: "Community Verification", time: undefined, status: "pending", icon: "rate_review" },
     { title: "Resolved", time: undefined, status: "pending", icon: "task_alt" }
   ];
 
-  switch (reportStatus) {
-    case "submitted":
-      steps[0]!.status = "active";
-      break;
+  // Helper function to mark steps as completed or active
+  const setStatus = (idx: number, status: "completed" | "active" | "pending", time?: string) => {
+    if (steps[idx]) {
+      steps[idx].status = status;
+      if (time) steps[idx].time = time;
+    }
+  };
 
-    case "ai_processing":
-      steps[0]!.status = "completed";
-      steps[1]!.status = "active";
-      steps[1]!.title = "AI Verifying...";
-      break;
-
-    case "ai_verified":
-      steps[0]!.status = "completed";
-      steps[1]!.status = "completed";
-      steps[1]!.time = uDate || cDate;
-      steps[2]!.status = "active";
-      break;
-
-    case "assigned":
-      steps[0]!.status = "completed";
-      steps[1]!.status = "completed";
-      steps[2]!.status = "completed";
-      steps[2]!.time = uDate || cDate;
-      steps[3]!.status = "active";
-      break;
-
-    case "in_progress":
-    case "work_started":
-    case "evidence_uploaded":
-    case "ai_verifying_repair":
-    case "citizen_verification_pending":
-      steps[0]!.status = "completed";
-      steps[1]!.status = "completed";
-      steps[2]!.status = "completed";
-      steps[3]!.status = "active";
-      steps[3]!.time = uDate || cDate;
-      break;
-
-    case "resolved":
-    case "closed":
-      steps[0]!.status = "completed";
-      steps[1]!.status = "completed";
-      steps[2]!.status = "completed";
-      steps[3]!.status = "completed";
-      steps[4]!.status = "completed";
-      steps[4]!.time = uDate || cDate;
-      break;
+  // State transitions mapping:
+  if (reportStatus === "submitted") {
+    setStatus(0, "completed");
+    setStatus(1, "completed", uDate || cDate);
+    setStatus(2, "active");
+  } else if (reportStatus === "ai_processing") {
+    setStatus(0, "completed");
+    setStatus(1, "active");
+  } else if ((reportStatus as string) === "predicted") {
+    setStatus(0, "completed");
+    setStatus(1, "completed", uDate || cDate);
+  } else if (reportStatus === "ai_verified") {
+    setStatus(0, "completed");
+    setStatus(1, "completed", uDate || cDate);
+    setStatus(2, "active");
+  } else if (reportStatus === "assigned") {
+    setStatus(0, "completed");
+    setStatus(1, "completed", cDate);
+    setStatus(2, "completed", uDate || cDate);
+    setStatus(3, "active");
+  } else if (reportStatus === "work_started") {
+    setStatus(0, "completed");
+    setStatus(1, "completed", cDate);
+    setStatus(2, "completed", cDate);
+    setStatus(3, "completed", uDate || cDate);
+    setStatus(4, "active");
+  } else if (reportStatus === "in_progress") {
+    setStatus(0, "completed");
+    setStatus(1, "completed", cDate);
+    setStatus(2, "completed", cDate);
+    setStatus(3, "completed", cDate);
+    setStatus(4, "completed", uDate || cDate);
+    setStatus(5, "active");
+  } else if (reportStatus === "evidence_uploaded" || reportStatus === "ai_verifying_repair") {
+    setStatus(0, "completed");
+    setStatus(1, "completed", cDate);
+    setStatus(2, "completed", cDate);
+    setStatus(3, "completed", cDate);
+    setStatus(4, "completed", cDate);
+    setStatus(5, "completed", uDate || cDate);
+    setStatus(6, "active");
+  } else if (reportStatus === "citizen_verification_pending") {
+    setStatus(0, "completed");
+    setStatus(1, "completed", cDate);
+    setStatus(2, "completed", cDate);
+    setStatus(3, "completed", cDate);
+    setStatus(4, "completed", cDate);
+    setStatus(5, "completed", cDate);
+    setStatus(6, "completed", uDate || cDate);
+    setStatus(7, "active");
+  } else if (reportStatus === "resolved" || reportStatus === "closed") {
+    setStatus(0, "completed");
+    setStatus(1, "completed", cDate);
+    setStatus(2, "completed", cDate);
+    setStatus(3, "completed", cDate);
+    setStatus(4, "completed", cDate);
+    setStatus(5, "completed", cDate);
+    setStatus(6, "completed", cDate);
+    setStatus(7, "completed", uDate || cDate);
   }
 
   return steps;

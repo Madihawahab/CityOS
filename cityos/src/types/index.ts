@@ -108,6 +108,42 @@ export interface Report {
   mergedReportIds: string[];
   createdAt: Date;
   updatedAt: Date;
+  analysis?: {
+    reportIntelligence: {
+      category: string;
+      detectedIssue: string;
+      severity: string;
+      confidence: number;
+      description: string;
+    };
+    trustEngine: {
+      trustScore: number;
+      duplicateDetected: boolean;
+      duplicateReportIds: string[];
+      spamProbability: number;
+      authenticity: string;
+    };
+    decisionEngine: {
+      department: string;
+      priority: string;
+      estimatedResolution: string;
+      priorityReason: string;
+      recommendedActions: string[];
+    };
+    civicIntelligence: {
+      communityImpact: string;
+      nearbyReportsCount: number;
+      wardRiskIndex: string;
+    };
+    resolutionIntelligence: {
+      estimatedResolution: string;
+      confidenceScore: number;
+      historicalComparison: string;
+    };
+    civicCopilot?: {
+      summary: string;
+    };
+  };
 }
 
 export interface AIAnalysis {

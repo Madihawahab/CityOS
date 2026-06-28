@@ -83,16 +83,22 @@ export default function IssueDetailsPage({ params }: IssueDetailsProps) {
   const estRes = report.estimatedResolution || "1 Day";
   const duplicateCount = report.mergedReportIds?.length || 0;
 
-  // Static/derived AI Priority Reason & Recommendation based on report category
-  const aiPriorityReason = report.description.includes("flooding") || report.severity === "critical"
-    ? "Critical infrastructure failure causing immediate disruption to traffic and neighboring establishments."
-    : "Standard civic disruption causing moderate impact to pedestrian movement.";
+  // Dynamic AI Priority Reason & Recommendation from single source of truth report object
+  const fallbackAnalysis = {
+    decisionEngine: {
+      priorityReason: report.description.includes("flooding") || report.severity === "critical"
+        ? "Critical infrastructure failure causing immediate disruption to traffic and neighboring establishments."
+        : "Standard civic disruption causing moderate impact to pedestrian movement.",
+      recommendedActions: report.issueCategory === "water"
+        ? ["Dispatch BWSSB repair crew immediately", "Close main utility valves if pipeline pressure remains high"]
+        : report.issueCategory === "roads"
+        ? ["Fill pothole with hot mix asphalt immediately", "Set up signage for vehicle safety"]
+        : ["Dispatch technical repair crew", "Verify transformer load limits before reconnecting circuit"]
+    }
+  };
 
-  const aiRecommendation = report.issueCategory === "water"
-    ? "Dispatch BWSSB repair crew immediately. Close main utility valves if pipeline pressure remains high."
-    : report.issueCategory === "roads"
-    ? "Fill pothole with hot mix asphalt immediately. Set up signage for vehicle safety."
-    : "Dispatch technical repair crew. Verify transformer load limits before reconnecting circuit.";
+  const aiPriorityReason = report.analysis?.decisionEngine?.priorityReason || fallbackAnalysis.decisionEngine.priorityReason;
+  const aiRecommendation = report.analysis?.decisionEngine?.recommendedActions?.join(". ") || fallbackAnalysis.decisionEngine.recommendedActions.join(". ");
 
   const isResolved = report.status === "resolved" || report.status === "closed";
   const isWorkStarted = report.status === "work_started" || report.status === "in_progress";

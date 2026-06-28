@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import Link from "next/link";
 import { useNotifications } from "@/hooks/useNotifications";
 import { useAuthStore } from "@/store/authStore";
+import { useReportsStore } from "@/store/reportsStore";
 import type { Notification } from "@/types";
 
 // Pure static base time to avoid calling impure Date.now() during render
@@ -12,46 +13,73 @@ const BASE_TIME = new Date("2026-06-28T13:00:00Z").getTime();
 export default function AuthorityNotificationsPage() {
   const user = useAuthStore((s) => s.user);
   const { data: userNotifications = [], markRead } = useNotifications();
+  const reports = useReportsStore((s) => s.reports);
+  const reportsList = Object.values(reports);
 
   const departmentName = user?.department || "BWSSB Water Works";
 
   // Create department fallback notifications to make the page functional
   const notifications = useMemo((): Notification[] => {
-    const list: Notification[] = [
-      {
-        notificationId: "notif-auth-1",
+    const list: Notification[] = [];
+    
+    // Find reports for this department or category matching category keywords
+    const deptReports = reportsList.filter(r => 
+      r.departmentAssigned === departmentName || 
+      (r.issueCategory === "water" && departmentName.includes("Water")) ||
+      (r.issueCategory === "roads" && departmentName.includes("Roads"))
+    );
+    
+    deptReports.slice(0, 3).forEach((report, index) => {
+      list.push({
+        notificationId: `notif-auth-${report.reportId}`,
         userId: user?.userId || "demo-authority-1",
-        title: "🚨 New Critical Assignment",
-        message: `A critical water pipeline burst has been reported at Koramangala 4th Block and assigned to ${departmentName} with an AI score of 94.`,
+        title: report.severity === "critical" || report.severity === "high" ? "🚨 New Critical Assignment" : "📋 New Issue Assignment",
+        message: `${report.title} has been reported at ${report.location.address} and assigned to ${departmentName} with an AI confidence score of ${Math.round((report.aiConfidence || 0.94) * 100)}%.`,
         type: "assigned",
-        reportId: "RPT-2026-001",
-        isRead: false,
-        createdAt: new Date(BASE_TIME - 10 * 60000), // 10m ago
-      },
-      {
-        notificationId: "notif-auth-2",
-        userId: user?.userId || "demo-authority-1",
-        title: "✓ Repair Evidence Pending Verification",
-        message: "Officer Sunil uploaded repair photos for No Water Supply issue #RPT-2026-008. AI verification in progress.",
-        type: "verification_requested",
-        reportId: "RPT-2026-008",
-        isRead: false,
-        createdAt: new Date(BASE_TIME - 45 * 60000), // 45m ago
-      },
-      {
-        notificationId: "notif-auth-3",
-        userId: user?.userId || "demo-authority-1",
-        title: "⚡ Department Performance Alert",
-        message: `Your department ${departmentName} achieved an average resolution time of 18 hours this week, outperforming target BBMP guidelines.`,
-        type: "ai_suggestion",
-        isRead: true,
-        createdAt: new Date(BASE_TIME - 120 * 60000), // 2h ago
-      },
-    ];
+        reportId: report.reportId,
+        isRead: index > 0,
+        createdAt: report.createdAt,
+      });
+    });
 
-    // Combine with real ones if they match user, otherwise use fallback
+    if (list.length === 0) {
+      list.push(
+        {
+          notificationId: "notif-auth-1",
+          userId: user?.userId || "demo-authority-1",
+          title: "🚨 New Critical Assignment",
+          message: `A critical water pipeline burst has been reported at Koramangala 4th Block and assigned to ${departmentName} with an AI score of 94.`,
+          type: "assigned",
+          reportId: "RPT-2026-001",
+          isRead: false,
+          createdAt: new Date(BASE_TIME - 10 * 60000), // 10m ago
+        },
+        {
+          notificationId: "notif-auth-2",
+          userId: user?.userId || "demo-authority-1",
+          title: "✓ Repair Evidence Pending Verification",
+          message: "Officer Sunil uploaded repair photos for No Water Supply issue #RPT-2026-008. AI verification in progress.",
+          type: "verification_requested",
+          reportId: "RPT-2026-008",
+          isRead: false,
+          createdAt: new Date(BASE_TIME - 45 * 60000), // 45m ago
+        }
+      );
+    }
+    
+    // Add the performance alert
+    list.push({
+      notificationId: "notif-auth-3",
+      userId: user?.userId || "demo-authority-1",
+      title: "⚡ Department Performance Alert",
+      message: `Your department ${departmentName} achieved an average resolution time of 18 hours this week, outperforming target BBMP guidelines.`,
+      type: "ai_suggestion",
+      isRead: true,
+      createdAt: new Date(BASE_TIME - 120 * 60000), // 2h ago
+    });
+
     return userNotifications.length > 0 ? (userNotifications as unknown as Notification[]) : list;
-  }, [userNotifications, user, departmentName]);
+  }, [userNotifications, user, departmentName, reportsList]);
 
   return (
     <div className="p-8 space-y-8 bg-[#0a0f1c] min-h-screen text-slate-100">

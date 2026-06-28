@@ -53,7 +53,42 @@ export async function routeReport(
 
   if (demo.isActive || !features.ENABLE_GEMINI) {
     await sleep(demo.aiSimDurationMs / 3);
-    return fallback();
+    
+    let dept = "BBMP Solid Waste Management Division";
+    const priority = severity;
+    let eta = "3 Days";
+    let reason = `Assigned priority based on Category ${category} and Severity ${severity} in local HSR Layout zone.`;
+    let actions = ["Inspect reported location", "Dispatch work crew"];
+
+    if (category === "water") {
+      dept = "BWSSB Water Supply Division";
+      eta = "2–3 Days";
+      reason = "Water disruption risk detected on busy transit street corridor.";
+      actions = ["Locate shutoff valve", "Seal pipe leakage"];
+    } else if (category === "roads") {
+      dept = "BBMP Roads & Infrastructure Division";
+      eta = "3 Days";
+      reason = "Pothole poses hazard on active vehicle traffic corridor.";
+      actions = ["Seal pothole with cold mix", "Re-tar segment"];
+    } else if (category === "electricity") {
+      dept = "BESCOM Street Lighting Dept";
+      eta = "2 Days";
+      reason = "Streetlight repair needed for night pedestrian safety.";
+      actions = ["Replace bulb/fixture", "Check wiring line"];
+    } else if (category === "drainage") {
+      dept = "BWSSB Drainage & Stormwater Division";
+      eta = "2 Days";
+      reason = "Drain blockage flooding public walk lanes.";
+      actions = ["Clear drain inlet", "Flush stormwater pipe"];
+    }
+
+    return {
+      department: dept,
+      priority: priority,
+      estimatedResolution: eta,
+      priorityReason: reason,
+      recommendedActions: actions
+    };
   }
 
   const raw = await executeGeminiPrompt(

@@ -10,15 +10,15 @@ export const metadata: Metadata = {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex h-screen w-screen flex-col overflow-hidden bg-[#0a0f1c] text-slate-200">
       <DemoModeBanner />
-      <div className="flex flex-1">
+      <div className="flex flex-1 overflow-hidden">
         <AdminSideNav />
-        <main className="flex-1 min-w-0 bg-background overflow-auto">
+        <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
           <PortalErrorBoundary portalName="admin">
             {children}
           </PortalErrorBoundary>
-        </main>
+        </div>
       </div>
     </div>
   );

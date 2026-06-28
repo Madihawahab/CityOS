@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect, type FormEvent } from "react";
+import { useState, useRef, useEffect, useMemo, type FormEvent } from "react";
 import { cn } from "@/lib/utils/cn";
 import { Drawer } from "@/components/ui/Drawer";
-import { Spinner } from "@/components/ui/Spinner";
 import { Avatar } from "@/components/ui/Avatar";
 import { useAuthStore } from "@/store/authStore";
 import type { CopilotMessage } from "@/types";
@@ -14,37 +13,41 @@ interface CopilotDrawerProps {
   reportId?: string;
 }
 
-const WELCOME_MESSAGE: CopilotMessage = {
-  role: "assistant",
-  content:
-    "Hi! I'm CivicCopilot, your CityOS AI assistant. I can help you track your reports, understand how the AI processes them, or answer questions about civic issues in Bengaluru. How can I help you today?",
-  timestamp: new Date(),
-};
-
 export function CopilotDrawer({ isOpen, onClose, reportId }: CopilotDrawerProps) {
   const user = useAuthStore((s) => s.user);
-  const [messages, setMessages] = useState<CopilotMessage[]>([WELCOME_MESSAGE]);
+  const citizenName = user?.fullName ?? "Priya Sharma";
+
+  const welcomeMessage = useMemo(() => ({
+    role: "assistant" as const,
+    content: `Hello, ${citizenName} 👋\n\nHow can CityOS help you today?`,
+    timestamp: new Date(),
+  }), [citizenName]);
+
+  const [messages, setMessages] = useState<CopilotMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Initialize welcome message
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessages([welcomeMessage]);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [welcomeMessage]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const sendMessage = async (e: FormEvent) => {
-    e.preventDefault();
-    const trimmed = input.trim();
-    if (!trimmed || isLoading) return;
-
+  const triggerMessage = async (text: string) => {
     const userMsg: CopilotMessage = {
       role: "user",
-      content: trimmed,
+      content: text,
       timestamp: new Date(),
     };
 
     setMessages((prev) => [...prev, userMsg]);
-    setInput("");
     setIsLoading(true);
 
     try {
@@ -52,7 +55,7 @@ export function CopilotDrawer({ isOpen, onClose, reportId }: CopilotDrawerProps)
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: trimmed,
+          message: text,
           history: messages.slice(-6),
           reportId,
         }),
@@ -79,6 +82,19 @@ export function CopilotDrawer({ isOpen, onClose, reportId }: CopilotDrawerProps)
     }
   };
 
+  const sendMessage = async (e: FormEvent) => {
+    e.preventDefault();
+    const trimmed = input.trim();
+    if (!trimmed || isLoading) return;
+    setInput("");
+    await triggerMessage(trimmed);
+  };
+
+  const handleSuggestionClick = async (prompt: string) => {
+    if (isLoading) return;
+    await triggerMessage(prompt);
+  };
+
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="CivicCopilot" side="right">
       <div className="flex h-full flex-col">
@@ -101,7 +117,7 @@ export function CopilotDrawer({ isOpen, onClose, reportId }: CopilotDrawerProps)
                 <Avatar name={user?.fullName ?? "You"} size="sm" className="flex-shrink-0" />
               )}
               <div className={cn(
-                "max-w-[80%] rounded-2xl px-4 py-3 text-body-md",
+                "max-w-[80%] rounded-2xl px-4 py-3 text-body-md whitespace-pre-line",
                 msg.role === "assistant"
                   ? "bg-surface-low text-on-surface rounded-tl-sm"
                   : "bg-primary text-white rounded-tr-sm"
@@ -110,6 +126,32 @@ export function CopilotDrawer({ isOpen, onClose, reportId }: CopilotDrawerProps)
               </div>
             </div>
           ))}
+
+          {/* Suggested Prompts (Chips displayed before first query) */}
+          {messages.length === 1 && !isLoading && (
+            <div className="grid grid-cols-1 gap-2 pt-2 px-1">
+              <p className="text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1 px-1">Suggested Prompts:</p>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "Explain my report",
+                  "Why is my issue High Priority?",
+                  "Show nearby issues",
+                  "When will this be resolved?",
+                  "Generate a complaint letter",
+                  "Explain today's recommendations",
+                ].map((prompt, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => handleSuggestionClick(prompt)}
+                    className="px-3 py-1.5 bg-slate-50 hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-[10.5px] font-bold text-slate-700 dark:text-slate-300 rounded-lg border border-gray-250 dark:border-slate-800 transition-colors text-left hover:border-blue-500/30 cursor-pointer"
+                  >
+                    • {prompt}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {isLoading && (
             <div className="flex items-center gap-3">
@@ -133,20 +175,20 @@ export function CopilotDrawer({ isOpen, onClose, reportId }: CopilotDrawerProps)
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask CivicCopilot anything..."
-              className="input-base flex-1 text-sm"
+              className="input-base flex-1 text-sm bg-transparent border border-outline-variant/30 rounded-full px-4 py-2 text-on-surface outline-none"
               aria-label="Message CivicCopilot"
               disabled={isLoading}
             />
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
-              className="touch-target flex-shrink-0 rounded-full bg-primary text-white hover:bg-primary-hover transition-colors disabled:opacity-50 disabled:pointer-events-none"
+              className="touch-target flex-shrink-0 rounded-full bg-primary text-white hover:bg-primary-hover p-2 transition-colors disabled:opacity-50 disabled:pointer-events-none"
               aria-label="Send message"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 20 }} aria-hidden="true">send</span>
             </button>
           </div>
-          <p className="mt-2 text-center text-label-md text-on-surface-variant">
+          <p className="mt-2 text-center text-label-md text-on-surface-variant text-[10px]">
             AI responses are for information only — not official decisions
           </p>
         </form>
