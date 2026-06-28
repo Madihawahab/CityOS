@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Community Hero - Authority Dashboard</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="custom-typography">
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+<style data-purpose="custom-colors">
+    :root {
+      --bg-dark: #0f172a;
+      --bg-sidebar: #0f172a;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --accent-blue: #3b82f6;
+      --accent-red: #ef4444;
+      --accent-orange: #f59e0b;
+      --accent-green: #22c55e;
+      --text-dim: #94a3b8;
+    }
+    .bg-main { background-color: #0b0f1a; }
+    .bg-card-dark { background-color: #111827; }
+    .border-card { border-color: #1f2937; }
+    .text-dim { color: #94a3b8; }
+  </style>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'dashboard-dark': '#0b1120',
+            'dashboard-sidebar': '#0b1120',
+            'dashboard-card': '#141b2d',
+            'dashboard-border': '#1f2937',
+            'impact-high': '#ef4444',
+            'impact-medium': '#f59e0b',
+            'impact-low': '#10b981'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-dashboard-dark text-slate-200 h-full overflow-hidden flex">
+<!-- BEGIN: Sidebar Navigation -->
+<aside class="w-64 border-r border-dashboard-border flex-shrink-0 flex flex-col h-full bg-dashboard-sidebar">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+<svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-10V4m0 10V4m-4 10h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<h1 class="font-bold text-lg leading-tight">Community Hero</h1>
+<p class="text-xs text-dim">Authority Dashboard</p>
+</div>
+</div>
+<nav class="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-600/10 text-blue-400 border border-blue-600/20" href="#">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+</svg>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-dim hover:bg-slate-800 transition-colors" href="#">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h7" stroke-linecap="round" stroke-width="2"></path></svg>
+<span>Work Queue</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-dim hover:bg-slate-800 transition-colors" href="#">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-width="2"></path></svg>
+<span>Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-dim hover:bg-slate-800 transition-colors" href="#">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" stroke-linecap="round" stroke-width="2"></path></svg>
+<span>Map View</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-dim hover:bg-slate-800 transition-colors" href="#">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-10V4m0 10V4" stroke-linecap="round" stroke-width="2"></path></svg>
+<span>Departments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-dim hover:bg-slate-800 transition-colors" href="#">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-width="2"></path></svg>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-dim hover:bg-slate-800 transition-colors" href="#">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-width="2"></path></svg>
+<span>AI Mission Control</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-dim hover:bg-slate-800 transition-colors" href="#">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" stroke-linecap="round" stroke-width="2"></path></svg>
+<span>Predictions</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-dim hover:bg-slate-800 transition-colors" href="#">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-width="2"></path></svg>
+<span>Audit &amp; Logs</span>
+</a>
+<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-dim hover:bg-slate-800 transition-colors" href="#">
+<div class="flex items-center gap-3">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-width="2"></path></svg>
+<span>Notifications</span>
+</div>
+<span class="bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded-full">12</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-dim hover:bg-slate-800 transition-colors" href="#">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-width="2"></path><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-width="2"></path></svg>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-dim hover:bg-slate-800 transition-colors" href="#">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-width="2"></path></svg>
+<span>Help &amp; Support</span>
+</a>
+</nav>
+<!-- Sidebar Bottom Status Block -->
+<div class="p-4 mx-4 mb-6 rounded-xl bg-slate-900/50 border border-dashboard-border">
+<h3 class="text-xs font-semibold mb-3 uppercase tracking-wider">AI System Status</h3>
+<p class="text-[10px] text-green-400 font-medium mb-3">All Systems Online</p>
+<ul class="space-y-2 mb-4">
+<li class="flex items-center gap-2 text-[11px] text-dim">
+<svg class="w-3 h-3 text-green-500" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+          Report Intelligence
+        </li>
+<li class="flex items-center gap-2 text-[11px] text-dim">
+<svg class="w-3 h-3 text-green-500" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+          Trust Engine
+        </li>
+<li class="flex items-center gap-2 text-[11px] text-dim">
+<svg class="w-3 h-3 text-green-500" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+          Decision Intelligence
+        </li>
+<li class="flex items-center gap-2 text-[11px] text-dim">
+<svg class="w-3 h-3 text-green-500" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+          Resolution Intelligence
+        </li>
+<li class="flex items-center gap-2 text-[11px] text-dim">
+<svg class="w-3 h-3 text-green-500" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+          Civic Intelligence
+        </li>
+<li class="flex items-center gap-2 text-[11px] text-dim">
+<svg class="w-3 h-3 text-green-500" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+          Civic Copilot
+        </li>
+</ul>
+<a class="text-[11px] text-blue-400 font-medium flex items-center gap-1 hover:underline" href="#">
+        View AI Mission Control
+        <svg class="h-3 w-3" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-width="2"></path></svg>
+</a>
+</div>
+</aside>
+<!-- END: Sidebar Navigation -->
+<!-- BEGIN: Main Dashboard Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden">
+<!-- BEGIN: Top Header -->
+<header class="h-16 border-b border-dashboard-border flex items-center justify-between px-6 flex-shrink-0 bg-dashboard-dark">
+<div class="flex items-center gap-4">
+<button class="text-dim hover:text-white">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16m-7 6h7" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div>
+<h2 class="text-lg font-semibold leading-tight">Good morning, Admin 👋</h2>
+<p class="text-xs text-dim">Here's what's happening in your city today.</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-dim text-sm">
+<span class="flex items-center gap-1.5">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-width="2"></path></svg>
+            May 21, 2025
+          </span>
+<span class="flex items-center gap-1.5">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-width="2"></path></svg>
+            10:30 AM
+          </span>
+<div class="relative">
+<button class="relative p-1 text-dim hover:text-white">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-width="2"></path></svg>
+<span class="absolute top-0 right-0 w-4 h-4 bg-red-500 text-[10px] text-white flex items-center justify-center rounded-full border-2 border-dashboard-dark">12</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-3 border-l border-dashboard-border pl-6">
+<div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold text-white">AD</div>
+<div class="text-right">
+<p class="text-sm font-semibold leading-none">Admin User</p>
+<p class="text-[10px] text-dim mt-1">City Operations</p>
+</div>
+<svg class="h-4 w-4 text-dim" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-width="2"></path></svg>
+</div>
+</div>
+</header>
+<!-- END: Top Header -->
+<!-- BEGIN: Dashboard Content Area -->
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<!-- BEGIN: KPI Grid -->
+<section class="grid grid-cols-6 gap-4" data-purpose="kpi-section">
+<!-- Pending Reports -->
+<div class="bg-dashboard-card border border-dashboard-border rounded-xl p-4 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="p-2 bg-blue-500/10 rounded-lg text-blue-500">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-width="2"></path></svg>
+</div>
+</div>
+<div>
+<p class="text-xs text-dim">Pending Reports</p>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold">128</span>
+<span class="text-[10px] text-green-500 font-medium">+12 today</span>
+</div>
+</div>
+</div>
+<!-- High Priority -->
+<div class="bg-dashboard-card border border-dashboard-border rounded-xl p-4 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="p-2 bg-red-500/10 rounded-lg text-red-500">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-width="2"></path></svg>
+</div>
+</div>
+<div>
+<p class="text-xs text-dim">High Priority</p>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold">23</span>
+<span class="text-[10px] text-red-500 font-medium">+3 urgent</span>
+</div>
+</div>
+</div>
+<!-- Departments Active -->
+<div class="bg-dashboard-card border border-dashboard-border rounded-xl p-4 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="p-2 bg-purple-500/10 rounded-lg text-purple-500">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-10V4m0 10V4" stroke-linecap="round" stroke-width="2"></path></svg>
+</div>
+</div>
+<div>
+<p class="text-xs text-dim">Departments Active</p>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold">8</span>
+<span class="text-[10px] text-dim">All departments</span>
+</div>
+</div>
+</div>
+<!-- In Progress -->
+<div class="bg-dashboard-card border border-dashboard-border rounded-xl p-4 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="p-2 bg-yellow-500/10 rounded-lg text-yellow-500">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-width="2"></path></svg>
+</div>
+</div>
+<div>
+<p class="text-xs text-dim">In Progress</p>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold">57</span>
+<span class="text-[10px] text-yellow-500 font-medium">44.5% of total</span>
+</div>
+</div>
+</div>
+<!-- Resolved Today -->
+<div class="bg-dashboard-card border border-dashboard-border rounded-xl p-4 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="p-2 bg-green-500/10 rounded-lg text-green-500">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-width="2"></path></svg>
+</div>
+</div>
+<div>
+<p class="text-xs text-dim">Resolved Today</p>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold">41</span>
+<span class="text-[10px] text-green-500 font-medium">+15 from yesterday</span>
+</div>
+</div>
+</div>
+<!-- Avg Response Time -->
+<div class="bg-dashboard-card border border-dashboard-border rounded-xl p-4 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="p-2 bg-blue-400/10 rounded-lg text-blue-400">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-width="2"></path></svg>
+</div>
+</div>
+<div>
+<p class="text-xs text-dim">Avg Response Time</p>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold">2.4</span>
+<span class="text-sm font-normal text-dim">hrs</span>
+<span class="text-[10px] text-green-500 font-medium">-0.8 hrs improvement</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: KPI Grid -->
+<!-- BEGIN: Middle Charts Section -->
+<section class="grid grid-cols-12 gap-6" data-purpose="charts-section">
+<!-- Pending Reports by Priority (Donut) -->
+<div class="col-span-3 bg-dashboard-card border border-dashboard-border rounded-xl p-5 flex flex-col">
+<h3 class="text-sm font-semibold mb-6">Pending Reports by Priority</h3>
+<div class="flex-1 flex flex-col items-center justify-center relative">
+<div class="relative w-40 h-40">
+<!-- Simple SVG representation of donut chart -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="#ef4444" stroke-dasharray="25 75" stroke-width="12"></circle>
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="#f59e0b" stroke-dasharray="35 65" stroke-dashoffset="-25" stroke-width="12"></circle>
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="#3b82f6" stroke-dasharray="30 70" stroke-dashoffset="-60" stroke-width="12"></circle>
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="#94a3b8" stroke-dasharray="10 90" stroke-dashoffset="-90" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl font-bold">128</span>
+<span class="text-[10px] text-dim">Total</span>
+</div>
+</div>
+<div class="mt-6 w-full space-y-2">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-red-500"></span>
+<span class="text-xs text-dim">Critical</span>
+</div>
+<span class="text-xs font-semibold">23 (18%)</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-orange-500"></span>
+<span class="text-xs text-dim">High</span>
+</div>
+<span class="text-xs font-semibold">45 (35%)</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-blue-500"></span>
+<span class="text-xs text-dim">Medium</span>
+</div>
+<span class="text-xs font-semibold">38 (30%)</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-slate-400"></span>
+<span class="text-xs text-dim">Low</span>
+</div>
+<span class="text-xs font-semibold">22 (17%)</span>
+</div>
+</div>
+</div>
+<a class="mt-4 text-xs text-blue-400 font-medium flex items-center gap-1" href="#">
+            View all reports
+            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke-linecap="round" stroke-width="2"></path></svg>
+</a>
+</div>
+<!-- Live City Map -->
+<div class="col-span-6 bg-dashboard-card border border-dashboard-border rounded-xl p-5 flex flex-col relative overflow-hidden">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-semibold">Live City Map</h3>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1.5 px-3 py-1 bg-slate-800 rounded-md text-[11px] text-dim border border-dashboard-border">
+<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" stroke-linecap="round" stroke-width="2"></path></svg>
+                Filter
+              </button>
+<button class="text-dim">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+<!-- Map Placeholder -->
+<div class="flex-1 rounded-xl bg-slate-900/50 border border-dashboard-border relative overflow-hidden">
+<img alt="City Map" class="w-full h-full object-cover opacity-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDupanKUr3XDu4r4AontiuriUZlcMZD_QJ72C0F97hyuRuUGgs1eo_UbkHSX7mhiGeJpS_V4gHjjM_wbgjbHVqKdXA3E1fIhVfDOY4R2TX5jhOpOA451qbJsgJ4EFbfAUY4M_r6CQy4Za3ZqzVYs6JD4sjy-ooHTgWcYjY7uB48yQMHr3Igq6bW6UxSsr3ycY9gZpblQrXG-KMJmBNmLLXGBaIMYSFWdj3id78_htmya9blwTRF0dzCkx_ytjvuBakcK6QCDshsmw"/>
+<!-- Simulated Markers -->
+<div class="absolute top-1/4 left-1/3 w-6 h-6 bg-red-500/20 rounded-full flex items-center justify-center animate-pulse">
+<div class="w-2 h-2 bg-red-500 rounded-full"></div>
+</div>
+<div class="absolute top-1/2 left-2/3 w-6 h-6 bg-orange-500/20 rounded-full flex items-center justify-center">
+<div class="w-2 h-2 bg-orange-500 rounded-full"></div>
+</div>
+<div class="absolute bottom-1/3 left-1/4 w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center">
+<div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+</div>
+<!-- Labels -->
+<span class="absolute top-10 left-10 text-[10px] text-dim/50 uppercase tracking-widest">Civil Lines</span>
+<span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] text-dim/50 uppercase tracking-widest">City Center</span>
+<!-- Map Legend -->
+<div class="absolute bottom-4 left-4 right-4 bg-dashboard-card/90 backdrop-blur border border-dashboard-border rounded-lg px-4 py-2 flex items-center justify-between">
+<div class="flex gap-4">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+<span class="text-[10px] text-dim">Critical</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+<span class="text-[10px] text-dim">High</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>
+<span class="text-[10px] text-dim">Medium</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+<span class="text-[10px] text-dim">Low</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+<span class="text-[10px] text-dim">Resolved</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Recommendations -->
+<div class="col-span-3 bg-dashboard-card border border-dashboard-border rounded-xl p-5 flex flex-col">
+<div class="flex items-center gap-2 mb-4">
+<svg class="h-4 w-4 text-blue-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" fill-rule="evenodd"></path>
+</svg>
+<h3 class="text-sm font-semibold">AI Recommendations</h3>
+</div>
+<div class="flex-1 space-y-3">
+<div class="p-3 bg-slate-800/40 border border-dashboard-border rounded-xl group hover:border-blue-500/50 transition-all">
+<div class="flex justify-between items-start gap-2 mb-1">
+<h4 class="text-xs font-medium line-clamp-1">Focus on Water Leakage in North Zone</h4>
+<span class="flex-shrink-0 text-[8px] font-bold px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">High Impact</span>
+</div>
+<p class="text-[10px] text-dim">High increase in reports in the last 48 hours</p>
+</div>
+<div class="p-3 bg-slate-800/40 border border-dashboard-border rounded-xl group hover:border-blue-500/50 transition-all">
+<div class="flex justify-between items-start gap-2 mb-1">
+<h4 class="text-xs font-medium line-clamp-1">Road Repair Needed on Main Street</h4>
+<span class="flex-shrink-0 text-[8px] font-bold px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30">Medium Impact</span>
+</div>
+<p class="text-[10px] text-dim">Based on 12 reports and road condition analysis</p>
+</div>
+<div class="p-3 bg-slate-800/40 border border-dashboard-border rounded-xl group hover:border-blue-500/50 transition-all">
+<div class="flex justify-between items-start gap-2 mb-1">
+<h4 class="text-xs font-medium line-clamp-1">Waste Collection Delay in Sector 7</h4>
+<span class="flex-shrink-0 text-[8px] font-bold px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30">Medium Impact</span>
+</div>
+<p class="text-[10px] text-dim">AI predicts further delays if not addressed</p>
+</div>
+<div class="p-3 bg-slate-800/40 border border-dashboard-border rounded-xl group hover:border-blue-500/50 transition-all">
+<div class="flex justify-between items-start gap-2 mb-1">
+<h4 class="text-xs font-medium line-clamp-1">Drainage Cleaning in Old Town</h4>
+<span class="flex-shrink-0 text-[8px] font-bold px-1.5 py-0.5 rounded bg-green-500/20 text-green-400 border border-green-500/30">Low Impact</span>
+</div>
+<p class="text-[10px] text-dim">Preventive action recommended</p>
+</div>
+</div>
+<a class="mt-4 text-xs text-blue-400 font-medium flex items-center gap-1" href="#">
+            View all recommendations
+            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke-linecap="round" stroke-width="2"></path></svg>
+</a>
+</div>
+</section>
+<!-- END: Middle Charts Section -->
+<!-- BEGIN: Bottom Detailed Section -->
+<section class="grid grid-cols-12 gap-6 pb-4" data-purpose="bottom-details">
+<!-- Recent High Priority Reports Table -->
+<div class="col-span-9 bg-dashboard-card border border-dashboard-border rounded-xl p-5 overflow-hidden flex flex-col">
+<div class="flex items-center justify-between mb-4 px-1">
+<h3 class="text-sm font-semibold">Recent High Priority Reports</h3>
+<a class="text-xs text-blue-400 font-medium flex items-center gap-1" href="#">
+              View all
+              <svg class="h-3 w-3" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke-linecap="round" stroke-width="2"></path></svg>
+</a>
+</div>
+<div class="flex-1 overflow-x-auto">
+<table class="w-full text-[11px] text-left border-collapse">
+<thead>
+<tr class="text-dim border-b border-dashboard-border">
+<th class="pb-3 px-2 font-medium">ID</th>
+<th class="pb-3 px-2 font-medium">Issue</th>
+<th class="pb-3 px-2 font-medium">Location</th>
+<th class="pb-3 px-2 font-medium">Department</th>
+<th class="pb-3 px-2 font-medium">Status</th>
+<th class="pb-3 px-2 font-medium">AI Recommendation</th>
+<th class="pb-3 px-2 font-medium">Trust Score</th>
+<th class="pb-3 px-2 font-medium">Duplicate Status</th>
+<th class="pb-3 px-2 font-medium">Priority Reason</th>
+<th class="pb-3 px-2 font-medium">Predicted Res.</th>
+<th class="pb-3 px-2 font-medium">Community</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-dashboard-border">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-800/30 transition-colors group">
+<td class="py-4 px-2 font-mono text-dim">#4821</td>
+<td class="py-4 px-2">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded overflow-hidden bg-slate-800 flex-shrink-0">
+<img alt="Issue" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCdJt9wejrIQ-uw88qgf4mly4YeKtcGes33vNzJHrMIzozye7YukusAzlT0ISinNHZDNN3yCnx1b5Z77tQierRGGVExgcGlMTvdWwrO9SmqT3zeURD2bx9_1y9EvA4z-3ZZI0gypGK_dxs0tgdE7BCiKe3FlzQA0UzMEdJLmGp6_q-cjQnq8mROVhHkIzQkwzPHIUYbWMdJA5vwQ23G8mTra3bQE6g7Lx_OT4-R408EC55_ep7slw6bGusZ1_LSRpQIxGnzQexng"/>
+</div>
+<span class="font-medium">Water Leakage</span>
+</div>
+</td>
+<td class="py-4 px-2 text-dim">MG Road, Near City Hospital</td>
+<td class="py-4 px-2">Water Works</td>
+<td class="py-4 px-2">
+<span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">Assigned</span>
+</td>
+<td class="py-4 px-2">
+<span class="px-2 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20">Immediate Repair</span>
+</td>
+<td class="py-4 px-2">
+<span class="text-green-400 font-bold">96%</span>
+</td>
+<td class="py-4 px-2">
+<span class="text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded">Merged (8)</span>
+</td>
+<td class="py-4 px-2 text-dim leading-tight">Hospital Nearby, High Usage Area</td>
+<td class="py-4 px-2 text-dim whitespace-nowrap">2 Days</td>
+<td class="py-4 px-2">
+<div class="flex -space-x-1">
+<div class="w-5 h-5 rounded-full bg-slate-700 border border-dashboard-card text-[8px] flex items-center justify-center">JD</div>
+<div class="w-5 h-5 rounded-full bg-blue-700 border border-dashboard-card text-[8px] flex items-center justify-center">MK</div>
+<div class="w-5 h-5 rounded-full bg-slate-600 border border-dashboard-card text-[8px] flex items-center justify-center">+16</div>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-800/30 transition-colors group">
+<td class="py-4 px-2 font-mono text-dim">#4819</td>
+<td class="py-4 px-2">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded overflow-hidden bg-slate-800 flex-shrink-0">
+<img alt="Issue" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnhpg2Lus1wine9M_7A_Ps2bab3UbKQcjfRTFLSf3ZNWQwAg-F1GJZNcWl-1s1hGvIzqKB5CALHOVDzPfREeva9gVqDGpaY-Bv-oyeucMBbsTvOa2KGfzRVbE3-WzQTGERJpNRZu9WUnSDKyua9qrDrTvLGO_ZEcepQldTUjPNbi0vxJ14vC-yEs0J_U86jnL4zpUHd5OnIRH6earSCNFp8Eu1gHVvQO-UyGqbzwYLc2hIx8HdG2UW20tjxfWEamiTIH2YP2xuzg"/>
+</div>
+<span class="font-medium">Pothole</span>
+</div>
+</td>
+<td class="py-4 px-2 text-dim">Ring Road, Sector 12</td>
+<td class="py-4 px-2">Roads &amp; Infra</td>
+<td class="py-4 px-2">
+<span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">In Progress</span>
+</td>
+<td class="py-4 px-2">
+<span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">Repair within 24h</span>
+</td>
+<td class="py-4 px-2">
+<span class="text-green-400 font-bold">91%</span>
+</td>
+<td class="py-4 px-2">
+<span class="text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded">Merged (5)</span>
+</td>
+<td class="py-4 px-2 text-dim leading-tight">High Traffic Area, Accident Risk</td>
+<td class="py-4 px-2 text-dim whitespace-nowrap">1 Day</td>
+<td class="py-4 px-2">
+<div class="flex -space-x-1">
+<div class="w-5 h-5 rounded-full bg-slate-700 border border-dashboard-card text-[8px] flex items-center justify-center">AS</div>
+<div class="w-5 h-5 rounded-full bg-green-700 border border-dashboard-card text-[8px] flex items-center justify-center">PL</div>
+<div class="w-5 h-5 rounded-full bg-slate-600 border border-dashboard-card text-[8px] flex items-center justify-center">+11</div>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-800/30 transition-colors group">
+<td class="py-4 px-2 font-mono text-dim">#4815</td>
+<td class="py-4 px-2">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded overflow-hidden bg-slate-800 flex-shrink-0">
+<img alt="Issue" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8Z6W7uHqPWiA3Hv2QrUkrLiNIUd0clYmuyjnI4aKgYPN9lemaZk_wVH_gGgAapMBLtGOzJBCMG1KkCoL9egwFNc5J7iCYHc3Yt5CpEOW4UPK8bUUHVpVSkNAmI5h2ICr31JcUfRlcJEl_3fLCseUEPzq2E2nkA8-O_V3CI6cq9xvtYL8NF8fY5HIjFXqRpq0JygEYXn40NJmVHaj4xNSL3rd42G96i3-TSDrcrpa54LceTSY5BPmoBHWj9ik9f8CuOOJ1OVf62g"/>
+</div>
+<span class="font-medium">Garbage Overflow</span>
+</div>
+</td>
+<td class="py-4 px-2 text-dim">Sector 7 Market</td>
+<td class="py-4 px-2">Sanitation</td>
+<td class="py-4 px-2">
+<span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">Assigned</span>
+</td>
+<td class="py-4 px-2">
+<span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">Increase Collection</span>
+</td>
+<td class="py-4 px-2">
+<span class="text-green-400 font-bold">88%</span>
+</td>
+<td class="py-4 px-2">
+<span class="text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded">Merged (6)</span>
+</td>
+<td class="py-4 px-2 text-dim leading-tight">Public Health Risk, Multiple Reports</td>
+<td class="py-4 px-2 text-dim whitespace-nowrap">1 Day</td>
+<td class="py-4 px-2">
+<div class="flex -space-x-1">
+<div class="w-5 h-5 rounded-full bg-slate-700 border border-dashboard-card text-[8px] flex items-center justify-center">RM</div>
+<div class="w-5 h-5 rounded-full bg-red-700 border border-dashboard-card text-[8px] flex items-center justify-center">TW</div>
+<div class="w-5 h-5 rounded-full bg-slate-600 border border-dashboard-card text-[8px] flex items-center justify-center">+9</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Pagination -->
+<div class="mt-4 pt-4 border-t border-dashboard-border flex items-center justify-between">
+<span class="text-[10px] text-dim">Showing 1 to 5 of 23 reports</span>
+<div class="flex items-center gap-1">
+<button class="p-1 text-dim hover:text-white"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="2"></path></svg></button>
+<button class="w-5 h-5 flex items-center justify-center rounded bg-blue-600 text-[10px] font-bold">1</button>
+<button class="w-5 h-5 flex items-center justify-center rounded hover:bg-slate-800 text-[10px] font-bold">2</button>
+<button class="w-5 h-5 flex items-center justify-center rounded hover:bg-slate-800 text-[10px] font-bold">3</button>
+<button class="w-5 h-5 flex items-center justify-center rounded hover:bg-slate-800 text-[10px] font-bold">4</button>
+<button class="w-5 h-5 flex items-center justify-center rounded hover:bg-slate-800 text-[10px] font-bold">5</button>
+<button class="p-1 text-dim hover:text-white"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2"></path></svg></button>
+</div>
+</div>
+</div>
+<!-- AI Insights & Department Performance -->
+<div class="col-span-3 space-y-6">
+<!-- AI Insights Summary -->
+<div class="bg-dashboard-card border border-dashboard-border rounded-xl p-5">
+<div class="flex items-center gap-2 mb-4">
+<svg class="h-4 w-4 text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" stroke-linecap="round" stroke-width="2"></path></svg>
+<h3 class="text-sm font-semibold">AI Insights Summary</h3>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-xs">
+<span class="text-dim">Reports verified by AI today</span>
+<span class="font-bold">68</span>
+</div>
+<div class="flex justify-between items-center text-xs">
+<span class="text-dim">Duplicate reports merged</span>
+<span class="font-bold">32</span>
+</div>
+<div class="flex justify-between items-center text-xs">
+<span class="text-dim">False reports filtered</span>
+<span class="font-bold">7</span>
+</div>
+<div class="flex justify-between items-center text-xs">
+<span class="text-dim">Community support received</span>
+<span class="font-bold">312</span>
+</div>
+</div>
+<a class="mt-4 text-[11px] text-blue-400 font-medium flex items-center gap-1" href="#">
+              View detailed insights
+              <svg class="h-3 w-3" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke-linecap="round" stroke-width="2"></path></svg>
+</a>
+</div>
+<!-- Department Performance -->
+<div class="bg-dashboard-card border border-dashboard-border rounded-xl p-5">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-semibold">Department Performance</h3>
+<a class="text-[10px] text-blue-400 font-medium" href="#">View all</a>
+</div>
+<div class="space-y-4">
+<!-- Dept 1 -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-[11px] text-dim">Water Works</span>
+<span class="text-[11px] font-bold">92%</span>
+</div>
+<div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-blue-500 h-full rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<!-- Dept 2 -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-[11px] text-dim">Roads &amp; Infra</span>
+<span class="text-[11px] font-bold">87%</span>
+</div>
+<div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-orange-500 h-full rounded-full" style="width: 87%"></div>
+</div>
+</div>
+<!-- Dept 3 -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-[11px] text-dim">Sanitation</span>
+<span class="text-[11px] font-bold">78%</span>
+</div>
+<div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-green-500 h-full rounded-full" style="width: 78%"></div>
+</div>
+</div>
+<!-- Dept 4 -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-[11px] text-dim">Electricity</span>
+<span class="text-[11px] font-bold">90%</span>
+</div>
+<div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-yellow-500 h-full rounded-full" style="width: 90%"></div>
+</div>
+</div>
+<!-- Dept 5 -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-[11px] text-dim">Sewerage</span>
+<span class="text-[11px] font-bold">85%</span>
+</div>
+<div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-purple-500 h-full rounded-full" style="width: 85%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Bottom Detailed Section -->
+</div>
+<!-- END: Dashboard Content Area -->
+</main>
+<!-- END: Main Dashboard Content -->
+</body></html>

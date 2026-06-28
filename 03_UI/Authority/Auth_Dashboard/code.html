@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-[#0a0f1c]" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Community Hero - Authority Portal</title>
+<!-- Tailwind CSS v3 with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Font Import (Inter is a close match) -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="custom-scrollbar">
+    /* Custom scrollbar for a clean dark look */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+<style data-purpose="base-typography">
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #e2e8f0;
+    }
+  </style>
+</head>
+<body class="h-full overflow-hidden">
+<div class="flex h-full" data-purpose="app-root">
+<!-- BEGIN: LeftSidebar -->
+<aside class="w-64 flex-shrink-0 bg-[#0a0f1c] border-r border-slate-800 flex flex-col">
+<div class="p-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<h1 class="font-bold text-lg leading-none">Community Hero</h1>
+<p class="text-[10px] text-slate-500 uppercase tracking-wider">Authority Portal</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium bg-blue-600/10 text-blue-400 rounded-lg border border-blue-600/20" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+          Dashboard
+        </a>
+<a class="flex items-center justify-between px-3 py-2 text-sm font-medium text-slate-400 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<div class="flex items-center gap-3">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Work Queue
+          </div>
+<span class="bg-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded">18</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-400 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+          My Assignments
+        </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-400 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+          Issue Reports
+        </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-400 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 20l-5.447-2.724A2 2 0 013 15.488V5.512a2 2 0 011.553-1.943L9 2l6 3 5.447-2.724A2 2 0 0121 4.512v9.976a2 2 0 01-1.553 1.943L15 20l-6-3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+          Map View
+        </a>
+<a class="flex items-center justify-between px-3 py-2 text-sm font-medium text-slate-400 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<div class="flex items-center gap-3">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Evidence Review
+          </div>
+<span class="bg-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded">3</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-400 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+          Department Performance
+        </a>
+<a class="flex items-center justify-between px-3 py-2 text-sm font-medium text-slate-400 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<div class="flex items-center gap-3">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Notifications
+          </div>
+<span class="bg-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded">7</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-400 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+          Messages
+        </a>
+</nav>
+<div class="px-4 py-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-400 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+          Settings
+        </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-400 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+          Help &amp; Support
+        </a>
+</div>
+<div class="p-4 border-t border-slate-800">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-blue-900 flex items-center justify-center font-bold text-xs text-blue-200">RA</div>
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-[#0a0f1c]"></div>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-sm font-semibold truncate">Ramesh Kumar</h4>
+<p class="text-[10px] text-slate-500 truncate">Water Works Dept.</p>
+</div>
+<button class="text-slate-500 hover:text-white">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg>
+</button>
+</div>
+</div>
+</aside>
+<!-- END: LeftSidebar -->
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 overflow-y-auto bg-[#0a0f1c]">
+<!-- BEGIN: Header -->
+<header class="flex items-center justify-between px-8 py-6" data-purpose="main-header">
+<div>
+<h2 class="text-2xl font-bold">Good morning, Ramesh 👋</h2>
+<p class="text-slate-400 text-sm">Here's your department overview and assigned work for today.</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3 px-3 py-1.5 bg-[#161e31] rounded-lg border border-slate-800 text-xs text-slate-300">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            May 21, 2025
+          </div>
+<div class="flex items-center gap-3 px-3 py-1.5 bg-[#161e31] rounded-lg border border-slate-800 text-xs text-slate-300">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            31°C <span class="text-slate-500">Partly Cloudy</span>
+</div>
+<div class="relative">
+<button class="p-2 bg-[#161e31] rounded-lg border border-slate-800 text-slate-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<span class="absolute top-0 right-0 w-4 h-4 bg-red-500 text-[10px] flex items-center justify-center rounded-full border-2 border-[#0a0f1c]">7</span>
+</div>
+<div class="flex items-center gap-2 pl-4 border-l border-slate-800">
+<div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-500">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<p class="text-[9px] text-slate-500 uppercase leading-none">Department</p>
+<p class="text-xs font-semibold">Water Works <svg class="inline w-3 h-3 ml-1" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></p>
+</div>
+</div>
+</div>
+</header>
+<!-- END: Header -->
+<!-- BEGIN: KPI Cards -->
+<section class="px-8 grid grid-cols-4 gap-6 mb-6" data-purpose="kpi-grid">
+<div class="bg-[#12192c] p-5 rounded-2xl border border-slate-800/50 flex gap-4">
+<div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<p class="text-xs text-slate-400">Assigned Today</p>
+<p class="text-2xl font-bold">18</p>
+<p class="text-[10px] text-green-500"><span class="font-bold">+4</span> from yesterday</p>
+</div>
+</div>
+<div class="bg-[#12192c] p-5 rounded-2xl border border-slate-800/50 flex gap-4">
+<div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<p class="text-xs text-slate-400">In Progress</p>
+<p class="text-2xl font-bold">7</p>
+<p class="text-[10px] text-red-400 font-medium">2 overdue</p>
+</div>
+</div>
+<div class="bg-[#12192c] p-5 rounded-2xl border border-slate-800/50 flex gap-4">
+<div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center text-green-500">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<p class="text-xs text-slate-400">Completed Today</p>
+<p class="text-2xl font-bold">11</p>
+<p class="text-[10px] text-green-500"><span class="font-bold">+3</span> from yesterday</p>
+</div>
+</div>
+<div class="bg-[#12192c] p-5 rounded-2xl border border-slate-800/50 flex gap-4">
+<div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<p class="text-xs text-slate-400">Avg. Resolution Time</p>
+<p class="text-2xl font-bold">4.2 <span class="text-sm font-normal text-slate-500">hrs</span></p>
+<p class="text-[10px] text-green-500"><span class="font-bold">-0.8 hrs</span> improvement</p>
+</div>
+</div>
+</section>
+<!-- END: KPI Cards -->
+<!-- Middle Grid: Work Queue and Map -->
+<div class="px-8 grid grid-cols-12 gap-6 mb-6">
+<!-- BEGIN: Today's Work Queue -->
+<section class="col-span-7 bg-[#12192c] rounded-2xl border border-slate-800/50 p-6" data-purpose="work-queue">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-3">
+<h3 class="font-bold text-lg">Today's Work Queue</h3>
+<span class="text-sm text-blue-500 bg-blue-500/10 px-2 py-0.5 rounded">18</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-slate-500">Sort by:</span>
+<button class="text-xs font-medium flex items-center gap-1">Priority <svg class="w-3 h-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+</div>
+</div>
+<div class="flex gap-2 mb-4 border-b border-slate-800 pb-4">
+<button class="px-3 py-1 bg-blue-600 text-white rounded-md text-xs font-medium">All (18)</button>
+<button class="px-3 py-1 text-slate-400 hover:text-white text-xs font-medium">High (6)</button>
+<button class="px-3 py-1 text-slate-400 hover:text-white text-xs font-medium">Medium (8)</button>
+<button class="px-3 py-1 text-slate-400 hover:text-white text-xs font-medium">Low (4)</button>
+</div>
+<div class="space-y-3">
+<!-- Queue Item 1 -->
+<div class="flex items-center gap-4 p-3 bg-[#1a2337] rounded-xl border border-slate-700/50">
+<img alt="issue" class="w-12 h-12 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwutQ3cC_OCaQe7dVfJt9OrObsvpyI16bwasTOja2YQinBQhSgk46iugV58VIq_bYHJEfJIqJqMAvZ15K0PHgcBj_QHIu3zOUGvL0tgzlU4zAhe3B4sXy-7_Qlv4jSTleNNsrbib1pb_YwnifogOEE8ZTFgQo-05s7qz9CeLqN-wuJ--3HkXGswpbMJZhYe78ILZsFJzS2QBRBaZdYHdKNOcQKF57rTaDlftsLCTCwwFQARM2RDq5Ulsh6XfZiD2NjeU1ebJc48g"/>
+<div class="flex-1">
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-bold text-orange-400 bg-orange-400/10 px-1.5 py-0.5 rounded uppercase">High</span>
+<h4 class="text-sm font-semibold">Water Leakage 💧</h4>
+</div>
+<p class="text-[10px] text-slate-400">MG Road, Near City Hospital</p>
+</div>
+<div class="text-right px-4">
+<p class="text-[10px] text-slate-500">AI Priority Score</p>
+<p class="text-lg font-bold">96 <span class="text-[9px] text-green-500 font-medium">Very High</span></p>
+</div>
+<div class="text-right px-4">
+<p class="text-[10px] text-slate-500">Est. Resolution</p>
+<p class="text-sm font-bold">2 hrs <span class="text-[9px] text-slate-400 font-normal ml-2">0.6 km</span></p>
+</div>
+<button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-1.5 rounded-lg text-xs font-semibold transition-colors">Start Work</button>
+</div>
+<!-- Queue Item 2 -->
+<div class="flex items-center gap-4 p-3 bg-[#1a2337] rounded-xl border border-transparent">
+<img alt="issue" class="w-12 h-12 rounded-lg object-cover opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOc0lJWjqIY3G6fb47yY3aY43ZdZyXgLqYSuYlKEdox-9ihuRDieyAYfcuxMK0X-SWiTPIjg8Q6pjklKB_eRtr763HcP6g6NojUe3vE_CHKFHUXCRnnv1akrmg18-8XrQp15wxgOGJrmK-ZXP1BC4nGWtTUFVaIat0sg2XOL5mHPHG_plpTfskdNZbgeJY6qDrNkb12O30fwDdpTHXCG9WFLY3vFwDVd4cA-12syymLu7NPOKhB8d2C4KdN9Q1hvFi9VQU0Dv1gQ"/>
+<div class="flex-1">
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-bold text-amber-500 bg-amber-500/10 px-1.5 py-0.5 rounded uppercase">High</span>
+<h4 class="text-sm font-semibold">Pipeline Burst 🔥</h4>
+</div>
+<p class="text-[10px] text-slate-400">Ring Road, Sector 12</p>
+</div>
+<div class="text-right px-4">
+<p class="text-[10px] text-slate-500">AI Priority Score</p>
+<p class="text-lg font-bold">92 <span class="text-[9px] text-green-500 font-medium">Very High</span></p>
+</div>
+<div class="text-right px-4">
+<p class="text-[10px] text-slate-500">Est. Resolution</p>
+<p class="text-sm font-bold">3 hrs <span class="text-[9px] text-slate-400 font-normal ml-2">1.2 km</span></p>
+</div>
+<button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-1.5 rounded-lg text-xs font-semibold transition-colors">Start Work</button>
+</div>
+<!-- Queue Item 3 -->
+<div class="flex items-center gap-4 p-3 bg-transparent hover:bg-[#1a2337] rounded-xl transition-colors">
+<img alt="issue" class="w-12 h-12 rounded-lg object-cover opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB6QJaQ-jdm7EHKqoGsX5HLmZKP7WHWIBGrAn8MtGwENgbBrJlZQ0guLXeAlUnf6sz4rmfzjRJuYCkeGUU5lqEaWxCXJ2IkYd9-MBUnawpmQ3-w0WfDwDwTJdluyszjoEZrzyi7_1iQ-MxLxv9pEMTzOBi5-p4Np7pHRMQkXgZw3SCVyg2LiF1kVB1xOoRnvjioWn0n3ieNxNWewW7LM_xDNK8kcXfYKEJ4CYyGBYObBRuniO_wzyHgPObJn-P91RqgpjgEMwOBw"/>
+<div class="flex-1">
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-bold text-amber-600 bg-amber-600/10 px-1.5 py-0.5 rounded uppercase">Medium</span>
+<h4 class="text-sm font-semibold">Low Pressure 💧</h4>
+</div>
+<p class="text-[10px] text-slate-400">Green Park, Area 4</p>
+</div>
+<div class="text-right px-4">
+<p class="text-[10px] text-slate-500">AI Priority Score</p>
+<p class="text-lg font-bold">78 <span class="text-[9px] text-amber-500 font-medium">Medium</span></p>
+</div>
+<div class="text-right px-4">
+<p class="text-[10px] text-slate-500">Est. Resolution</p>
+<p class="text-sm font-bold">4 hrs <span class="text-[9px] text-slate-400 font-normal ml-2">2.1 km</span></p>
+</div>
+<button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-1.5 rounded-lg text-xs font-semibold transition-colors">Start Work</button>
+</div>
+</div>
+<div class="mt-4 text-center">
+<a class="text-xs text-blue-500 font-medium hover:underline flex items-center justify-center gap-1" href="#">View all in Work Queue <svg class="w-3 h-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
+</div>
+</section>
+<!-- END: Today's Work Queue -->
+<!-- BEGIN: City Map -->
+<section class="col-span-5 bg-[#12192c] rounded-2xl border border-slate-800/50 p-6 flex flex-col relative" data-purpose="map-widget">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-bold text-lg">City Map (Live)</h3>
+<span class="flex items-center gap-1.5 text-[10px] text-green-500 font-bold uppercase tracking-wider">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> Live
+            </span>
+</div>
+<div class="flex-1 rounded-xl bg-[#0f172a] relative overflow-hidden border border-slate-800">
+<!-- Simulated Map Background -->
+<div class="absolute inset-0 opacity-40 mix-blend-overlay">
+<svg height="100%" preserveaspectratio="none" viewbox="0 0 800 600" width="100%">
+<path d="M0,50 Q200,80 400,50 T800,70" fill="none" stroke="#334155" stroke-width="20"></path>
+<path d="M100,0 Q130,300 100,600" fill="none" stroke="#334155" stroke-width="15"></path>
+<path d="M500,0 Q530,300 500,600" fill="none" stroke="#334155" stroke-width="15"></path>
+<path d="M0,300 Q400,320 800,300" fill="none" stroke="#334155" stroke-width="25"></path>
+</svg>
+</div>
+<!-- Map Markers -->
+<div class="absolute top-1/4 left-1/4 w-3 h-3 bg-red-500 rounded-full border-2 border-white shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
+<div class="absolute top-1/3 left-1/2 w-3 h-3 bg-amber-500 rounded-full border-2 border-white"></div>
+<div class="absolute top-2/3 right-1/4 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+<div class="absolute bottom-1/4 left-1/3 w-3 h-3 bg-red-500 rounded-full border-2 border-white shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
+<div class="absolute top-1/2 right-1/3 w-3 h-3 bg-blue-500 rounded-full border-2 border-white"></div>
+<!-- Map Labels -->
+<span class="absolute top-10 left-20 text-[9px] text-slate-500 font-medium">City Hospital</span>
+<span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[9px] text-slate-500 font-medium uppercase tracking-widest">Central Park</span>
+<span class="absolute bottom-20 left-40 text-[9px] text-slate-500 font-medium">Sanjay Colony</span>
+<span class="absolute top-1/3 right-10 text-[9px] text-slate-500 font-medium">River Side</span>
+<!-- Legend Overlay -->
+<div class="absolute bottom-4 left-4 bg-[#1e293b]/90 backdrop-blur p-3 rounded-lg border border-slate-700 text-[10px] space-y-2">
+<p class="font-bold text-slate-300 mb-1 uppercase tracking-tighter">Issue Density</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-red-500"></span> High
+              </div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span> Medium
+              </div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500"></span> Low
+              </div>
+<div class="flex items-center gap-2 text-blue-400">
+<span class="w-2 h-2 rounded-full bg-blue-500"></span> Very Low
+              </div>
+</div>
+</div>
+<div class="mt-4 text-right">
+<button class="text-xs text-blue-500 font-medium hover:underline flex items-center justify-end gap-1 ml-auto">View Full Map <svg class="w-3 h-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+</div>
+</section>
+<!-- END: City Map -->
+</div>
+<!-- Bottom Grid: Issue Details, Evidence, Performance -->
+<div class="px-8 grid grid-cols-12 gap-6 pb-12">
+<!-- BEGIN: Issue Details -->
+<section class="col-span-4 bg-[#12192c] rounded-2xl border border-slate-800/50 p-6 flex flex-col" data-purpose="issue-details">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-bold text-lg">Issue Details</h3>
+<button class="text-[10px] text-blue-500 hover:underline flex items-center gap-1">
+<svg class="w-3 h-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+              Back to Queue
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto pr-2 space-y-4">
+<div class="relative group">
+<img alt="leakage" class="w-full h-32 rounded-xl object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD-s3CpDgVTM4xw5WHl0u2h7e3gQM1iT1QtnzUFTpVS6bXthNrWW5ZK1kqmd0TXu5fN-mhIyR8ACvsTZEjS10pboVupvG18TgSvEXzzjOn2vQ-iSpGUBIrgnF_rneYczLmRCKSxvLKyHv8fk6N2Hld0fCR_FTByUqsI83qLp7Q4jDVQyP2-iU7mdljFY6LhFyFQMBx4fFsiHxrFQTaCHAoGvLyVQuA4Mch9NLM004uj96NtFjvs1Q9EfcbDmw44naFwIywALAwyw"/>
+<button class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-xs font-medium rounded-xl">
+<svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                View on Map
+              </button>
+</div>
+<div class="flex items-start justify-between">
+<div>
+<div class="flex gap-2 mb-1">
+<span class="text-[9px] px-1.5 py-0.5 bg-red-500/10 text-red-500 rounded font-bold uppercase">High Priority</span>
+<span class="text-[9px] px-1.5 py-0.5 bg-green-500/10 text-green-500 rounded font-bold uppercase">AI Verified</span>
+</div>
+<h4 class="text-xl font-bold">Water Leakage 💧</h4>
+<p class="text-[10px] text-slate-500">Issue ID: #4821</p>
+</div>
+</div>
+<div class="grid grid-cols-4 gap-4 py-4 border-y border-slate-800">
+<div class="text-center">
+<p class="text-[9px] text-slate-500 uppercase">Score</p>
+<p class="text-sm font-bold">96</p>
+<p class="text-[8px] text-green-500">Very High</p>
+</div>
+<div class="text-center">
+<p class="text-[9px] text-slate-500 uppercase">Est. Res.</p>
+<p class="text-sm font-bold">2 hrs</p>
+</div>
+<div class="text-center">
+<p class="text-[9px] text-slate-500 uppercase">Distance</p>
+<p class="text-sm font-bold">0.6 km</p>
+</div>
+<div class="text-center">
+<p class="text-[9px] text-slate-500 uppercase">Reports</p>
+<p class="text-sm font-bold">8</p>
+<p class="text-[8px] text-slate-400">Merged</p>
+</div>
+</div>
+<div class="bg-blue-500/5 rounded-xl p-4 border border-blue-500/10">
+<p class="text-[10px] font-bold text-blue-400 mb-2 uppercase tracking-wide flex items-center gap-1.5">
+<svg class="w-3.5 h-3.5" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" fill-rule="evenodd"></path></svg>
+                AI Recommendation
+              </p>
+<p class="text-[11px] text-slate-400 leading-relaxed mb-3">Large water leakage detected. High impact due to proximity to hospital and dense residential area.</p>
+<div class="p-2.5 bg-blue-600/20 rounded-lg border border-blue-600/30">
+<p class="text-[10px] font-bold text-blue-300">Recommended Action</p>
+<p class="text-xs font-semibold text-blue-100">Dispatch Water Works Crew Immediately</p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Issue Details -->
+<!-- BEGIN: Submit Evidence -->
+<section class="col-span-5 bg-[#12192c] rounded-2xl border border-slate-800/50 p-6 flex flex-col" data-purpose="submit-evidence">
+<div class="mb-6">
+<h3 class="font-bold text-lg mb-4">Submit Repair Evidence</h3>
+<div class="flex items-center gap-2">
+<div class="flex-1 h-1 bg-blue-600 rounded"></div>
+<div class="flex-1 h-1 bg-slate-800 rounded"></div>
+<div class="flex-1 h-1 bg-slate-800 rounded"></div>
+<div class="flex-1 h-1 bg-slate-800 rounded"></div>
+</div>
+</div>
+<div class="flex-1 space-y-6">
+<div>
+<p class="text-xs font-bold mb-3 uppercase tracking-wider text-slate-400">Upload Before &amp; After Photos</p>
+<div class="grid grid-cols-2 gap-4">
+<div class="relative group aspect-video bg-[#1a2337] rounded-xl border-2 border-dashed border-slate-700 flex flex-col items-center justify-center text-slate-500 hover:border-blue-500 hover:text-blue-500 transition-all cursor-pointer">
+<img alt="before" class="absolute inset-0 w-full h-full object-cover rounded-lg opacity-40 group-hover:opacity-20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDahgdX8PVDB9diqlbkCITT5H4vDZlkKAIdxyngISbfcx7lKkKe5pcmavdnAMyXWzfpkHvq6_AH9O1nds3iCBP5lgRLV5tygI80JR20I8aRtM6hI8QTi2p_A-rMPJElHudkclaZ17Wjj9Tz5Krs0mUBhbdWK2ei4JFBiCq_L2heeO1z4-gSmlXnRdhkcfvsRnES_WR78EP5sU5p_fRCsDeUsdDcDVPYLwSEl99ZLIredt77QNaAkkPnqiMu78yU5aXBxAlJUNCwsA"/>
+<svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-[10px] font-bold">Replace Before</span>
+</div>
+<div class="aspect-video bg-[#1a2337] rounded-xl border-2 border-dashed border-slate-700 flex flex-col items-center justify-center text-slate-500 hover:border-blue-500 hover:text-blue-500 transition-all cursor-pointer">
+<svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-[10px] font-bold">Upload After</span>
+</div>
+</div>
+</div>
+<div class="p-4 bg-[#1a2337] rounded-xl border border-slate-700/50 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-blue-600/20 flex items-center justify-center text-blue-500">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold text-slate-300">Upload Video (Optional)</p>
+<p class="text-[9px] text-slate-500">Max 30 MB, .mp4 or .mov</p>
+</div>
+<button class="text-xs font-bold text-blue-500">Browse</button>
+</div>
+<div>
+<p class="text-xs font-bold mb-2 uppercase tracking-wider text-slate-400">Repair Notes</p>
+<textarea class="w-full bg-[#1a2337] border-slate-700 rounded-xl text-xs placeholder:text-slate-600 focus:ring-blue-500 focus:border-blue-500" placeholder="Add notes about the repair work done..." rows="3"></textarea>
+</div>
+</div>
+<div class="flex items-center justify-end gap-4 mt-6 pt-6 border-t border-slate-800">
+<button class="px-6 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition-colors">Cancel</button>
+<button class="px-8 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold transition-all shadow-lg shadow-blue-600/20">Submit for Verification</button>
+</div>
+</section>
+<!-- END: Submit Evidence -->
+<!-- BEGIN: Performance Stats -->
+<section class="col-span-3 bg-[#12192c] rounded-2xl border border-slate-800/50 p-6 flex flex-col" data-purpose="performance">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-bold text-sm">Department Performance</h3>
+<button class="text-[10px] text-slate-400 flex items-center gap-1">Last 7 Days <svg class="w-3 h-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="p-3 bg-[#1a2337] rounded-xl border border-slate-700/30">
+<p class="text-[9px] text-slate-500 uppercase font-bold">Total Assigned</p>
+<p class="text-lg font-bold">128</p>
+<p class="text-[9px] text-green-500">+12%</p>
+</div>
+<div class="p-3 bg-[#1a2337] rounded-xl border border-slate-700/30">
+<p class="text-[9px] text-slate-500 uppercase font-bold">Completed</p>
+<p class="text-lg font-bold">98</p>
+<p class="text-[9px] text-green-500">+18%</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col">
+<p class="text-[10px] font-bold text-slate-400 mb-4 uppercase tracking-tighter">Performance Overview</p>
+<div class="flex-1 relative flex items-end gap-1 px-1">
+<!-- Placeholder Chart -->
+<div class="flex-1 bg-blue-500/20 border-t-2 border-blue-500 h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-blue-500/20 border-t-2 border-blue-500 h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-blue-500/20 border-t-2 border-blue-500 h-[55%] rounded-t-sm"></div>
+<div class="flex-1 bg-blue-500/20 border-t-2 border-blue-500 h-[75%] rounded-t-sm"></div>
+<div class="flex-1 bg-blue-500/20 border-t-2 border-blue-500 h-[90%] rounded-t-sm"></div>
+<div class="flex-1 bg-blue-500/20 border-t-2 border-blue-500 h-[85%] rounded-t-sm"></div>
+<div class="flex-1 bg-blue-500/20 border-t-2 border-blue-500 h-[95%] rounded-t-sm"></div>
+</div>
+<div class="flex justify-between mt-2 px-1 text-[8px] text-slate-600 font-bold">
+<span>MAY 15</span>
+<span>MAY 18</span>
+<span>MAY 21</span>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-slate-800">
+<p class="text-[10px] font-bold text-slate-400 mb-3 uppercase tracking-tighter">Top Issue Categories</p>
+<div class="space-y-3">
+<div>
+<div class="flex justify-between text-[10px] mb-1">
+<span class="text-slate-300 font-medium">Water Leakage</span>
+<span class="text-slate-500">43%</span>
+</div>
+<div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
+<div class="w-[43%] h-full bg-blue-500"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] mb-1">
+<span class="text-slate-300 font-medium">Pipeline Burst</span>
+<span class="text-slate-500">25%</span>
+</div>
+<div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
+<div class="w-[25%] h-full bg-orange-500"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] mb-1">
+<span class="text-slate-300 font-medium">Low Pressure</span>
+<span class="text-slate-500">16%</span>
+</div>
+<div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
+<div class="w-[16%] h-full bg-amber-500"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Performance Stats -->
+</div>
+</main>
+</div>
+</body></html>

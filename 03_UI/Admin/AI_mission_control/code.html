@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Mission Control - Community Hero</title>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="custom-base-styles">
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #030816;
+      color: #e2e8f0;
+      overflow: hidden;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0f1d; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+    .glass-card {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .text-dim { color: #94a3b8; }
+    .status-active { color: #10b981; }
+  </style>
+<style data-purpose="pipeline-visuals">
+    /* Pipeline multi-color gradient line */
+    .pipeline-line {
+      height: 2px;
+      background: linear-gradient(to right, #3b82f6, #10b981, #f59e0b, #ef4444, #8b5cf6, #ec4899);
+      position: relative;
+      top: 50%;
+      z-index: 0;
+    }
+    .pipeline-node {
+      z-index: 10;
+      transition: transform 0.2s;
+    }
+    .pipeline-node:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body class="h-full flex overflow-hidden">
+<!-- BEGIN: MainSidebar -->
+<aside class="w-64 flex-shrink-0 bg-[#070c1a] border-r border-slate-800 flex flex-col h-full" data-purpose="sidebar">
+<div class="p-6 flex items-center space-x-3">
+<div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<h1 class="text-sm font-bold">Community Hero</h1>
+<p class="text-[10px] text-blue-400 font-semibold tracking-wider uppercase">AI Mission Control</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto mt-2">
+<a class="flex items-center px-3 py-2 text-sm text-dim hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="mr-3 text-lg opacity-70">⊞</span> Dashboard
+      </a>
+<a class="flex items-center justify-between px-3 py-2 text-sm text-dim hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="flex items-center"><span class="mr-3 text-lg opacity-70">☰</span> Work Queue</span>
+<span class="bg-blue-900/50 text-blue-400 text-[10px] px-2 py-0.5 rounded-full">57</span>
+</a>
+<a class="flex items-center px-3 py-2 text-sm text-dim hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="mr-3 text-lg opacity-70">📄</span> Reports
+      </a>
+<a class="flex items-center px-3 py-2 text-sm text-dim hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="mr-3 text-lg opacity-70">📍</span> Map View
+      </a>
+<a class="flex items-center px-3 py-2 text-sm text-dim hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="mr-3 text-lg opacity-70">🏢</span> Departments
+      </a>
+<a class="flex items-center px-3 py-2 text-sm text-dim hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="mr-3 text-lg opacity-70">📈</span> Analytics
+      </a>
+<a class="flex items-center px-3 py-2 text-sm bg-blue-600/20 text-blue-400 border border-blue-600/30 rounded-lg font-medium" href="#">
+<span class="mr-3 text-lg">⚙️</span> AI Mission Control
+      </a>
+<div class="pt-4 pb-2 text-[10px] uppercase font-bold text-slate-600 px-3 tracking-widest">Systems</div>
+<a class="flex items-center px-3 py-2 text-sm text-dim hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="mr-3 text-lg opacity-70">📉</span> Predictions
+      </a>
+<a class="flex items-center px-3 py-2 text-sm text-dim hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="mr-3 text-lg opacity-70">🛡️</span> Audit &amp; Logs
+      </a>
+<a class="flex items-center justify-between px-3 py-2 text-sm text-dim hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="flex items-center"><span class="mr-3 text-lg opacity-70">🔔</span> Notifications</span>
+<span class="bg-blue-900/50 text-blue-400 text-[10px] px-2 py-0.5 rounded-full">12</span>
+</a>
+<a class="flex items-center px-3 py-2 text-sm text-dim hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="mr-3 text-lg opacity-70">⚙️</span> Settings
+      </a>
+<a class="flex items-center px-3 py-2 text-sm text-dim hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="mr-3 text-lg opacity-70">❓</span> Help &amp; Support
+      </a>
+</nav>
+<!-- Sidebar Status Section -->
+<div class="p-4 mt-auto border-t border-slate-800">
+<div class="flex items-center justify-between mb-4">
+<span class="text-[11px] font-bold text-slate-400 tracking-wider">AI SYSTEM STATUS</span>
+</div>
+<div class="space-y-2 mb-6">
+<div class="flex items-center text-[10px] text-green-500 font-medium"><span class="mr-2">●</span> All Systems Operational</div>
+<div class="space-y-1.5 pl-3">
+<div class="flex items-center text-[10px] text-slate-400"><span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"></span> Report Intelligence</div>
+<div class="flex items-center text-[10px] text-slate-400"><span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"></span> Trust Engine</div>
+<div class="flex items-center text-[10px] text-slate-400"><span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"></span> Decision Intelligence</div>
+<div class="flex items-center text-[10px] text-slate-400"><span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"></span> Resolution Intelligence</div>
+<div class="flex items-center text-[10px] text-slate-400"><span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"></span> Civic Intelligence</div>
+<div class="flex items-center text-[10px] text-slate-400"><span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"></span> Civic Copilot</div>
+</div>
+</div>
+<button class="w-full text-left text-[11px] text-blue-400 hover:text-blue-300 font-medium flex items-center justify-between">
+        View System Logs <span>→</span>
+</button>
+</div>
+</aside>
+<!-- END: MainSidebar -->
+<!-- BEGIN: MainContent -->
+<main class="flex-1 overflow-y-auto bg-[#030816] flex flex-col">
+<!-- BEGIN: Header -->
+<header class="flex items-center justify-between px-8 py-6" data-purpose="main-header">
+<div>
+<h2 class="text-2xl font-bold">AI Mission Control</h2>
+<p class="text-xs text-dim mt-1">Autonomous AI engines working 24/7 to make our city smarter and more responsive.</p>
+</div>
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-4 text-xs text-dim font-medium">
+<span class="flex items-center"><span class="mr-1.5">📅</span> May 21, 2025</span>
+<span class="flex items-center"><span class="mr-1.5">🕒</span> 10:30 AM</span>
+<div class="relative">
+<span class="text-lg">🔔</span>
+<span class="absolute -top-1 -right-1 bg-red-500 text-[8px] text-white w-4 h-4 rounded-full flex items-center justify-center">12</span>
+</div>
+</div>
+<div class="flex items-center space-x-3 border-l border-slate-800 pl-6">
+<div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold">AD</div>
+<div>
+<p class="text-xs font-bold">Admin User</p>
+<p class="text-[10px] text-dim">City Operations</p>
+</div>
+<span class="text-slate-500 text-xs">▼</span>
+</div>
+</div>
+</header>
+<!-- END: Header -->
+<div class="px-8 pb-8 space-y-6">
+<!-- BEGIN: TopStats -->
+<div class="grid grid-cols-6 gap-4" data-purpose="top-statistics">
+<!-- Stat Card 1 -->
+<div class="glass-card p-4 rounded-xl flex items-center space-x-4 border border-blue-500/20">
+<div class="p-3 bg-blue-500/10 rounded-lg text-blue-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<p class="text-[10px] text-dim font-semibold uppercase tracking-wider">Total Reports Processed</p>
+<h3 class="text-xl font-bold">1,248</h3>
+<p class="text-[10px] text-green-500 mt-0.5">↑ 18.6% vs yesterday</p>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="glass-card p-4 rounded-xl flex items-center space-x-4 border border-green-500/20">
+<div class="p-3 bg-green-500/10 rounded-lg text-green-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<p class="text-[10px] text-dim font-semibold uppercase tracking-wider">AI Actions Taken</p>
+<h3 class="text-xl font-bold">986</h3>
+<p class="text-[10px] text-green-500 mt-0.5">↑ 22.4% vs yesterday</p>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="glass-card p-4 rounded-xl flex items-center space-x-4 border border-emerald-500/20">
+<div class="p-3 bg-emerald-500/10 rounded-lg text-emerald-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<p class="text-[10px] text-dim font-semibold uppercase tracking-wider">Issues Resolved (AI Verified)</p>
+<h3 class="text-xl font-bold">312</h3>
+<p class="text-[10px] text-green-500 mt-0.5">↑ 15.3% vs yesterday</p>
+</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="glass-card p-4 rounded-xl flex items-center space-x-4 border border-purple-500/20">
+<div class="p-3 bg-purple-500/10 rounded-lg text-purple-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<p class="text-[10px] text-dim font-semibold uppercase tracking-wider">Community Impact</p>
+<h3 class="text-xl font-bold">24,850</h3>
+<p class="text-[10px] text-dim mt-0.5">People benefited</p>
+</div>
+</div>
+<!-- Stat Card 5 -->
+<div class="glass-card p-4 rounded-xl flex items-center space-x-4 border border-orange-500/20">
+<div class="p-3 bg-orange-500/10 rounded-lg text-orange-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<p class="text-[10px] text-dim font-semibold uppercase tracking-wider">Predicted Issues</p>
+<h3 class="text-xl font-bold">156</h3>
+<p class="text-[10px] text-green-500 mt-0.5">↑ 12.8% vs yesterday</p>
+</div>
+</div>
+<!-- Stat Card 6 -->
+<div class="glass-card p-4 rounded-xl flex items-center space-x-4 border border-cyan-500/20">
+<div class="p-3 bg-cyan-500/10 rounded-lg text-cyan-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<p class="text-[10px] text-dim font-semibold uppercase tracking-wider">AI Accuracy (Overall)</p>
+<h3 class="text-xl font-bold">94.7%</h3>
+<p class="text-[10px] text-green-500 mt-0.5">↑ 2.6% vs yesterday</p>
+</div>
+</div>
+</div>
+<!-- END: TopStats -->
+<!-- Main Layout Grid (2 Columns: Main Visuals and Sidebar Feed) -->
+<div class="grid grid-cols-12 gap-6">
+<!-- BEGIN: CenterColumn -->
+<div class="col-span-9 space-y-6">
+<!-- BEGIN: EnginePipeline -->
+<div class="glass-card p-6 rounded-2xl relative overflow-hidden" data-purpose="engine-pipeline-container">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h4 class="text-sm font-bold uppercase tracking-wide">AI Engine Pipeline</h4>
+<p class="text-[11px] text-dim">6 Autonomous AI Engines working in harmony</p>
+</div>
+<div class="flex items-center space-x-2">
+<span class="flex items-center text-[10px] font-bold text-green-500 bg-green-500/10 px-2 py-0.5 rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"></span> LIVE
+                </span>
+</div>
+</div>
+<!-- Pipeline Visual -->
+<div class="relative py-12">
+<div class="pipeline-line"></div>
+<div class="flex justify-between items-center relative -top-3">
+<!-- Engine 1 -->
+<div class="pipeline-node flex flex-col items-center w-32">
+<div class="w-12 h-12 rounded-full border-2 border-blue-500 flex items-center justify-center bg-[#070c1a] shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+<span class="text-blue-500 text-lg">🧠</span>
+<span class="absolute -top-3 -right-3 bg-blue-500/20 text-blue-400 text-[8px] font-bold w-5 h-5 flex items-center justify-center rounded-full border border-blue-500/40">1</span>
+</div>
+<div class="mt-4 text-center">
+<p class="text-[11px] font-bold">Report Intelligence</p>
+<p class="text-[9px] text-dim mt-1 leading-tight px-2">Analyzing incoming reports and extracting key insights.</p>
+<p class="text-[10px] text-green-500 mt-2 font-medium flex items-center justify-center">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1 animate-pulse"></span> Processing
+                    </p>
+<p class="text-[10px] font-bold mt-1 text-slate-400">1,248 reports</p>
+</div>
+</div>
+<!-- Engine 2 -->
+<div class="pipeline-node flex flex-col items-center w-32">
+<div class="w-12 h-12 rounded-full border-2 border-emerald-500 flex items-center justify-center bg-[#070c1a] shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+<span class="text-emerald-500 text-lg">🛡️</span>
+<span class="absolute -top-3 -right-3 bg-emerald-500/20 text-emerald-400 text-[8px] font-bold w-5 h-5 flex items-center justify-center rounded-full border border-emerald-500/40">2</span>
+</div>
+<div class="mt-4 text-center">
+<p class="text-[11px] font-bold">Trust Engine</p>
+<p class="text-[9px] text-dim mt-1 leading-tight px-2">Verifying authenticity, detecting spam and duplicates.</p>
+<p class="text-[10px] text-green-500 mt-2 font-medium flex items-center justify-center">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1 animate-pulse"></span> Processing
+                    </p>
+<p class="text-[10px] font-bold mt-1 text-slate-400">1,102 reports</p>
+</div>
+</div>
+<!-- Engine 3 -->
+<div class="pipeline-node flex flex-col items-center w-32">
+<div class="w-12 h-12 rounded-full border-2 border-amber-500 flex items-center justify-center bg-[#070c1a] shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+<span class="text-amber-500 text-lg">⚖️</span>
+<span class="absolute -top-3 -right-3 bg-amber-500/20 text-amber-400 text-[8px] font-bold w-5 h-5 flex items-center justify-center rounded-full border border-amber-500/40">3</span>
+</div>
+<div class="mt-4 text-center">
+<p class="text-[11px] font-bold">Decision Intelligence</p>
+<p class="text-[9px] text-dim mt-1 leading-tight px-2">Prioritizing issues based on impact, urgency and risk.</p>
+<p class="text-[10px] text-green-500 mt-2 font-medium flex items-center justify-center">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1 animate-pulse"></span> Processing
+                    </p>
+<p class="text-[10px] font-bold mt-1 text-slate-400">856 reports</p>
+</div>
+</div>
+<!-- Engine 4 -->
+<div class="pipeline-node flex flex-col items-center w-32">
+<div class="w-12 h-12 rounded-full border-2 border-red-500 flex items-center justify-center bg-[#070c1a] shadow-[0_0_15px_rgba(239,68,68,0.3)]">
+<span class="text-red-500 text-lg">🎯</span>
+<span class="absolute -top-3 -right-3 bg-red-500/20 text-red-400 text-[8px] font-bold w-5 h-5 flex items-center justify-center rounded-full border border-red-500/40">4</span>
+</div>
+<div class="mt-4 text-center">
+<p class="text-[11px] font-bold">Resolution Intelligence</p>
+<p class="text-[9px] text-dim mt-1 leading-tight px-2">Recommending best actions and predicting resolution time.</p>
+<p class="text-[10px] text-green-500 mt-2 font-medium flex items-center justify-center">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1 animate-pulse"></span> Processing
+                    </p>
+<p class="text-[10px] font-bold mt-1 text-slate-400">672 reports</p>
+</div>
+</div>
+<!-- Engine 5 -->
+<div class="pipeline-node flex flex-col items-center w-32">
+<div class="w-12 h-12 rounded-full border-2 border-purple-500 flex items-center justify-center bg-[#070c1a] shadow-[0_0_15px_rgba(139,92,246,0.3)]">
+<span class="text-purple-500 text-lg">📊</span>
+<span class="absolute -top-3 -right-3 bg-purple-500/20 text-purple-400 text-[8px] font-bold w-5 h-5 flex items-center justify-center rounded-full border border-purple-500/40">5</span>
+</div>
+<div class="mt-4 text-center">
+<p class="text-[11px] font-bold">Civic Intelligence</p>
+<p class="text-[9px] text-dim mt-1 leading-tight px-2">Predicting future issues and infrastructure risks.</p>
+<p class="text-[10px] text-blue-500 mt-2 font-medium flex items-center justify-center">
+<span class="w-1.5 h-1.5 bg-blue-500 rounded-full mr-1 animate-pulse"></span> Analyzing
+                    </p>
+<p class="text-[10px] font-bold mt-1 text-slate-400">128 predictions</p>
+</div>
+</div>
+<!-- Engine 6 -->
+<div class="pipeline-node flex flex-col items-center w-32">
+<div class="w-12 h-12 rounded-full border-2 border-pink-500 flex items-center justify-center bg-[#070c1a] shadow-[0_0_15px_rgba(236,72,153,0.3)]">
+<span class="text-pink-500 text-lg">🤖</span>
+<span class="absolute -top-3 -right-3 bg-pink-500/20 text-pink-400 text-[8px] font-bold w-5 h-5 flex items-center justify-center rounded-full border border-pink-500/40">6</span>
+</div>
+<div class="mt-4 text-center">
+<p class="text-[11px] font-bold">Civic Copilot</p>
+<p class="text-[9px] text-dim mt-1 leading-tight px-2">Generating summaries, recommendations and insights.</p>
+<p class="text-[10px] text-green-500 mt-2 font-medium flex items-center justify-center">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></span> Active
+                    </p>
+<p class="text-[10px] font-bold mt-1 text-slate-400">24 insights</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Operational Banner -->
+<div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
+<div class="flex items-center text-[10px] font-medium text-green-500 bg-green-500/5 px-3 py-1.5 rounded-md">
+<span class="w-4 h-4 bg-green-500 rounded flex items-center justify-center text-white mr-2 text-[8px]">✓</span> All systems operational
+              </div>
+<div class="text-[10px] text-dim flex items-center">
+                Last updated: 10:30:15 AM <span class="w-2 h-2 rounded-full bg-green-500 ml-2"></span>
+</div>
+</div>
+</div>
+<!-- END: EnginePipeline -->
+<!-- Grid for charts -->
+<div class="grid grid-cols-3 gap-6">
+<!-- BEGIN: AI Decisions -->
+<div class="glass-card p-5 rounded-2xl flex flex-col h-64" data-purpose="chart-decisions">
+<h4 class="text-xs font-bold uppercase tracking-wide">AI Decisions Distribution</h4>
+<p class="text-[10px] text-dim mt-1">How AI engines are classifying issues</p>
+<div class="flex-1 flex items-center justify-center mt-4">
+<div class="relative w-28 h-28">
+<!-- Simplified SVG Donut -->
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<path class="text-orange-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="23, 100" stroke-width="4"></path>
+<path class="text-red-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="31, 100" stroke-dashoffset="-23" stroke-width="4"></path>
+<path class="text-blue-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="28, 100" stroke-dashoffset="-54" stroke-width="4"></path>
+<path class="text-cyan-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="12, 100" stroke-dashoffset="-82" stroke-width="4"></path>
+<path class="text-slate-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="6, 100" stroke-dashoffset="-94" stroke-width="4"></path>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-lg font-bold">1,248</span>
+<span class="text-[8px] text-dim uppercase">Total</span>
+</div>
+</div>
+<div class="ml-6 space-y-1.5 flex-1">
+<div class="flex items-center justify-between text-[9px]"><span class="flex items-center"><span class="w-2 h-2 bg-orange-500 rounded-full mr-2"></span> Critical</span> <span class="font-bold">23% (287)</span></div>
+<div class="flex items-center justify-between text-[9px]"><span class="flex items-center"><span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span> High</span> <span class="font-bold">31% (387)</span></div>
+<div class="flex items-center justify-between text-[9px]"><span class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span> Medium</span> <span class="font-bold">28% (349)</span></div>
+<div class="flex items-center justify-between text-[9px]"><span class="flex items-center"><span class="w-2 h-2 bg-cyan-500 rounded-full mr-2"></span> Low</span> <span class="font-bold">12% (149)</span></div>
+<div class="flex items-center justify-between text-[9px]"><span class="flex items-center"><span class="w-2 h-2 bg-slate-500 rounded-full mr-2"></span> Info</span> <span class="font-bold">6% (76)</span></div>
+</div>
+</div>
+<button class="text-left text-[9px] text-blue-400 font-bold mt-auto flex items-center">View detailed breakdown <span class="ml-1">→</span></button>
+</div>
+<!-- END: AI Decisions -->
+<!-- BEGIN: Trust Engine Insights -->
+<div class="glass-card p-5 rounded-2xl flex flex-col h-64" data-purpose="chart-trust">
+<h4 class="text-xs font-bold uppercase tracking-wide">Trust Engine Insights</h4>
+<p class="text-[10px] text-dim mt-1">Report authenticity &amp; quality analysis</p>
+<div class="flex-1 flex flex-col items-center justify-center mt-4">
+<div class="relative w-24 h-24 mb-4">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="40" stroke="#1e293b" stroke-width="8"></circle>
+<circle cx="50" cy="50" fill="none" r="40" stroke="#10b981" stroke-dasharray="239" stroke-dashoffset="12" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-xl font-bold">94.7%</span>
+<span class="text-[8px] text-dim uppercase">Trust Score</span>
+</div>
+</div>
+<div class="w-full space-y-1.5">
+<div class="flex items-center justify-between text-[9px]"><span class="flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span> Genuine</span> <span class="font-bold">1,102 (88.3%)</span></div>
+<div class="flex items-center justify-between text-[9px]"><span class="flex items-center"><span class="w-2 h-2 bg-yellow-500 rounded-full mr-2"></span> Low Quality</span> <span class="font-bold">98 (7.8%)</span></div>
+<div class="flex items-center justify-between text-[9px]"><span class="flex items-center"><span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span> Spam / Fake</span> <span class="font-bold">48 (3.9%)</span></div>
+</div>
+</div>
+<button class="text-left text-[9px] text-blue-400 font-bold mt-auto flex items-center">View trust engine logs <span class="ml-1">→</span></button>
+</div>
+<!-- END: Trust Engine Insights -->
+<!-- BEGIN: Top Issue Categories -->
+<div class="glass-card p-5 rounded-2xl flex flex-col h-64" data-purpose="chart-categories">
+<h4 class="text-xs font-bold uppercase tracking-wide">Top Issue Categories</h4>
+<p class="text-[10px] text-dim mt-1">By AI classification</p>
+<div class="flex-1 mt-6 space-y-3.5">
+<!-- Bar 1 -->
+<div>
+<div class="flex justify-between text-[9px] mb-1"><span class="text-dim">Water Leakage</span> <span class="font-bold">312 (25%)</span></div>
+<div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-blue-500 w-[25%]"></div></div>
+</div>
+<!-- Bar 2 -->
+<div>
+<div class="flex justify-between text-[9px] mb-1"><span class="text-dim">Road Damage</span> <span class="font-bold">287 (23%)</span></div>
+<div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-orange-500 w-[23%]"></div></div>
+</div>
+<!-- Bar 3 -->
+<div>
+<div class="flex justify-between text-[9px] mb-1"><span class="text-dim">Garbage / Waste</span> <span class="font-bold">215 (17%)</span></div>
+<div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-emerald-500 w-[17%]"></div></div>
+</div>
+<!-- Bar 4 -->
+<div>
+<div class="flex justify-between text-[9px] mb-1"><span class="text-dim">Street Light</span> <span class="font-bold">156 (12%)</span></div>
+<div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-amber-500 w-[12%]"></div></div>
+</div>
+<!-- Bar 5 -->
+<div>
+<div class="flex justify-between text-[9px] mb-1"><span class="text-dim">Drainage Blockage</span> <span class="font-bold">98 (8%)</span></div>
+<div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-red-500 w-[8%]"></div></div>
+</div>
+</div>
+<button class="text-left text-[9px] text-blue-400 font-bold mt-auto flex items-center">View all categories <span class="ml-1">→</span></button>
+</div>
+<!-- END: Top Issue Categories -->
+</div>
+<!-- Bottom Row: System Performance and Health -->
+<div class="grid grid-cols-2 gap-6">
+<!-- BEGIN: System Performance Chart -->
+<div class="glass-card p-6 rounded-2xl flex flex-col h-80" data-purpose="chart-performance">
+<div class="flex items-center justify-between mb-4">
+<div>
+<h4 class="text-xs font-bold uppercase tracking-wide">System Performance</h4>
+<p class="text-[10px] text-dim">Performance of AI Engines</p>
+</div>
+<div class="flex items-center space-x-4">
+<div class="flex flex-wrap gap-x-3 gap-y-1 max-w-[200px] justify-end">
+<span class="flex items-center text-[8px] text-dim"><span class="w-2 h-2 bg-red-500 rounded-full mr-1"></span> Report Intel</span>
+<span class="flex items-center text-[8px] text-dim"><span class="w-2 h-2 bg-yellow-500 rounded-full mr-1"></span> Trust Engine</span>
+<span class="flex items-center text-[8px] text-dim"><span class="w-2 h-2 bg-blue-500 rounded-full mr-1"></span> Decision Intel</span>
+<span class="flex items-center text-[8px] text-dim"><span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span> Resolution Intel</span>
+</div>
+</div>
+</div>
+<div class="flex-1 relative flex items-end justify-between px-2 pb-6 border-b border-l border-slate-800">
+<!-- Mock Line Chart Background Grid -->
+<div class="absolute inset-0 grid grid-rows-4 pointer-events-none opacity-20">
+<div class="border-t border-slate-600"></div>
+<div class="border-t border-slate-600"></div>
+<div class="border-t border-slate-600"></div>
+<div class="border-t border-slate-600"></div>
+</div>
+<!-- Mock Axis Labels -->
+<div class="absolute -left-8 top-0 bottom-0 flex flex-col justify-between text-[8px] text-slate-500">
+<span>100%</span><span>50%</span><span>0%</span>
+</div>
+<!-- Time Labels -->
+<div class="absolute -bottom-6 left-0 right-0 flex justify-between text-[8px] text-slate-500">
+<span>12 AM</span><span>3 AM</span><span>6 AM</span><span>9 AM</span><span>12 PM</span><span>3 PM</span><span>6 PM</span><span>9 PM</span>
+</div>
+<!-- Mock SVG Lines (Representation) -->
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none">
+<path d="M0,80 Q50,70 100,90 T200,60 T300,75 T400,65 T500,85 T600,70" fill="none" opacity="0.8" stroke="#ef4444" stroke-width="1.5"></path>
+<path d="M0,100 Q50,110 100,95 T200,105 T300,90 T400,110 T500,95 T600,100" fill="none" opacity="0.8" stroke="#eab308" stroke-width="1.5"></path>
+<path d="M0,120 Q50,115 100,125 T200,110 T300,115 T400,120 T500,110 T600,115" fill="none" opacity="0.8" stroke="#3b82f6" stroke-width="1.5"></path>
+<path d="M0,140 Q50,145 100,135 T200,150 T300,140 T400,145 T500,135 T600,140" fill="none" opacity="0.8" stroke="#10b981" stroke-width="1.5"></path>
+</svg>
+</div>
+<!-- Legend Table below chart -->
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div class="flex items-center justify-between text-[9px] border-b border-slate-800 pb-1">
+<span class="flex items-center text-dim">Engine</span>
+<span class="text-dim">Accuracy</span>
+</div>
+<div class="flex items-center justify-between text-[9px] border-b border-slate-800 pb-1">
+<span class="flex items-center text-dim">Engine</span>
+<span class="text-dim">Accuracy</span>
+</div>
+<div class="flex items-center justify-between text-[9px]">
+<span class="flex items-center"><span class="w-1.5 h-1.5 bg-red-500 rounded-full mr-2"></span> Report Intelligence</span>
+<span class="font-bold">95.2%</span>
+</div>
+<div class="flex items-center justify-between text-[9px]">
+<span class="flex items-center"><span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"></span> Resolution Intel</span>
+<span class="font-bold">93.7%</span>
+</div>
+<div class="flex items-center justify-between text-[9px]">
+<span class="flex items-center"><span class="w-1.5 h-1.5 bg-yellow-500 rounded-full mr-2"></span> Trust Engine</span>
+<span class="font-bold">96.1%</span>
+</div>
+<div class="flex items-center justify-between text-[9px]">
+<span class="flex items-center"><span class="w-1.5 h-1.5 bg-cyan-500 rounded-full mr-2"></span> Civic Intelligence</span>
+<span class="font-bold">95.8%</span>
+</div>
+</div>
+</div>
+<!-- END: System Performance Chart -->
+<!-- BEGIN: System Health -->
+<div class="glass-card p-6 rounded-2xl flex flex-col h-80" data-purpose="chart-health">
+<h4 class="text-xs font-bold uppercase tracking-wide">System Health</h4>
+<p class="text-[10px] text-dim mt-1">Realtime health of AI infrastructure</p>
+<div class="flex-1 grid grid-cols-4 gap-4 items-center mt-4">
+<!-- CPU -->
+<div class="flex flex-col items-center">
+<div class="relative w-16 h-16">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<circle cx="18" cy="18" fill="none" r="16" stroke="#1e293b" stroke-width="2.5"></circle>
+<circle cx="18" cy="18" fill="none" r="16" stroke="#10b981" stroke-dasharray="32, 100" stroke-width="2.5"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center text-[11px] font-bold">32%</div>
+</div>
+<p class="text-[9px] text-dim mt-2 uppercase font-bold">CPU Usage</p>
+<p class="text-[8px] text-green-500">Normal</p>
+</div>
+<!-- Memory -->
+<div class="flex flex-col items-center">
+<div class="relative w-16 h-16">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<circle cx="18" cy="18" fill="none" r="16" stroke="#1e293b" stroke-width="2.5"></circle>
+<circle cx="18" cy="18" fill="none" r="16" stroke="#10b981" stroke-dasharray="58, 100" stroke-width="2.5"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center text-[11px] font-bold">58%</div>
+</div>
+<p class="text-[9px] text-dim mt-2 uppercase font-bold">Memory Usage</p>
+<p class="text-[8px] text-green-500">Normal</p>
+</div>
+<!-- GPU -->
+<div class="flex flex-col items-center">
+<div class="relative w-16 h-16">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<circle cx="18" cy="18" fill="none" r="16" stroke="#1e293b" stroke-width="2.5"></circle>
+<circle cx="18" cy="18" fill="none" r="16" stroke="#10b981" stroke-dasharray="41, 100" stroke-width="2.5"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center text-[11px] font-bold">41%</div>
+</div>
+<p class="text-[9px] text-dim mt-2 uppercase font-bold">GPU Usage</p>
+<p class="text-[8px] text-green-500">Normal</p>
+</div>
+<!-- API Response -->
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 flex items-center justify-center border-2 border-slate-800 rounded-full">
+<span class="text-[11px] font-bold">412ms</span>
+</div>
+<p class="text-[9px] text-dim mt-2 uppercase font-bold text-center">API Response Time</p>
+<p class="text-[8px] text-green-500">Optimal</p>
+</div>
+</div>
+<!-- Health Footer -->
+<div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
+<div class="flex items-center text-[10px] text-green-500 font-medium">
+<span class="w-4 h-4 bg-green-500 rounded flex items-center justify-center text-white mr-2 text-[8px]">✓</span> All services running normally
+                </div>
+<div class="text-[10px] text-dim flex items-center">
+                  Uptime: <span class="text-white font-bold ml-1">99.98%</span> <span class="ml-2">›</span>
+</div>
+</div>
+</div>
+<!-- END: System Health -->
+</div>
+</div>
+<!-- END: CenterColumn -->
+<!-- BEGIN: RightSidebarColumn -->
+<div class="col-span-3 space-y-6">
+<!-- BEGIN: ActivityFeed -->
+<div class="glass-card p-5 rounded-2xl flex flex-col min-h-[400px]" data-purpose="ai-activity-feed">
+<div class="flex items-center justify-between mb-6">
+<h4 class="text-xs font-bold uppercase tracking-wide">AI Activity Feed</h4>
+<span class="flex items-center text-[9px] font-bold text-green-500"><span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5"></span> LIVE</span>
+</div>
+<div class="space-y-6 flex-1 overflow-y-auto pr-1">
+<!-- Feed Item 1 -->
+<div class="flex space-x-3">
+<div class="w-8 h-8 rounded-lg bg-orange-500/20 text-orange-500 flex-shrink-0 flex items-center justify-center text-xs">👥</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="text-[10px] font-bold">Duplicate cluster detected</p>
+<span class="text-[8px] text-dim">10:29 AM</span>
+</div>
+<p class="text-[9px] text-dim mt-1">8 reports merged into existing issue #4821</p>
+</div>
+</div>
+<!-- Feed Item 2 -->
+<div class="flex space-x-3">
+<div class="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-500 flex-shrink-0 flex items-center justify-center text-xs">💧</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="text-[10px] font-bold">High risk water leakage predicted</p>
+<span class="text-[8px] text-dim">10:28 AM</span>
+</div>
+<p class="text-[9px] text-dim mt-1">MG Road area - probability 87%</p>
+</div>
+</div>
+<!-- Feed Item 3 -->
+<div class="flex space-x-3">
+<div class="w-8 h-8 rounded-lg bg-red-500/20 text-red-500 flex-shrink-0 flex items-center justify-center text-xs">⚠️</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="text-[10px] font-bold">Priority changed to Critical</p>
+<span class="text-[8px] text-dim">10:27 AM</span>
+</div>
+<p class="text-[9px] text-dim mt-1">Issue #4819 - Near City Hospital</p>
+</div>
+</div>
+<!-- Feed Item 4 -->
+<div class="flex space-x-3">
+<div class="w-8 h-8 rounded-lg bg-green-500/20 text-green-500 flex-shrink-0 flex items-center justify-center text-xs">🛡️</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="text-[10px] font-bold">Resolution recommendation generated</p>
+<span class="text-[8px] text-dim">10:26 AM</span>
+</div>
+<p class="text-[9px] text-dim mt-1">Dispatch Water Works crew - ETA 2 hrs</p>
+</div>
+</div>
+<!-- Feed Item 5 -->
+<div class="flex space-x-3">
+<div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-500 flex-shrink-0 flex items-center justify-center text-xs">💬</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="text-[10px] font-bold">Community verification received</p>
+<span class="text-[8px] text-dim">10:24 AM</span>
+</div>
+<p class="text-[9px] text-dim mt-1">18 citizens confirmed issue resolved</p>
+</div>
+</div>
+</div>
+<button class="text-[10px] text-blue-400 font-bold mt-6 flex items-center">View all AI activities <span class="ml-1">→</span></button>
+</div>
+<!-- END: ActivityFeed -->
+<!-- BEGIN: HotspotsMap -->
+<div class="glass-card p-5 rounded-2xl flex flex-col h-72" data-purpose="predicted-hotspots">
+<h4 class="text-xs font-bold uppercase tracking-wide">AI Predicted Hotspots</h4>
+<p class="text-[10px] text-dim mt-1">Risk prediction for next 7 days</p>
+<div class="flex-1 mt-4 relative rounded-xl overflow-hidden bg-[#070c1a]">
+<!-- Mock Map UI -->
+<div class="absolute inset-0 opacity-40 grayscale" style="background-image: radial-gradient(circle, #1e293b 1px, transparent 1px); background-size: 20px 20px;"></div>
+<!-- Hotspot 1 -->
+<div class="absolute top-1/4 left-1/4">
+<div class="w-12 h-12 bg-red-500/20 rounded-full animate-pulse flex items-center justify-center">
+<div class="w-3 h-3 bg-red-500 rounded-full"></div>
+</div>
+<div class="absolute top-full mt-1 bg-black/80 p-1 px-2 rounded text-[8px] whitespace-nowrap">
+<p class="font-bold">MG Road</p>
+<p class="text-red-400">High Risk</p>
+</div>
+</div>
+<!-- Hotspot 2 -->
+<div class="absolute top-1/2 left-2/3">
+<div class="w-10 h-10 bg-orange-500/20 rounded-full animate-pulse flex items-center justify-center">
+<div class="w-2.5 h-2.5 bg-orange-500 rounded-full"></div>
+</div>
+<div class="absolute top-full mt-1 bg-black/80 p-1 px-2 rounded text-[8px] whitespace-nowrap">
+<p class="font-bold">Sector 12</p>
+<p class="text-orange-400">Medium Risk</p>
+</div>
+</div>
+<!-- Hotspot 3 -->
+<div class="absolute top-1/3 left-1/2">
+<div class="w-8 h-8 bg-orange-500/10 rounded-full animate-pulse flex items-center justify-center">
+<div class="w-2 h-2 bg-orange-500 rounded-full"></div>
+</div>
+<div class="absolute top-full mt-1 bg-black/80 p-1 px-2 rounded text-[8px] whitespace-nowrap">
+<p class="font-bold">Old Town</p>
+<p class="text-orange-400 text-[7px]">Medium Risk</p>
+</div>
+</div>
+<!-- Hotspot 4 -->
+<div class="absolute bottom-1/4 right-1/4">
+<div class="w-12 h-12 bg-red-500/20 rounded-full animate-pulse flex items-center justify-center">
+<div class="w-3 h-3 bg-red-500 rounded-full"></div>
+</div>
+<div class="absolute top-full mt-1 bg-black/80 p-1 px-2 rounded text-[8px] whitespace-nowrap">
+<p class="font-bold">River Side</p>
+<p class="text-red-400">High Risk</p>
+</div>
+</div>
+</div>
+<button class="text-[10px] text-blue-400 font-bold mt-4 flex items-center">View all predictions <span class="ml-1">→</span></button>
+</div>
+<!-- END: HotspotsMap -->
+</div>
+<!-- END: RightSidebarColumn -->
+</div>
+</div>
+</main>
+<!-- END: MainContent -->
+</body></html>
