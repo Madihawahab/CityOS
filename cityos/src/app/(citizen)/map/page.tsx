@@ -399,39 +399,39 @@ export default function LiveMapPage() {
   ];
 
   return (
-    <div className="relative w-full h-[calc(100vh-64px)] overflow-hidden bg-slate-950 text-slate-100 flex flex-col md:flex-row font-sans">
+    <div className="relative w-full h-[calc(100vh-64px)] overflow-hidden bg-background text-on-surface flex flex-col md:flex-row font-sans">
       
       {/* Sidebar Panel Left (AI insights & Operations stream) */}
-      <div className="w-full md:w-80 border-r border-slate-800 bg-[#0d1322] flex-shrink-0 flex flex-col z-20 pointer-events-auto h-1/2 md:h-full relative overflow-y-auto font-sans">
-        <div className="p-4 border-b border-slate-850 flex justify-between items-center bg-[#070c17]">
-          <span className="text-xs font-black uppercase tracking-widest text-slate-400">Civic Intelligence Feed</span>
+      <div className="w-full md:w-80 border-r border-outline-variant/30 bg-surface-container-high flex-shrink-0 flex flex-col z-20 pointer-events-auto h-1/2 md:h-full relative overflow-y-auto font-sans">
+        <div className="p-4 border-b border-outline-variant/20 flex justify-between items-center bg-surface-container">
+          <span className="text-xs font-black uppercase tracking-widest text-on-surface-variant">Civic Intelligence Feed</span>
           <button 
             onClick={() => setShowInsightsPanel(!showInsightsPanel)}
-            className="text-xs font-bold text-blue-400 hover:text-white"
+            className="text-xs font-bold text-primary hover:text-on-surface"
           >
             {showInsightsPanel ? "Hide Insights" : "Show Insights"}
           </button>
         </div>
 
         {showInsightsPanel && (
-          <div className="p-4 space-y-4 border-b border-slate-850">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Live AI City Alerts</h4>
+          <div className="p-4 space-y-4 border-b border-outline-variant/20">
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant/70">Live AI City Alerts</h4>
             <div className="space-y-3">
               {aiInsights.map((insight, idx) => (
                 <div 
                   key={idx}
                   onClick={() => focusLocation(insight.lat, insight.lng, insight.id)}
-                  className="p-3 bg-[#111827] border border-slate-800 hover:border-blue-500/35 rounded-xl cursor-pointer transition-all space-y-1.5"
+                  className="p-3 bg-surface-container-low border border-outline-variant/30 hover:border-primary/50 rounded-xl cursor-pointer transition-all space-y-1.5"
                 >
                   <div className="flex justify-between items-center">
-                    <span className="text-[9px] font-bold text-blue-400 uppercase">{insight.engine}</span>
-                    <span className="text-[9px] font-semibold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">{insight.confidence} Conf</span>
+                    <span className="text-[9px] font-bold text-primary uppercase">{insight.engine}</span>
+                    <span className="text-[9px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">{insight.confidence} Conf</span>
                   </div>
-                  <h5 className="text-xs font-black text-white">{insight.title}</h5>
-                  <p className="text-[10px] text-slate-400">{insight.desc}</p>
-                  <div className="flex justify-between items-center text-[9px] pt-1.5 border-t border-slate-850 text-slate-400 font-bold uppercase">
-                    <span>Impact: <strong className="text-white">{insight.impact}</strong></span>
-                    <span>Ward: <strong className="text-white">{insight.ward}</strong></span>
+                  <h5 className="text-xs font-black text-on-surface">{insight.title}</h5>
+                  <p className="text-[10px] text-on-surface-variant">{insight.desc}</p>
+                  <div className="flex justify-between items-center text-[9px] pt-1.5 border-t border-outline-variant/20 text-on-surface-variant font-bold uppercase">
+                    <span>Impact: <strong className="text-on-surface">{insight.impact}</strong></span>
+                    <span>Ward: <strong className="text-on-surface">{insight.ward}</strong></span>
                   </div>
                 </div>
               ))}
@@ -440,21 +440,21 @@ export default function LiveMapPage() {
         )}
 
         {/* Dynamic Replay timeline warnings */}
-        <div className="p-4 space-y-4 border-b border-slate-850">
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Risk Forecast Timeline</h4>
+        <div className="p-4 space-y-4 border-b border-outline-variant/20">
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant/70">Risk Forecast Timeline</h4>
           <div className="space-y-3">
             {forecastTimeline.map((item, idx) => (
               <div 
                 key={idx}
                 onClick={() => focusLocation(item.lat, item.lng, item.id)}
-                className="flex items-start gap-2.5 p-2 hover:bg-slate-900 rounded-lg cursor-pointer transition-colors"
+                className="flex items-start gap-2.5 p-2 hover:bg-surface-container rounded-lg cursor-pointer transition-colors"
               >
-                <div className="h-4 w-4 rounded-full bg-blue-500/10 border border-blue-500 flex items-center justify-center text-[8px] font-bold text-blue-400 flex-shrink-0 mt-0.5">
+                <div className="h-4 w-4 rounded-full bg-primary/10 border border-primary flex items-center justify-center text-[8px] font-bold text-primary flex-shrink-0 mt-0.5">
                   {idx + 1}
                 </div>
                 <div className="text-[10px]">
-                  <p className="font-extrabold text-white leading-none">{item.title}</p>
-                  <p className="text-slate-400 mt-1">{item.desc}</p>
+                  <p className="font-extrabold text-on-surface leading-none">{item.title}</p>
+                  <p className="text-on-surface-variant mt-1">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -464,10 +464,10 @@ export default function LiveMapPage() {
         {/* Live AI Operations feed */}
         <div className="p-4 space-y-4">
           <div className="flex justify-between items-center">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Live AI Event Stream</h4>
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant/70">Live AI Event Stream</h4>
             <button 
               onClick={() => setShowFeedPanel(!showFeedPanel)}
-              className="text-[9px] font-bold text-slate-400 hover:text-white"
+              className="text-[9px] font-bold text-on-surface-variant hover:text-on-surface"
             >
               {showFeedPanel ? "Collapse" : "Expand"}
             </button>
@@ -479,12 +479,12 @@ export default function LiveMapPage() {
                 <div 
                   key={idx}
                   onClick={() => focusLocation(upd.lat, upd.lng, upd.id)}
-                  className="flex gap-2.5 text-[10px] hover:bg-slate-900/60 p-2 rounded-lg cursor-pointer transition-colors border border-transparent hover:border-slate-800"
+                  className="flex gap-2.5 text-[10px] hover:bg-surface-container p-2 rounded-lg cursor-pointer transition-colors border border-transparent hover:border-outline-variant/30"
                 >
-                  <span className="material-symbols-outlined text-[14px] text-blue-400 mt-0.5">smart_toy</span>
+                  <span className="material-symbols-outlined text-[14px] text-primary mt-0.5">smart_toy</span>
                   <div className="flex-grow space-y-0.5">
-                    <p className="font-semibold text-slate-205 leading-snug">{upd.text}</p>
-                    <div className="flex justify-between text-[8px] text-slate-500 font-bold uppercase tracking-wider">
+                    <p className="font-semibold text-on-surface leading-snug">{upd.text}</p>
+                    <div className="flex justify-between text-[8px] text-on-surface-variant font-bold uppercase tracking-wider">
                       <span>{upd.engine}</span>
                       <span>{upd.time}</span>
                     </div>
@@ -523,10 +523,10 @@ export default function LiveMapPage() {
         <div className="absolute inset-x-0 top-4 z-20 pointer-events-none flex flex-col md:flex-row gap-3 px-4 justify-between items-center max-w-[1000px] mx-auto">
           
           {/* AI Search Panel with voice search and Autocomplete */}
-          <div className="w-full md:max-w-md bg-slate-900/95 backdrop-blur-sm border border-slate-800 rounded-full px-4 py-2 pointer-events-auto flex items-center shadow-lg transition-all focus-within:border-blue-500/40 relative">
-            <span className="material-symbols-outlined text-slate-400">search</span>
+          <div className="w-full md:max-w-md bg-surface-container/95 backdrop-blur-sm border border-outline-variant/30 rounded-full px-4 py-2 pointer-events-auto flex items-center shadow-lg transition-all focus-within:border-primary/40 relative">
+            <span className="material-symbols-outlined text-on-surface-variant">search</span>
             <input 
-              className="flex-grow bg-transparent border-none text-xs text-white ml-2 outline-none placeholder-slate-500" 
+              className="flex-grow bg-transparent border-none text-xs text-on-surface ml-2 outline-none placeholder-on-surface-variant" 
               placeholder="Search Issue ID, Street, Ward, Category or Status..." 
               type="text"
               value={searchQuery}
@@ -536,7 +536,7 @@ export default function LiveMapPage() {
             <button 
               onClick={handleVoiceSearch}
               className={`p-1.5 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
-                voiceActive ? "bg-red-500/20 text-red-500 animate-pulse" : "text-slate-450 hover:bg-slate-850"
+                voiceActive ? "bg-error/20 text-error animate-pulse" : "text-on-surface-variant hover:bg-surface-container-highest"
               }`}
               aria-label="Voice Search"
             >
@@ -545,8 +545,8 @@ export default function LiveMapPage() {
 
             {/* Autocomplete Dropdown List */}
             {showAutocomplete && autocompleteSuggestions.length > 0 && (
-              <div className="absolute top-14 left-0 right-0 bg-[#0d1322] border border-slate-800 rounded-2xl p-2 shadow-2xl space-y-1.5 z-[70] text-xs pointer-events-auto max-h-60 overflow-y-auto">
-                <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest px-2 py-1">Matching Suggestions</p>
+              <div className="absolute top-14 left-0 right-0 bg-surface-container border border-outline-variant/30 rounded-2xl p-2 shadow-2xl space-y-1.5 z-[70] text-xs pointer-events-auto max-h-60 overflow-y-auto">
+                <p className="text-[9px] font-black text-on-surface-variant uppercase tracking-widest px-2 py-1">Matching Suggestions</p>
                 {autocompleteSuggestions.map((s) => (
                   <div
                     key={s.reportId}
@@ -555,13 +555,13 @@ export default function LiveMapPage() {
                       setShowAutocomplete(false);
                       focusLocation(s.location.latitude, s.location.longitude, s.reportId);
                     }}
-                    className="flex justify-between items-center p-2.5 hover:bg-slate-900 rounded-xl cursor-pointer transition-colors"
+                    className="flex justify-between items-center p-2.5 hover:bg-surface-container-high rounded-xl cursor-pointer transition-colors"
                   >
                     <div>
-                      <span className="font-bold text-white block">{s.title}</span>
-                      <span className="text-[10px] text-slate-400 capitalize">{s.issueCategory} &bull; {s.location.address}</span>
+                      <span className="font-bold text-on-surface block">{s.title}</span>
+                      <span className="text-[10px] text-on-surface-variant capitalize">{s.issueCategory} &bull; {s.location.address}</span>
                     </div>
-                    <span className="text-[9px] font-bold text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded">{s.reportId}</span>
+                    <span className="text-[9px] font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded">{s.reportId}</span>
                   </div>
                 ))}
               </div>
@@ -569,10 +569,10 @@ export default function LiveMapPage() {
           </div>
 
           {/* Quick Stats Summary Banner */}
-          <div className="bg-[#12192c] border border-slate-800/80 px-4 py-2.5 rounded-2xl pointer-events-auto shadow-md text-[10px] font-bold text-slate-300 flex items-center gap-4">
-            <div>📍 Wards Covered: <strong className="text-white">Ward 7</strong></div>
-            <div>⚡ Risk Hotspots: <strong className="text-red-400">2 Predicted</strong></div>
-            <div>✅ Resolved Today: <strong className="text-green-400">9 issues</strong></div>
+          <div className="bg-surface-container border border-outline-variant/30 px-4 py-2.5 rounded-2xl pointer-events-auto shadow-md text-[10px] font-bold text-on-surface-variant flex items-center gap-4">
+            <div>📍 Wards Covered: <strong className="text-on-surface">Ward 7</strong></div>
+            <div>⚡ Risk Hotspots: <strong className="text-error">2 Predicted</strong></div>
+            <div>✅ Resolved Today: <strong className="text-success">9 issues</strong></div>
           </div>
 
         </div>
@@ -580,20 +580,20 @@ export default function LiveMapPage() {
         {/* Selected Marker Detail Drawer Card (Bottom Left) */}
         {selectedReport && (
           <div className="absolute bottom-20 left-4 z-20 pointer-events-auto max-w-sm w-[calc(100vw-32px)] md:w-full transition-all duration-300">
-            <div className="bg-[#12192c] rounded-2xl p-5 shadow-2xl border border-slate-800 flex flex-col gap-4 text-slate-100">
+            <div className="bg-surface-container rounded-2xl p-5 shadow-2xl border border-outline-variant/30 flex flex-col gap-4 text-on-surface">
               
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="text-sm font-black text-white leading-tight flex items-center gap-1.5">
+                  <h3 className="text-sm font-black text-on-surface leading-tight flex items-center gap-1.5">
                     {isPrediction ? "📊 Predicted Issue" : "📍 Active Issue"}
-                    <span className="text-xs font-normal text-slate-400">({selectedReport.reportId})</span>
+                    <span className="text-xs font-normal text-on-surface-variant">({selectedReport.reportId})</span>
                   </h3>
-                  <h4 className="text-xs font-bold text-slate-350 mt-1">{selectedReport.title}</h4>
-                  <p className="text-[10px] text-slate-400 mt-0.5 uppercase font-bold tracking-wider">{selectedReport.issueCategory} &bull; {getDistance(selectedReport.location.latitude, selectedReport.location.longitude)} away</p>
+                  <h4 className="text-xs font-bold text-on-surface-variant/80 mt-1">{selectedReport.title}</h4>
+                  <p className="text-[10px] text-on-surface-variant mt-0.5 uppercase font-bold tracking-wider">{selectedReport.issueCategory} &bull; {getDistance(selectedReport.location.latitude, selectedReport.location.longitude)} away</p>
                 </div>
                 <button 
                   onClick={() => setSelectedReportId(null)}
-                  className="text-slate-400 hover:text-white p-1"
+                  className="text-on-surface-variant hover:text-on-surface p-1"
                   aria-label="Close details"
                 >
                   <span className="material-symbols-outlined text-[18px]">close</span>
@@ -601,58 +601,58 @@ export default function LiveMapPage() {
               </div>
 
               {/* Status and ETA */}
-              <div className="grid grid-cols-2 gap-4 border-t border-b border-slate-800/80 py-3 text-xs">
+              <div className="grid grid-cols-2 gap-4 border-t border-b border-outline-variant/20 py-3 text-xs">
                 <div>
-                  <span className="block text-[8px] text-slate-500 uppercase tracking-widest font-bold">Lifecycle Status</span>
+                  <span className="block text-[8px] text-on-surface-variant/50 uppercase tracking-widest font-bold">Lifecycle Status</span>
                   {isPrediction ? (
-                    <strong className="text-amber-400 font-extrabold flex items-center gap-1 mt-0.5">
+                    <strong className="text-amber-600 dark:text-amber-400 font-extrabold flex items-center gap-1 mt-0.5">
                       <span className="w-1.5 h-1.5 bg-amber-500 rounded-full"></span>
                       AI Forecasted
                     </strong>
                   ) : (
-                    <strong className="text-blue-400 font-extrabold flex items-center gap-1.5 mt-0.5">
-                      <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-ping"></span>
+                    <strong className="text-primary font-extrabold flex items-center gap-1.5 mt-0.5">
+                      <span className="w-1.5 h-1.5 bg-primary rounded-full animate-ping"></span>
                       {getLifecycleLabel(selectedReport.status)}
                     </strong>
                   )}
                 </div>
                 <div>
-                  <span className="block text-[8px] text-slate-500 uppercase tracking-widest font-bold">Smart Resolution ETA</span>
-                  <strong className="text-white font-extrabold block mt-0.5">{selectedReport.estimatedResolution || "18 Hours"}</strong>
-                  <span className="text-[8px] font-bold text-blue-500">94% AI Confidence</span>
+                  <span className="block text-[8px] text-on-surface-variant/50 uppercase tracking-widest font-bold">Smart Resolution ETA</span>
+                  <strong className="text-on-surface font-extrabold block mt-0.5">{selectedReport.estimatedResolution || "18 Hours"}</strong>
+                  <span className="text-[8px] font-bold text-blue-600 dark:text-blue-400">94% AI Confidence</span>
                 </div>
               </div>
 
               {/* AI Engine breakdown section */}
-              <div className="p-3 bg-slate-900/50 border border-slate-800 rounded-xl space-y-1.5 text-[9px] text-slate-400">
-                <p className="font-bold text-white uppercase text-[8px] border-b border-slate-850 pb-1 flex justify-between">
+              <div className="p-3 bg-surface-container-high/50 border border-outline-variant/30 rounded-xl space-y-1.5 text-[9px] text-on-surface-variant/70">
+                <p className="font-bold text-on-surface uppercase text-[8px] border-b border-outline-variant/20 pb-1 flex justify-between">
                   <span>AI Architecture Layers</span>
-                  <span className="text-blue-400 font-bold uppercase tracking-wider">Explainable AI</span>
+                  <span className="text-blue-600 dark:text-blue-450 font-bold uppercase tracking-wider">Explainable AI</span>
                 </p>
                 <div className="flex justify-between items-center">
                   <span>🧠 Report Intelligence:</span>
-                  <strong className="text-slate-200 text-right">Categorized {selectedReport.issueCategory}</strong>
+                  <strong className="text-on-surface-variant text-right font-bold">Categorized {selectedReport.issueCategory}</strong>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>🛡 Trust Engine:</span>
-                  <strong className="text-slate-200">Confidence {selectedReport.trustScore || 85}%</strong>
+                  <strong className="text-on-surface-variant font-bold">Confidence {selectedReport.trustScore || 85}%</strong>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>⚖ Decision Intelligence:</span>
-                  <strong className="text-slate-200">{selectedReport.departmentAssigned || "BBMP Queue"}</strong>
+                  <strong className="text-on-surface-variant font-bold">{selectedReport.departmentAssigned || "BBMP Queue"}</strong>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>✅ Resolution Intelligence:</span>
-                  <strong className="text-slate-200">Est. completion {selectedReport.estimatedResolution || "18h"}</strong>
+                  <strong className="text-on-surface-variant font-bold font-bold">Est. completion {selectedReport.estimatedResolution || "18h"}</strong>
                 </div>
               </div>
 
               {/* Explainable AI block details */}
               {showExplainAi ? (
-                <div className="p-3 bg-slate-900 border border-slate-800 rounded-xl space-y-2 text-[9px] text-slate-400">
-                  <h4 className="font-bold text-white uppercase tracking-widest text-[8px] border-b border-slate-850 pb-1 flex justify-between">
+                <div className="p-3 bg-surface-container-high border border-outline-variant/30 rounded-xl space-y-2 text-[9px] text-on-surface-variant/70">
+                  <h4 className="font-bold text-on-surface uppercase tracking-widest text-[8px] border-b border-outline-variant/20 pb-1 flex justify-between">
                     <span>Why this Priority?</span>
-                    <span className="text-emerald-400">Confidence: 94%</span>
+                    <span className="text-emerald-650 dark:text-emerald-400 font-bold">Confidence: 94%</span>
                   </h4>
                   {isPrediction && predReport ? (
                     <p>{predReport.aiReasoning}</p>
@@ -667,7 +667,7 @@ export default function LiveMapPage() {
                   )}
                   <button 
                     onClick={() => setShowExplainAi(false)}
-                    className="text-blue-400 font-bold hover:underline block pt-1 cursor-pointer"
+                    className="text-blue-600 dark:text-blue-450 font-bold hover:underline block pt-1 cursor-pointer"
                   >
                     Hide reasoning
                   </button>
@@ -675,7 +675,7 @@ export default function LiveMapPage() {
               ) : (
                 <button
                   onClick={() => setShowExplainAi(true)}
-                  className="text-xs text-blue-400 font-bold hover:underline self-start flex items-center gap-0.5 cursor-pointer"
+                  className="text-xs text-blue-600 dark:text-blue-450 font-bold hover:underline self-start flex items-center gap-0.5 cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-[14px]">insights</span> Why this hotspot exists?
                 </button>
@@ -685,19 +685,19 @@ export default function LiveMapPage() {
               {selectedReport.status === "citizen_verification_pending" && (
                 <div className="p-3 bg-emerald-500/10 border border-emerald-500/25 rounded-xl space-y-3">
                   <div className="flex justify-between items-baseline">
-                    <span className="text-[10px] font-bold text-emerald-400">Repair Completed • Verification Requested</span>
-                    <span className="text-[9px] font-bold text-emerald-400">94% AI Match</span>
+                    <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">Repair Completed • Verification Requested</span>
+                    <span className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400">94% AI Match</span>
                   </div>
                   
                   {/* Side by side mock photos */}
                   <div className="grid grid-cols-2 gap-2 text-center">
-                    <div className="border border-slate-700 rounded-lg p-1 bg-slate-900">
-                      <span className="block text-[8px] uppercase tracking-wider text-slate-400">Before Photo</span>
-                      <div className="h-10 w-full bg-slate-800 rounded mt-1 flex items-center justify-center text-[10px]">📷 Before</div>
+                    <div className="border border-outline-variant/30 rounded-lg p-1 bg-surface-container-high">
+                      <span className="block text-[8px] uppercase tracking-wider text-on-surface-variant/70">Before Photo</span>
+                      <div className="h-10 w-full bg-surface-container-low rounded mt-1 flex items-center justify-center text-[10px] text-on-surface-variant">📷 Before</div>
                     </div>
-                    <div className="border border-slate-700 rounded-lg p-1 bg-slate-900">
-                      <span className="block text-[8px] uppercase tracking-wider text-slate-400">After Photo</span>
-                      <div className="h-10 w-full bg-slate-800 rounded mt-1 flex items-center justify-center text-[10px]">📷 Fixed</div>
+                    <div className="border border-outline-variant/30 rounded-lg p-1 bg-surface-container-high">
+                      <span className="block text-[8px] uppercase tracking-wider text-on-surface-variant/70">After Photo</span>
+                      <div className="h-10 w-full bg-surface-container-low rounded mt-1 flex items-center justify-center text-[10px] text-on-surface-variant">📷 Fixed</div>
                     </div>
                   </div>
 
@@ -710,7 +710,7 @@ export default function LiveMapPage() {
                     </button>
                     <button 
                       onClick={() => handleVerification(selectedReport.reportId, false)}
-                      className="py-2 bg-transparent border border-slate-700 text-slate-350 hover:bg-slate-800 rounded-lg font-bold transition-all cursor-pointer"
+                      className="py-2 bg-transparent border border-outline-variant text-on-surface-variant hover:bg-surface-container rounded-lg font-bold transition-all cursor-pointer"
                     >
                       Still Exists
                     </button>
@@ -719,27 +719,27 @@ export default function LiveMapPage() {
               )}
 
               {/* Community Support Engagement Section */}
-              <div className="flex justify-between items-center border-t border-slate-850 pt-2 text-[9px] text-slate-400 font-bold uppercase tracking-wider">
+              <div className="flex justify-between items-center border-t border-outline-variant/20 pt-2 text-[9px] text-on-surface-variant/50 font-bold uppercase tracking-wider">
                 <div className="flex gap-3">
-                  <span>Support: <strong className="text-white">{selectedReport.communitySupport ?? 0}</strong></span>
-                  <span>Followers: <strong className="text-white">{followList[selectedReport.reportId] ? 73 : 72}</strong></span>
-                  <span>Affected: <strong className="text-white">{affectedList[selectedReport.reportId] ? 139 : 138}</strong></span>
+                  <span>Support: <strong className="text-on-surface">{selectedReport.communitySupport ?? 0}</strong></span>
+                  <span>Followers: <strong className="text-on-surface">{followList[selectedReport.reportId] ? 73 : 72}</strong></span>
+                  <span>Affected: <strong className="text-on-surface">{affectedList[selectedReport.reportId] ? 139 : 138}</strong></span>
                 </div>
-                <span className="text-blue-400 font-bold bg-blue-500/10 px-1.5 py-0.5 rounded uppercase">🔥 Trending</span>
+                <span className="text-primary font-bold bg-primary/10 px-1.5 py-0.5 rounded uppercase">🔥 Trending</span>
               </div>
 
               {/* Interactive buttons */}
               <div className="grid grid-cols-4 gap-1.5 pt-1">
                 <button 
                   onClick={handleSupportReport}
-                  className="py-2 bg-blue-600 hover:bg-blue-755 text-white rounded-lg font-bold text-[10px] transition-colors col-span-2 cursor-pointer"
+                  className="py-2 bg-primary hover:bg-primary-hover text-white rounded-lg font-bold text-[10px] transition-colors col-span-2 cursor-pointer"
                 >
                   Support Issue
                 </button>
                 <button 
                   onClick={() => handleAffectedClick(selectedReport.reportId)}
                   className={`py-2 rounded-lg font-bold text-[10px] transition-all cursor-pointer ${
-                    affectedList[selectedReport.reportId] ? "bg-emerald-600 text-white" : "border border-slate-800 text-slate-300"
+                    affectedList[selectedReport.reportId] ? "bg-success text-white" : "border border-outline-variant/30 text-on-surface-variant"
                   }`}
                 >
                   {affectedList[selectedReport.reportId] ? "Affected ✓" : "I'm Affected"}
@@ -747,25 +747,24 @@ export default function LiveMapPage() {
                 <button 
                   onClick={() => handleFollowClick(selectedReport.reportId)}
                   className={`py-2 rounded-lg font-bold text-[10px] transition-all cursor-pointer ${
-                    followList[selectedReport.reportId] ? "bg-blue-500/20 text-blue-400 border border-blue-500/40" : "border border-slate-800 text-slate-300"
+                    followList[selectedReport.reportId] ? "bg-primary/20 text-primary border border-primary/40" : "border border-outline-variant/30 text-on-surface-variant"
                   }`}
                 >
                   {followList[selectedReport.reportId] ? "Following" : "Follow"}
                 </button>
               </div>
-
             </div>
           </div>
         )}
 
         {/* GPS location nearby summaries card overlay (Bottom Left side) */}
         {showNearbyInfo && (
-          <div className="absolute bottom-20 left-4 z-20 pointer-events-auto max-w-sm bg-[#0d1322] border border-slate-800 rounded-2xl p-4 shadow-2xl space-y-3 text-xs w-80 text-slate-305">
-            <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-              <span className="font-black text-white uppercase text-[9px] tracking-wider">📍 Nearby GPS Awareness</span>
+          <div className="absolute bottom-20 left-4 z-20 pointer-events-auto max-w-sm bg-surface-container border border-outline-variant/30 rounded-2xl p-4 shadow-2xl space-y-3 text-xs w-80 text-on-surface-variant">
+            <div className="flex justify-between items-center border-b border-outline-variant/30 pb-2">
+              <span className="font-black text-on-surface uppercase text-[9px] tracking-wider">📍 Nearby GPS Awareness</span>
               <button 
                 onClick={() => setShowNearbyInfo(false)}
-                className="text-slate-400 hover:text-white"
+                className="text-on-surface-variant hover:text-on-surface"
               >
                 ✕
               </button>
@@ -773,19 +772,19 @@ export default function LiveMapPage() {
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span>Nearest Active Issue:</span>
-                <strong className="text-white">Water pipeline leak (50m, 🚶 1m, 🚗 1m)</strong>
+                <strong className="text-on-surface font-bold">Water pipeline leak (50m, 🚶 1m, 🚗 1m)</strong>
               </div>
               <div className="flex justify-between">
                 <span>Nearest Resolved Issue:</span>
-                <strong className="text-white">Road Repair (200m, 🚶 3m)</strong>
+                <strong className="text-on-surface font-bold">Road Repair (200m, 🚶 3m)</strong>
               </div>
               <div className="flex justify-between">
                 <span>Nearest Verification Request:</span>
-                <strong className="text-white">BWSSB Evidence (120m, 🚶 2m)</strong>
+                <strong className="text-on-surface font-bold">BWSSB Evidence (120m, 🚶 2m)</strong>
               </div>
               <div className="flex justify-between">
                 <span>Nearest High-Risk Zone:</span>
-                <strong className="text-white">Drainage Overflow (350m, 🚶 5m)</strong>
+                <strong className="text-on-surface font-bold">Drainage Overflow (350m, 🚶 5m)</strong>
               </div>
             </div>
           </div>
@@ -795,156 +794,156 @@ export default function LiveMapPage() {
         <div className="absolute top-4 right-4 z-20 pointer-events-auto flex flex-col gap-2 items-end">
           <button 
             onClick={() => setShowLayersPanel(!showLayersPanel)}
-            className="w-10 h-10 bg-slate-900 border border-slate-800 rounded-xl shadow-lg flex items-center justify-center text-slate-300 hover:text-white transition-colors cursor-pointer"
+            className="w-10 h-10 bg-surface-container border border-outline-variant/30 rounded-xl shadow-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer"
             aria-label="Map Layers Toggle"
           >
             <span className="material-symbols-outlined">layers</span>
           </button>
 
           {showLayersPanel && (
-            <div className="bg-slate-900/95 backdrop-blur-sm border border-slate-800 rounded-2xl p-4 shadow-2xl text-xs space-y-3 w-60">
-              <h4 className="font-black text-white uppercase tracking-widest text-[9px] border-b border-slate-850 pb-1.5">Civic Map Layers</h4>
+            <div className="bg-surface-container-high/95 backdrop-blur-sm border border-outline-variant/30 rounded-2xl p-4 shadow-2xl text-xs space-y-3 w-60">
+              <h4 className="font-black text-on-surface uppercase tracking-widest text-[9px] border-b border-outline-variant/20 pb-1.5">Civic Map Layers</h4>
               
               <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-300 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-on-surface-variant hover:text-on-surface">
                   <input 
                     type="checkbox" 
                     checked={layers.water} 
                     onChange={(e) => setLayers({ ...layers, water: e.target.checked })} 
-                    className="rounded bg-slate-800 border-slate-700 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
+                    className="rounded bg-surface-container border-outline-variant/40 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
                   />
                   <span>Water Outages</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-300 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-on-surface-variant hover:text-on-surface">
                   <input 
                     type="checkbox" 
                     checked={layers.roads} 
                     onChange={(e) => setLayers({ ...layers, roads: e.target.checked })} 
-                    className="rounded bg-slate-800 border-slate-700 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
+                    className="rounded bg-surface-container border-outline-variant/40 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
                   />
                   <span>Road Damage</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-300 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-on-surface-variant hover:text-on-surface">
                   <input 
                     type="checkbox" 
                     checked={layers.garbage} 
                     onChange={(e) => setLayers({ ...layers, garbage: e.target.checked })} 
-                    className="rounded bg-slate-800 border-slate-700 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
+                    className="rounded bg-surface-container border-outline-variant/40 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
                   />
                   <span>Garbage Overflow</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-300 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-on-surface-variant hover:text-on-surface">
                   <input 
                     type="checkbox" 
                     checked={layers.drainage} 
                     onChange={(e) => setLayers({ ...layers, drainage: e.target.checked })} 
-                    className="rounded bg-slate-800 border-slate-700 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
+                    className="rounded bg-surface-container border-outline-variant/40 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
                   />
                   <span>Storm Drainage</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-300 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-on-surface-variant hover:text-on-surface">
                   <input 
                     type="checkbox" 
                     checked={layers.electricity} 
                     onChange={(e) => setLayers({ ...layers, electricity: e.target.checked })} 
-                    className="rounded bg-slate-800 border-slate-700 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
+                    className="rounded bg-surface-container border-outline-variant/40 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
                   />
                   <span>Electricity Outages</span>
                 </label>
                 
-                <h5 className="font-bold text-slate-500 uppercase tracking-wider text-[8px] pt-1.5 border-t border-slate-850">AI & Risks</h5>
+                <h5 className="font-bold text-on-surface-variant/50 uppercase tracking-wider text-[8px] pt-1.5 border-t border-outline-variant/20">AI & Risks</h5>
                 
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-300 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-on-surface-variant hover:text-on-surface">
                   <input 
                     type="checkbox" 
                     checked={layers.predicted} 
                     onChange={(e) => setLayers({ ...layers, predicted: e.target.checked })} 
-                    className="rounded bg-slate-800 border-slate-700 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
+                    className="rounded bg-surface-container border-outline-variant/40 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
                   />
-                  <span className="text-amber-400">Predicted Hotspots</span>
+                  <span className="text-amber-600 dark:text-amber-400">Predicted Hotspots</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-300 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-on-surface-variant hover:text-on-surface">
                   <input 
                     type="checkbox" 
                     checked={layers.verification} 
                     onChange={(e) => setLayers({ ...layers, verification: e.target.checked })} 
-                    className="rounded bg-slate-800 border-slate-700 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
+                    className="rounded bg-surface-container border-outline-variant/40 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
                   />
                   <span>Pending Verification</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-300 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-on-surface-variant hover:text-on-surface">
                   <input 
                     type="checkbox" 
                     checked={layers.resolved} 
                     onChange={(e) => setLayers({ ...layers, resolved: e.target.checked })} 
-                    className="rounded bg-slate-800 border-slate-700 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
+                    className="rounded bg-surface-container border-outline-variant/40 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
                   />
                   <span>Resolved Issues</span>
                 </label>
 
-                <h5 className="font-bold text-slate-500 uppercase tracking-wider text-[8px] pt-1.5 border-t border-slate-850">Digital Twin Networks</h5>
+                <h5 className="font-bold text-on-surface-variant/50 uppercase tracking-wider text-[8px] pt-1.5 border-t border-outline-variant/20">Digital Twin Networks</h5>
                 
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-300 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-on-surface-variant hover:text-on-surface">
                   <input 
                     type="checkbox" 
                     checked={layers.pipelines} 
                     onChange={(e) => setLayers({ ...layers, pipelines: e.target.checked })} 
-                    className="rounded bg-slate-800 border-slate-700 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
+                    className="rounded bg-surface-container border-outline-variant/40 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
                   />
                   <span>Water Pipelines</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-300 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-on-surface-variant hover:text-on-surface">
                   <input 
                     type="checkbox" 
                     checked={layers.powerGrid} 
                     onChange={(e) => setLayers({ ...layers, powerGrid: e.target.checked })} 
-                    className="rounded bg-slate-800 border-slate-700 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
+                    className="rounded bg-surface-container border-outline-variant/40 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
                   />
                   <span>Electricity Grid</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-300 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-on-surface-variant hover:text-on-surface">
                   <input 
                     type="checkbox" 
                     checked={layers.drainageGrid} 
                     onChange={(e) => setLayers({ ...layers, drainageGrid: e.target.checked })} 
-                    className="rounded bg-slate-800 border-slate-700 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
+                    className="rounded bg-surface-container border-outline-variant/40 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
                   />
                   <span>Drainage Grid</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-300 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-on-surface-variant hover:text-on-surface">
                   <input 
                     type="checkbox" 
                     checked={layers.hospitals} 
                     onChange={(e) => setLayers({ ...layers, hospitals: e.target.checked })} 
-                    className="rounded bg-slate-800 border-slate-700 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
+                    className="rounded bg-surface-container border-outline-variant/40 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
                   />
                   <span>Hospital zones</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-300 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-on-surface-variant hover:text-on-surface">
                   <input 
                     type="checkbox" 
                     checked={layers.schools} 
                     onChange={(e) => setLayers({ ...layers, schools: e.target.checked })} 
-                    className="rounded bg-slate-800 border-slate-700 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
+                    className="rounded bg-surface-container border-outline-variant/40 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
                   />
                   <span>School zones</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-300 hover:text-white">
+                <label className="flex items-center gap-2 cursor-pointer font-semibold text-on-surface-variant hover:text-on-surface">
                   <input 
                     type="checkbox" 
                     checked={layers.roadMaintenance} 
                     onChange={(e) => setLayers({ ...layers, roadMaintenance: e.target.checked })} 
-                    className="rounded bg-slate-800 border-slate-700 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
+                    className="rounded bg-surface-container border-outline-variant/40 text-blue-600 w-3.5 h-3.5 focus:ring-0" 
                   />
                   <span>Maintenance Zones</span>
                 </label>
 
                 {/* Heatmap Overlay cycling */}
-                <h5 className="font-bold text-slate-500 uppercase tracking-wider text-[8px] pt-1.5 border-t border-slate-850 flex justify-between items-center">
+                <h5 className="font-bold text-on-surface-variant/50 uppercase tracking-wider text-[8px] pt-1.5 border-t border-outline-variant/20 flex justify-between items-center">
                   <span>Heatmap overlays</span>
                   <button 
                     onClick={() => setLayers({ ...layers, heatmap: !layers.heatmap })}
-                    className={`text-[8px] px-1 rounded ${layers.heatmap ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400"}`}
+                    className={`text-[8px] px-1 rounded ${layers.heatmap ? "bg-blue-600 text-white" : "bg-surface-container text-on-surface-variant"}`}
                   >
                     {layers.heatmap ? "On" : "Off"}
                   </button>
@@ -953,10 +952,10 @@ export default function LiveMapPage() {
                 {layers.heatmap && (
                   <div className="pt-1.5 space-y-1.5">
                     <div className="flex justify-between items-center">
-                      <span className="text-[10px] text-slate-300">Mode: <strong>{heatmapModes[heatmapModeIndex]}</strong></span>
+                      <span className="text-[10px] text-on-surface-variant">Mode: <strong>{heatmapModes[heatmapModeIndex]}</strong></span>
                       <button 
                         onClick={() => setHeatmapModeIndex((prev) => (prev < heatmapModes.length - 1 ? prev + 1 : 0))}
-                        className="text-[9px] font-bold text-blue-400 hover:underline cursor-pointer"
+                        className="text-[9px] font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
                       >
                         Cycle Mode
                       </button>
@@ -969,12 +968,12 @@ export default function LiveMapPage() {
         </div>
 
         {/* Bottom Floating Timeline Scrubber replay slider */}
-        <div className="absolute bottom-4 right-4 z-20 pointer-events-auto bg-slate-900/90 backdrop-blur-sm border border-slate-800 px-5 py-3 rounded-2xl shadow-xl w-[320px] space-y-2 text-xs">
+        <div className="absolute bottom-4 right-4 z-20 pointer-events-auto bg-surface-container-high/90 backdrop-blur-sm border border-outline-variant/30 px-5 py-3 rounded-2xl shadow-xl w-[320px] space-y-2 text-xs">
           <div className="flex justify-between items-center font-bold">
-            <span className="uppercase text-[9px] text-slate-500 tracking-wider">Operational Timeline Replay</span>
+            <span className="uppercase text-[9px] text-on-surface-variant/50 tracking-wider">Operational Timeline Replay</span>
             <button 
               onClick={() => setIsPlaying(!isPlaying)}
-              className="text-xs text-blue-400 font-extrabold hover:text-white cursor-pointer"
+              className="text-xs text-blue-600 dark:text-blue-400 font-extrabold hover:underline cursor-pointer"
             >
               {isPlaying ? "⏸ Pause" : "▶ Play Live"}
             </button>
@@ -986,10 +985,10 @@ export default function LiveMapPage() {
             max="6" 
             value={timelineIndex} 
             onChange={(e) => setTimelineIndex(Number(e.target.value))} 
-            className="w-full bg-slate-800 rounded-lg appearance-none h-1 cursor-pointer accent-blue-500" 
+            className="w-full bg-surface-container rounded-lg appearance-none h-1 cursor-pointer accent-blue-500" 
           />
           
-          <div className="flex justify-between text-[8px] uppercase tracking-wider text-slate-500 font-bold px-1">
+          <div className="flex justify-between text-[8px] uppercase tracking-wider text-on-surface-variant/50 font-bold px-1">
             <span>Submitted</span>
             <span>Verified</span>
             <span>Assigned</span>
@@ -1005,7 +1004,7 @@ export default function LiveMapPage() {
               focusLocation(userLocation.latitude, userLocation.longitude);
               setShowNearbyInfo(true);
             }}
-            className="w-10 h-10 bg-slate-900 border border-slate-800 rounded-xl shadow-lg flex items-center justify-center text-slate-300 hover:text-white transition-colors cursor-pointer"
+            className="w-10 h-10 bg-surface-container border border-outline-variant/30 rounded-xl shadow-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer"
             aria-label="Recenter current location GPS"
           >
             <span className="material-symbols-outlined text-[20px]">my_location</span>

@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* ─── Tailwind v4 Class-Based Dark Mode Override ────────────────────────────── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+
 /* ─── Tailwind v4 CSS-First Theme ────────────────────────────────────────────
    All design tokens are defined here using @theme.
    tailwind.config.ts is NOT used in Tailwind v4.
@@ -371,6 +375,9 @@
   font-family: Inter, system-ui, sans-serif;
   border-radius: 1rem;
   z-index: 0;
+}
+.dark .leaflet-tile-container {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
 }
 .leaflet-popup-content-wrapper {
   border-radius: 1rem !important;

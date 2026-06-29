@@ -424,7 +424,7 @@ export function MapView({
   return (
     <div
       ref={mapRef}
-      className={cn("rounded-2xl overflow-hidden bg-slate-900 border border-slate-800", className)}
+      className={cn("rounded-2xl overflow-hidden bg-surface-container border border-outline-variant/30", className)}
       style={{ height }}
       role="region"
       aria-label="City map showing civic issue locations"
